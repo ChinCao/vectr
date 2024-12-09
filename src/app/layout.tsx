@@ -33,31 +33,31 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
         >
           {children}
-        </body>
-        <footer className="pb-5 pt-3 border-t-2 flex items-center justify-evenly flex-wrap">
-          VECTR© 2024
-          <div className="flex gap-2 items-center justify-center flex-wrap">
-            <p>Theo dõi chúng mình trên</p>
-            <div className="flex gap-2 items-center">
-              <a
-                href="https://www.facebook.com/vectr.vcp/"
-                title="Facebook"
-                target="_blank"
-                rel="noopener"
-              >
-                <FaFacebook className="hover:cursor-pointer hover:text-primary" />
-              </a>
-              <a
-                href="https://www.instagram.com/vectr.stem.vcp"
-                title="Instagram"
-                target="_blank"
-                rel="noopener"
-              >
-                <FaInstagram className="hover:cursor-pointer hover:text-primary" />
-              </a>
+          <footer className="pb-5 pt-3 border-t-2 flex items-center justify-evenly flex-wrap">
+            VECTR© 2024
+            <div className="flex gap-2 items-center justify-center flex-wrap">
+              <p>Theo dõi chúng mình trên</p>
+              <div className="flex gap-2 items-center">
+                <a
+                  href="https://www.facebook.com/vectr.vcp/"
+                  title="Facebook"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <FaFacebook className="hover:cursor-pointer hover:text-primary" />
+                </a>
+                <a
+                  href="https://www.instagram.com/vectr.stem.vcp"
+                  title="Instagram"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <FaInstagram className="hover:cursor-pointer hover:text-primary" />
+                </a>
+              </div>
             </div>
-          </div>
-        </footer>
+          </footer>
+        </body>
       </html>
     </ClerkProvider>
   );

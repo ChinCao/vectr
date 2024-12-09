@@ -13,7 +13,7 @@ import { FaLongArrowAltRight } from "react-icons/fa";
 
 const RecruitPage = () => {
   return (
-    <>
+    <div className="flex flex-col items-start">
       <section id="#">
         <div className="container flex items-center justify-around flex-col sm:flex-row pt-16">
           <div className="flex flex-col w-[95%] md:w-[60%] gap-7 order-1 sm:order-[0] items-center sm:items-start sm:w-[45%]">
@@ -312,7 +312,43 @@ const RecruitPage = () => {
           </div>
         </div>
       </section>
-    </>
+
+      <section id="process">
+        <div className="container flex flex-col py-24 gap-3">
+          <h1 className="text-5xl font-bold text-left ">Quy trình ứng tuyển</h1>
+          <p className="text-gray-500 text-xl w-full  text-justify sm:text-left sm:w-[100%]">
+            {` VECTR sẽ sàng lọc hồ sơ, phỏng vấn, đánh giá ứng viên tiềm năng, và gửi xác
+            nhận đậu vào CLB (update sẽ được gửi qua email).`}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-8 mt-4">
+            <div className="flex flex-col gap-5 w-full sm:w-[25%]">
+              <p className="text-5xl font-bold text-gray-400 opacity-40">01</p>
+              <p className="font-semibold capitalize">Đánh giá đơn tuyển</p>
+            </div>
+            <div className="flex flex-col gap-5 w-[25%]">
+              <p className="text-5xl font-bold text-gray-400 opacity-40">02</p>
+              <p className="font-semibold capitalize">Phỏng vấn</p>
+            </div>
+            <div className="flex flex-col gap-5 w-[25%]">
+              <p className="text-5xl font-bold text-gray-400 opacity-40">03</p>
+              <p className="font-semibold capitalize">Cam kết</p>
+            </div>
+            <div className="flex flex-col gap-5 w-[25%]">
+              <p className="text-5xl font-bold text-gray-400 opacity-40">04</p>
+              <p className="font-semibold capitalize">Gia nhập</p>
+            </div>
+          </div>
+          <Button className="w-[max-content] mt-4">
+            <Link
+              href="/recruit/job-description"
+              className="flex items-center justify-center gap-2"
+            >
+              Xem Job Description <FaLongArrowAltRight color="white" />
+            </Link>
+          </Button>
+        </div>
+      </section>
+    </div>
   );
 };
 

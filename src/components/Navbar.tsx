@@ -16,8 +16,8 @@ import { ImCross } from "react-icons/im";
 const Navbar = ({ children }: { children: ReactNode }) => {
   const [toggle, setToggle] = useState(false);
   return (
-    <header className="fixed top-0 w-full z-[100] bg-background/95 shadow-sm">
-      <nav className="flex flex-row items-center container justify-between py-2 relative">
+    <header className="fixed top-0 w-full z-[100] bg-background/95 shadow-lg">
+      <nav className="flex flex-row items-center container justify-between py-2 relative gap-3">
         <Link href="/">
           <Image src="/logo.png" height={44} width={111} alt="Logo Vectr" />
         </Link>
@@ -25,11 +25,11 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           <div
             className={`flex flex-col ${
               toggle ? null : "hidden"
-            } w-full sm:flex-row absolute sm:flex sm:static left-0 top-[100%] hover:cursor-pointer py-0 sm:py-1`}
+            } w-full lg:flex-row absolute lg:flex lg:static left-0 top-[100%] hover:cursor-pointer py-0 lg:py-1`}
           >
             {React.Children.map(children, (child) => (
               <div
-                className="hover:text-primary tracking-tight py-3 px-3 hover:bg-secondary bg-white sm:bg-[transparent] sm:hover:bg-[transparent] border-b-2 sm:border-none"
+                className="hover:text-primary tracking-tight py-3 px-3 hover:bg-secondary bg-white lg:bg-[transparent] lg:hover:bg-[transparent] border-b-2 lg:border-none"
                 onClick={() => setToggle(false)}
               >
                 {child}
@@ -51,7 +51,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             </SignUpButton>
           </SignedOut>
           <div
-            className="cursor-pointer hover:text-primary block sm:hidden"
+            className="cursor-pointer hover:text-primary block lg:hidden"
             onClick={() => setToggle(!toggle)}
           >
             {toggle ? <ImCross size={12} /> : <FaBars />}
