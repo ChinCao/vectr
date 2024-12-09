@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
+import { FaFacebook } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -24,12 +27,38 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
+        >
+          {children}
+        </body>
+        <footer className="pb-10 pt-3 border-t-2 flex items-center justify-evenly flex-wrap">
+          VECTR© 2024
+          <div className="flex gap-2 items-center justify-center flex-wrap">
+            <p>Theo dõi chúng mình trên</p>
+            <div className="flex gap-2 items-center">
+              <a
+                href="https://web.facebook.com/profile.php?id=61564664552720"
+                title="Facebook"
+                target="_blank"
+                rel="noopener"
+              >
+                <FaFacebook className="hover:cursor-pointer hover:text-primary" />
+              </a>
+              <a
+                href="https://www.instagram.com/vectr.stem.vcp"
+                title="Instagram"
+                target="_blank"
+                rel="noopener"
+              >
+                <FaInstagram className="hover:cursor-pointer hover:text-primary" />
+              </a>
+            </div>
+          </div>
+        </footer>
+      </html>
+    </ClerkProvider>
   );
 }
