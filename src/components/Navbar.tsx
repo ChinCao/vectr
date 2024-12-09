@@ -25,11 +25,11 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           <div
             className={`flex flex-col ${
               toggle ? null : "hidden"
-            } w-full sm:flex-row absolute sm:flex sm:static left-0 top-[100%] hover:cursor-pointer py-1`}
+            } w-full sm:flex-row absolute sm:flex sm:static left-0 top-[100%] hover:cursor-pointer py-0 sm:py-1`}
           >
             {React.Children.map(children, (child) => (
               <div
-                className="hover:text-primary tracking-tight py-3 px-3 hover:bg-secondary bg-white sm:hover:bg-[transparent] border-b-2 sm:border-none"
+                className="hover:text-primary tracking-tight py-3 px-3 hover:bg-secondary bg-white sm:bg-[transparent] sm:hover:bg-[transparent] border-b-2 sm:border-none"
                 onClick={() => setToggle(false)}
               >
                 {child}

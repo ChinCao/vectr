@@ -40,7 +40,7 @@ export default function RootLayout({
             <p>Theo dõi chúng mình trên</p>
             <div className="flex gap-2 items-center">
               <a
-                href="https://web.facebook.com/profile.php?id=61564664552720"
+                href="https://www.facebook.com/vectr.vcp/"
                 title="Facebook"
                 target="_blank"
                 rel="noopener"
