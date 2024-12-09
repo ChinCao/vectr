@@ -7,7 +7,9 @@ export default function Home() {
   return (
     <>
       <Navbar>
-        <Link href="/recruit">Recruit</Link>
+        <Link href="/recruit" className="w-full block py-3 px-3">
+          Recruit
+        </Link>
       </Navbar>
       <div className="min-h-screen flex flex-col items-center justify-center gap-1">
         <Image src="/favicon.ico" height={100} width={100} alt="VECTR Logo" />

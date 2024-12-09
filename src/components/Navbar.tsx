@@ -29,7 +29,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
           >
             {React.Children.map(children, (child) => (
               <div
-                className="hover:text-primary tracking-tight py-3 px-3 hover:bg-secondary bg-white lg:bg-[transparent] lg:hover:bg-[transparent] border-b-2 lg:border-none"
+                className="hover:text-primary tracking-tight hover:bg-secondary bg-white lg:bg-[transparent] lg:hover:bg-[transparent] border-b-2 lg:border-none"
                 onClick={() => setToggle(false)}
               >
                 {child}
