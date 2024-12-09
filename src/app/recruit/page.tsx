@@ -249,7 +249,68 @@ const RecruitPage = () => {
       </section>
 
       <section id="mission">
-        <div className="container"></div>
+        <div className="container pt-20">
+          <h1 className="text-5xl font-bold text-center ">Sứ mệnh của VECTR</h1>
+          <div className="flex flex-col sm:flex-row gap-10 mt-10">
+            <div className="flex flex-col items-start justify-center gap-2 w-full sm:w-[33%]">
+              <Card className="w-full">
+                <CardContent className="px-0 pt-6">
+                  <Image
+                    src="/innovation.svg"
+                    width={400}
+                    height={400}
+                    alt="innovation"
+                  />
+                </CardContent>
+              </Card>
+              <h3 className="font-semibold text-xl">
+                Lorem ipsum dolor sit amet.
+              </h3>
+              <p className="text-gray-500">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere,
+                neque?
+              </p>
+            </div>
+            <div className="flex flex-col items-start justify-center gap-2 w-full sm:w-[33%]">
+              <Card className="w-full">
+                <CardContent className="px-0 pt-6">
+                  <Image
+                    src="/grow.svg"
+                    width={400}
+                    height={400}
+                    alt="innovation"
+                  />
+                </CardContent>
+              </Card>
+              <h3 className="font-semibold text-xl">
+                Lorem ipsum dolor sit amet.
+              </h3>
+              <p className="text-gray-500">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere,
+                neque?
+              </p>
+            </div>
+            <div className="flex flex-col items-start justify-center gap-2 w-full sm:w-[33%]">
+              <Card className="w-full">
+                <CardContent className="px-0 pt-6">
+                  <Image
+                    src="/thrive.png"
+                    width={400}
+                    height={400}
+                    alt="innovation"
+                  />
+                </CardContent>
+              </Card>
+              <h3 className="font-semibold text-xl">
+                Lorem ipsum dolor sit amet.
+              </h3>
+              <p className="text-gray-500">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere,
+                neque?
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
     </>
   );
