@@ -1,4 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import Image from "next/image";
 import Link from "next/link";
 import { FaLongArrowAltRight } from "react-icons/fa";
@@ -7,7 +15,7 @@ const RecruitPage = () => {
   return (
     <>
       <section id="#">
-        <div className="container flex items-center justify-around flex-col sm:flex-row pt-14">
+        <div className="container flex items-center justify-around flex-col sm:flex-row pt-16">
           <div className="flex flex-col w-[95%] md:w-[60%] gap-7 order-1 sm:order-[0] items-center sm:items-start sm:w-[45%]">
             <h1 className="text-5xl font-bold text-center sm:text-left">
               Công việc tại VECTR
@@ -140,16 +148,109 @@ const RecruitPage = () => {
               />
             </div>
 
-            <div className="border rounded flex items-center justify-center col-span-2">
+            <div className="border-primary border rounded flex items-center justify-center col-span-2">
               <div className="flex flex-col items-center justify-center p-10 gap-4">
-                <h3 className="text-center font-bold text-2xl uppercase">{`"Chúng ta cùng có thể tạo nên những kỳ tích phi thường!"`}</h3>
+                <h3 className="text-center text-primary font-bold text-2xl uppercase">{`"Chúng ta cùng có thể tạo nên những kỳ tích phi thường!"`}</h3>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section></section>
+      <section id="core">
+        <div className="container flex flex-col sm:flex-row pt-20 justify-center items-center gap-5 ">
+          <Carousel className="w-[250px] order-[1] sm:order-0 sm:w-[300px]">
+            <CarouselContent>
+              <CarouselItem className="flex flex-col gap-3 items-center justify-center">
+                <Card>
+                  <CardContent className="pt-6">
+                    <Image
+                      src="/special-relativity-ZZpyj9.png"
+                      width={300}
+                      height={300}
+                      alt="Albert Einstein"
+                    />
+                  </CardContent>
+                </Card>
+                <h4 className="font-semibold text-3xl">Ban Coding</h4>
+              </CarouselItem>
+              <CarouselItem className="flex flex-col gap-3 items-center justify-center">
+                <Card>
+                  <CardContent className="pt-6">
+                    <Image
+                      src="/electromagnetism-AzFMTl.png"
+                      width={300}
+                      height={300}
+                      alt="Albert Einstein"
+                    />
+                  </CardContent>
+                </Card>
+                <h4 className="font-semibold text-3xl">Ban Robotics</h4>
+              </CarouselItem>
+              <CarouselItem className="flex flex-col gap-3 items-center justify-center">
+                <Card>
+                  <CardContent className="pt-6">
+                    <Image
+                      src="/puzzle-science-Te3zoj.png"
+                      width={300}
+                      height={300}
+                      alt="Albert Einstein"
+                    />
+                  </CardContent>
+                </Card>
+                <h4 className="font-semibold text-3xl">Ban Hậu Cần</h4>
+              </CarouselItem>
+              <CarouselItem className="flex flex-col gap-3 items-center justify-center">
+                <Card>
+                  <CardContent className="pt-6">
+                    <Image
+                      src="/creative-coding-XgYZa1.png"
+                      width={300}
+                      height={300}
+                      alt="Albert Einstein"
+                    />
+                  </CardContent>
+                </Card>
+                <h4 className="font-semibold text-3xl">{`Ban PH (Design)`}</h4>
+              </CarouselItem>
+              <CarouselItem className="flex flex-col gap-3 items-center justify-center">
+                <Card>
+                  <CardContent className="pt-6">
+                    <Image
+                      src="/Text_Analysis_in_Python-rcga5J.png"
+                      width={300}
+                      height={300}
+                      alt="Albert Einstein"
+                    />
+                  </CardContent>
+                </Card>
+                <h4 className="font-semibold text-3xl">Ban PR</h4>
+              </CarouselItem>
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+          <div className="flex flex-col items-center gap-5 sm:gap-10 justify-center w-[80%] sm:w-[50%] order-[0] sm:order-1">
+            <h1 className="text-5xl font-bold text-center">Các ban ở VECTR</h1>
+            <p className="text-gray-500 text-xl w-full text-balance text-center sm:w-[85%]">
+              Chọn ban phù hợp nhất với sở thích và kinh nghiệm của bạn để xem
+              các vị trí việc làm.
+            </p>
+            <Button className="w-[max-content]">
+              <Link
+                href="/recruit/job-description"
+                className="flex items-center justify-center gap-2"
+              >
+                Xem Job Description <FaLongArrowAltRight color="white" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <section id="mission">
+        <div className="container"></div>
+      </section>
     </>
   );
 };

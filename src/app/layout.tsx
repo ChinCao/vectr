@@ -34,7 +34,7 @@ export default function RootLayout({
         >
           {children}
         </body>
-        <footer className="pb-10 pt-3 border-t-2 flex items-center justify-evenly flex-wrap">
+        <footer className="pb-5 pt-3 border-t-2 flex items-center justify-evenly flex-wrap">
           VECTR© 2024
           <div className="flex gap-2 items-center justify-center flex-wrap">
             <p>Theo dõi chúng mình trên</p>
