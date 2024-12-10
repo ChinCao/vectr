@@ -1,10 +1,10 @@
 import { CORE_IMAGE, FULL_CORE_TITLE } from "@/constants/constants";
-import { GetSheetData } from "@/lib/GoogleSpreadsheet";
 import { notFound } from "next/navigation";
 import NavigationButton from "../../_components/NavigationButton";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import Description from "./_components/Description";
 
 interface PageProps {
   params: { id: string };
@@ -17,8 +17,6 @@ const JobDescription = async ({ params }: PageProps) => {
   if (!value_jobs.includes(id)) {
     notFound();
   }
-
-  const description_data: string[][] = await GetSheetData(id, "jd");
 
   return (
     <>
@@ -57,28 +55,7 @@ const JobDescription = async ({ params }: PageProps) => {
           </div>
         </div>
         <div className="container flex flex-col items-center justify-center gap-10 max-w-[800px]">
-          <div className="pt-4  flex flex-col gap-y-16 items-start justify-center">
-            {description_data.map((data: string[]) => {
-              return (
-                <div
-                  className="flex flex-col items-start justify-center"
-                  key={data[0]}
-                >
-                  <h1 className="text-2xl font-semibold mb-3">{data[0]}</h1>
-                  <ul className="flex flex-col gap-2">
-                    {data.slice(1).map((item, index) => (
-                      <li
-                        key={index}
-                        className="relative before:content-[''] before:block before:w-[3px] before:h-[3px] before:bg-current before:absolute before:right-[102%] before:top-[25%] sm:before:top-[50%] font-light"
-                      >
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              );
-            })}
-          </div>
+          <Description id={id} />
           <Link
             href={`/recruit/job-description/${id}/apply`}
             className="w-full flex items-center justify-center"
