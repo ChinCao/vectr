@@ -7,12 +7,13 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-import JobDescriptionButton from "./_components/JobDescriptionButton";
+import NavigationButton from "./_components/NavigationButton";
 import Navbar from "@/components/Navbar";
 
 const RecruitPage = () => {
   return (
     <>
+      <title>Recruit Gen1</title>
       <Navbar>
         <a href="#" className="w-full block py-3 px-3 ">
           Gen1
@@ -35,14 +36,18 @@ const RecruitPage = () => {
           <div className="container flex items-center justify-around flex-col sm:flex-row pt-16">
             <div className="flex flex-col w-[95%] md:w-[60%] gap-7 order-1 sm:order-[0] items-center sm:items-start sm:w-[45%]">
               <h1 className="text-5xl font-bold text-center sm:text-left">
-                Công việc tại VECTR
+                Công việc tại <span className="text-primary">VECTR</span>
               </h1>
               <p className="text-gray-500 text-xl w-full text-balance text-justify sm:text-left sm:w-[80%]">
                 Ở VECTR, chúng mình học tập và rèn luyện để trở thành những
                 người tiên phong toàn cầu, chúng ta sẽ cùng thiết kế thế giới và
                 công nghệ hóa tương lai
               </p>
-              <JobDescriptionButton />
+              <NavigationButton
+                text="Xem Job Description"
+                direction="right"
+                href="/recruit/job-description"
+              />
             </div>
             <Image
               src="/science-puzzles-long-set-qYZNE6.png"
@@ -248,7 +253,11 @@ const RecruitPage = () => {
                 Chọn ban phù hợp nhất với sở thích và kinh nghiệm của bạn để xem
                 các vị trí việc làm.
               </p>
-              <JobDescriptionButton />
+              <NavigationButton
+                text={"Xem Job Description"}
+                direction="right"
+                href="/recruit/job-description"
+              />
             </div>
           </div>
         </section>
@@ -355,7 +364,12 @@ const RecruitPage = () => {
                 <p className="font-semibold capitalize">Gia nhập</p>
               </div>
             </div>
-            <JobDescriptionButton className="mt-4" />
+            <NavigationButton
+              text={"Xem Job Description"}
+              direction="right"
+              className="mt-4"
+              href="/recruit/job-description"
+            />
           </div>
         </section>
       </div>

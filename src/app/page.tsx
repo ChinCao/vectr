@@ -6,6 +6,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <>
+      <title>Trang chủ</title>
       <Navbar>
         <Link href="/recruit" className="w-full block py-3 px-3">
           Recruit

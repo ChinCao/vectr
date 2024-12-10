@@ -13,7 +13,7 @@ const JobDescriptionLayout = ({ children }: { children: ReactNode }) => {
           Coding
         </Link>
         <Link
-          href="/recruit/job-description/robitics"
+          href="/recruit/job-description/robotics"
           className="w-full block py-3 px-3"
         >
           Robotics
