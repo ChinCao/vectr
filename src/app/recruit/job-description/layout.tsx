@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 const JobDescriptionLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center">
+    <div className="min-h-screen flex flex-col justify-start items-center">
       <Navbar>
         <Link
           href="/recruit/job-description/coding"

@@ -7,18 +7,22 @@ const NavigationButton = ({
   text,
   direction,
   href,
+  button_className,
 }: {
   className?: string;
   text: string;
   direction: "left" | "right";
   href: string;
+  button_className?: string;
 }) => {
   return (
     <Link
       href={href}
       className={`w-[max-content] flex items-center justify-center gap-2 ${className}`}
     >
-      <Button className="flex flex-row items-center justify-center">
+      <Button
+        className={`flex flex-row items-center justify-center ${button_className}`}
+      >
         <h3 className={`${direction == "right" ? "order-[0]" : "order-1"}`}>
           {text}
         </h3>

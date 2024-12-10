@@ -8,13 +8,17 @@ const auth = new google.auth.GoogleAuth({
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
-export const GetSheetData = async () => {
+export const GetSheetData = async (department, sheet) => {
   const sheets = google.sheets({ version: "v4", auth: await auth.getClient() });
-  const range = `'Robotics'!A:Z`;
+
+  const range = `'${department}'!A:Z`;
 
   try {
     const response = await sheets.spreadsheets.values.get({
-      spreadsheetId: process.env.GOOGLE_SHEET_ID_JD,
+      spreadsheetId:
+        sheet == "jd"
+          ? process.env.GOOGLE_SHEET_ID_JD
+          : process.env.GOOGLE_SHEET_ID_QUESTION,
       range,
     });
 

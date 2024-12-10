@@ -9,6 +9,7 @@ import {
 import Image from "next/image";
 import NavigationButton from "./_components/NavigationButton";
 import Navbar from "@/components/Navbar";
+import { CORE_IMAGE } from "@/constants/constants";
 
 const RecruitPage = () => {
   return (
@@ -180,10 +181,10 @@ const RecruitPage = () => {
                   <Card>
                     <CardContent className="pt-6">
                       <Image
-                        src="/special-relativity-ZZpyj9.png"
+                        src={CORE_IMAGE["coding"][0]}
                         width={300}
                         height={300}
-                        alt="Albert Einstein"
+                        alt="Graphic"
                       />
                     </CardContent>
                   </Card>
@@ -193,10 +194,10 @@ const RecruitPage = () => {
                   <Card>
                     <CardContent className="pt-6">
                       <Image
-                        src="/electromagnetism-AzFMTl.png"
+                        src={CORE_IMAGE["robotics"][0]}
                         width={300}
                         height={300}
-                        alt="Albert Einstein"
+                        alt="Graphic"
                       />
                     </CardContent>
                   </Card>
@@ -206,10 +207,10 @@ const RecruitPage = () => {
                   <Card>
                     <CardContent className="pt-6">
                       <Image
-                        src="/puzzle-science-Te3zoj.png"
+                        src={CORE_IMAGE["hc"][0]}
                         width={300}
                         height={300}
-                        alt="Albert Einstein"
+                        alt="Graphic"
                       />
                     </CardContent>
                   </Card>
@@ -219,10 +220,10 @@ const RecruitPage = () => {
                   <Card>
                     <CardContent className="pt-6">
                       <Image
-                        src="/creative-coding-XgYZa1.png"
+                        src={CORE_IMAGE["ph"][0]}
                         width={300}
                         height={300}
-                        alt="Albert Einstein"
+                        alt="Graphic"
                       />
                     </CardContent>
                   </Card>
@@ -232,10 +233,10 @@ const RecruitPage = () => {
                   <Card>
                     <CardContent className="pt-6">
                       <Image
-                        src="/Text_Analysis_in_Python-rcga5J.png"
+                        src={CORE_IMAGE["pr"][0]}
                         width={300}
                         height={300}
-                        alt="Albert Einstein"
+                        alt="Graphic"
                       />
                     </CardContent>
                   </Card>

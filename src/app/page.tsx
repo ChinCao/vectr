@@ -13,7 +13,12 @@ export default function Home() {
         </Link>
       </Navbar>
       <div className="min-h-screen flex flex-col items-center justify-center gap-1">
-        <Image src="/favicon.ico" height={100} width={100} alt="VECTR Logo" />
+        <Image
+          src="/advanced-science-long-set-tkpOtZ.png"
+          height={150}
+          width={150}
+          alt="VECTR Logo"
+        />
         <h1 className="font-semibold text-3xl text-center">Coming soon ...</h1>
         <Link href="/recruit" className="mt-4">
           <Button>Quay trở lại trang recruit</Button>
