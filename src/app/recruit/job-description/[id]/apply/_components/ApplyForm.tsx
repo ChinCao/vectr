@@ -15,8 +15,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 
-const ApplyForm = ({ questions }: { questions: string[] }) => {
+const ApplyForm = ({ data, question_title }: { data: string[], question_title:string[] }) => {
+  const dynamicSchema = z.object(
+    data.reduce((acc, item) => {
+      acc[item] = z
+        .string()
+        .max(3000, { message: "Không được vượt quá 3000 ký tự" })
+        .nonempty({ message: "Không được để trống, hãy viết gì đó nhé!" });
+      return acc;
+    }, {} as Record<string, z.ZodString>)
+  );
+
   const formSchema = z.object({
     name: z
       .string()
@@ -55,7 +66,13 @@ const ApplyForm = ({ questions }: { questions: string[] }) => {
     facebook: z
       .string()
       .nonempty({ message: "Link profile Facebook không được để trống." }),
+    ...dynamicSchema.shape,
   });
+
+  const dynamicDefaultValues = data.reduce((acc, item) => {
+    acc[item] = "";
+    return acc;
+  }, {} as Record<string, string>);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,8 +83,11 @@ const ApplyForm = ({ questions }: { questions: string[] }) => {
       facebook: "",
       private_email: "",
       class: "",
+      ...dynamicDefaultValues,
     },
   });
+  type FormData = z.infer<typeof formSchema>;
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
   }
@@ -184,6 +204,26 @@ const ApplyForm = ({ questions }: { questions: string[] }) => {
               </FormItem>
             )}
           />
+          <h1 className="font-bold text-2xl text-primary !mb-[-25px]">
+            Câu hỏi chuyên môn
+          </h1>
+          {data.map((question, index) => (
+            <FormField
+              key={question}
+              control={form.control}
+              name={question as keyof FormData}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-primary">{question_title[index]}</FormLabel>
+                  <FormControl>
+                    <Textarea {...field} className="border border-primary" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
+
           <Button type="submit" className="w-full">
             Submit
           </Button>
