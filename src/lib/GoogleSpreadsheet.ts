@@ -4,12 +4,12 @@ import { NextResponse } from "next/server";
 const auth = new google.auth.GoogleAuth({
   credentials: {
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-    private_key: atob(process.env.GOOGLE_SERVICE_ACOUNT_PRIVATE_KEY),
+    private_key: atob(process.env.GOOGLE_SERVICE_ACOUNT_PRIVATE_KEY!),
   },
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
-export const GetSheetData = async (department, sheet) => {
+export const GetSheetData = async (department: string, sheet: string) => {
   const sheets = google.sheets({ version: "v4", auth: await auth.getClient() });
 
   const range = `'${department}'!A:Z`;

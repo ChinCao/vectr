@@ -1,7 +1,10 @@
 import { GetSheetData } from "@/lib/GoogleSpreadsheet";
 
 const Description = async ({ id }: { id: string }) => {
-  const description_data: string[][] = await GetSheetData(id, "jd");
+  const description_data: string[][] = (await GetSheetData(
+    id,
+    "jd"
+  )) as string[][];
 
   return (
     <div className="pt-4  flex flex-col gap-y-16 items-start justify-center">

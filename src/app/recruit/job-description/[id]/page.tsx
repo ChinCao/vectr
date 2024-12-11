@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import Description from "./_components/Description";
+import { Suspense } from "react";
+import DescriptionFallBack from "./_components/DescriptionFallBack";
 
 interface PageProps {
   params: { id: string };
@@ -62,7 +64,9 @@ const JobDescription = async ({ params }: PageProps) => {
           </div>
         </div>
         <div className="container flex flex-col items-center justify-center gap-10 max-w-[800px]">
-          <Description id={id} />
+          <Suspense fallback={<DescriptionFallBack />}>
+            <Description id={id} />
+          </Suspense>
           <Link
             href={`/recruit/job-description/${id}/apply`}
             className="w-full flex items-center justify-center"
