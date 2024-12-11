@@ -9,8 +9,12 @@ const auth = new google.auth.GoogleAuth({
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
-export const GetSheetData = async (department: string, sheet: string) => {
-  const sheets = google.sheets({ version: "v4", auth: await auth.getClient() });
+export const GetSheetData = async (department: string, sheet: "jd" | "qs") => {
+  const sheets = google.sheets({
+    version: "v4",
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    auth: (await auth.getClient()) as any,
+  });
 
   const range = `'${department}'!A:Z`;
 
@@ -19,7 +23,7 @@ export const GetSheetData = async (department: string, sheet: string) => {
       spreadsheetId:
         sheet == "jd"
           ? process.env.GOOGLE_SHEET_ID_JD
-          : process.env.GOOGLE_SHEET_ID_QUESTION,
+          : process.env.GOOGLE_SHEET_ID_QS,
       range,
     });
 
