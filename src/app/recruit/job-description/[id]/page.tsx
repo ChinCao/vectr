@@ -1,4 +1,8 @@
-import { CORE_IMAGE, FULL_CORE_TITLE } from "@/constants/constants";
+import {
+  CORE_IMAGE,
+  DEPARTMENT_INFO,
+  FULL_CORE_TITLE,
+} from "@/constants/constants";
 import { notFound } from "next/navigation";
 import NavigationButton from "../../_components/NavigationButton";
 import { Button } from "@/components/ui/button";
@@ -11,10 +15,13 @@ interface PageProps {
 }
 
 const JobDescription = async ({ params }: PageProps) => {
-  const value_jobs = ["coding", "robotics", "ph", "pr", "hc"];
+  const valid_department = DEPARTMENT_INFO.map(
+    (department) => department.abbreviation
+  );
+
   const { id } = await params;
 
-  if (!value_jobs.includes(id)) {
+  if (!valid_department.includes(id)) {
     notFound();
   }
 
@@ -39,7 +46,7 @@ const JobDescription = async ({ params }: PageProps) => {
                   button_className="w-full md:w-[max-content]"
                 />
                 <Link href={`/recruit/job-description/${id}/apply`}>
-                  <Button className="bg-[#f7c325] text-black">
+                  <Button className="bg-[#f7c325] text-black w-full md:w-[max-content]">
                     Apply ban này
                   </Button>
                 </Link>

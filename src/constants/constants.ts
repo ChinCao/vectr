@@ -1,51 +1,107 @@
-const CODING_NAME_FULL = "Ban Coding";
-const ROBOTICS_NAME_FULL = "Ban Robotics";
-const PH_DES_NAME_FULL = "Ban PH (Design)";
-const HC_NAME_FULL = "Ban Hậu Cần";
-const PR_CW_NAME_FULL = "Ban PR - Content Writer";
-const PR_EXTERNAL_NAME_FULL = "Ban PR - External (Đối ngoại)";
+export const CODING_NAME_FULL = "Ban Coding";
+export const ROBOTICS_NAME_FULL = "Ban Robotics";
+export const PH_DES_NAME_FULL = "Ban PH (Design)";
+export const HC_NAME_FULL = "Ban Hậu Cần";
+export const PR_CW_NAME_FULL = "Ban PR - Content Writer";
+export const PR_EXTERNAL_NAME_FULL = "Ban PR - External (Đối ngoại)";
+export const CODING_NAME_ABBREV = "coding";
+export const ROBOTICS_NAME_ABBREV = "robotics";
+export const HC_NAME_ABBREV = "hc";
+export const PH_DES_NAME_ABBREV = "ph";
+export const PR_CW_NAME_ABBREV = "pr-cw";
+export const PR_EXTERNAL_NAME_ABBREV = "pr-ext";
 
-export const CORE_IMAGE = {
-  coding: ["/special-relativity-ZZpyj9.png", "/programming-python-dmduOj.png"],
-  robotics: ["/electromagnetism-AzFMTl.png", "/quantum-computing-UHpCJ1.png"],
-  ph: ["/creative-coding-XgYZa1.png", "/calculus-nutshell-1DhUxj.png"],
-  hc: ["/puzzle-science-Te3zoj.png", "/computer-science-algorithms-nwHk4m.png"],
-  pr: ["/Text_Analysis_in_Python-rcga5J.png", "/python-next-steps-E549hB.png"],
+export function capitalizeFirstLetter(val: string) {
+  return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+}
+
+type CoreImageKeys =
+  | typeof CODING_NAME_ABBREV
+  | typeof ROBOTICS_NAME_ABBREV
+  | typeof PH_DES_NAME_ABBREV
+  | typeof HC_NAME_ABBREV
+  | typeof PR_CW_NAME_ABBREV
+  | typeof PR_EXTERNAL_NAME_ABBREV;
+
+export const CORE_IMAGE: Record<CoreImageKeys, string[]> = {
+  [CODING_NAME_ABBREV]: [
+    "/special-relativity-ZZpyj9.png",
+    "/programming-python-dmduOj.png",
+  ],
+  [ROBOTICS_NAME_ABBREV]: [
+    "/electromagnetism-AzFMTl.png",
+    "/quantum-computing-UHpCJ1.png",
+  ],
+  [PH_DES_NAME_ABBREV]: [
+    "/creative-coding-XgYZa1.png",
+    "/calculus-nutshell-1DhUxj.png",
+  ],
+  [HC_NAME_ABBREV]: [
+    "/puzzle-science-Te3zoj.png",
+    "/computer-science-algorithms-nwHk4m.png",
+  ],
+  [PR_CW_NAME_ABBREV]: [
+    "/Text_Analysis_in_Python-rcga5J.png",
+    "/python-next-steps-E549hB.png",
+  ],
+  [PR_EXTERNAL_NAME_ABBREV]: [
+    "/how-computers-work-MYnrqg.png",
+    "/how-llms-work-z7ovbF.png",
+  ],
 };
 
 export const DEPARTMENT_INFO = [
   {
-    abbreviation: "coding",
+    abbreviation: CODING_NAME_ABBREV,
     full: CODING_NAME_FULL,
-    images: CORE_IMAGE["coding"],
+    images: CORE_IMAGE[CODING_NAME_ABBREV],
+    url: `/recruit/job-description/${CODING_NAME_ABBREV}`,
   },
   {
-    abbreviation: "robotics",
+    abbreviation: ROBOTICS_NAME_ABBREV,
     full: ROBOTICS_NAME_FULL,
-    images: CORE_IMAGE["robotics"],
+    images: CORE_IMAGE[ROBOTICS_NAME_ABBREV],
+    url: `/recruit/job-description/${ROBOTICS_NAME_ABBREV}`,
   },
-  { abbreviation: "ph", full: PH_DES_NAME_FULL, images: CORE_IMAGE["ph"] },
+  {
+    abbreviation: PH_DES_NAME_ABBREV,
+    full: PH_DES_NAME_FULL,
+    images: CORE_IMAGE[PH_DES_NAME_ABBREV],
+    url: `/recruit/job-description/${PH_DES_NAME_ABBREV}`,
+  },
 
   {
-    abbreviation: "pr-cw",
+    abbreviation: PR_CW_NAME_ABBREV,
     full: PR_CW_NAME_FULL,
-    images: CORE_IMAGE["pr"],
+    images: CORE_IMAGE[PR_CW_NAME_ABBREV],
+    url: `/recruit/job-description/${PR_CW_NAME_ABBREV}`,
   },
-  { abbreviation: "pr-external", full: PR_EXTERNAL_NAME_FULL },
-  { abbreviation: "hc", full: HC_NAME_FULL, images: CORE_IMAGE["hc"] },
+  {
+    abbreviation: PR_EXTERNAL_NAME_ABBREV,
+    full: PR_EXTERNAL_NAME_FULL,
+    images: CORE_IMAGE[PR_EXTERNAL_NAME_ABBREV],
+    url: `/recruit/job-description/${PR_EXTERNAL_NAME_ABBREV}`,
+  },
+  {
+    abbreviation: HC_NAME_ABBREV,
+    full: HC_NAME_FULL,
+    images: CORE_IMAGE[HC_NAME_ABBREV],
+    url: `/recruit/job-description/${HC_NAME_ABBREV}`,
+  },
 ];
-
 export const FULL_CORE_TITLE = (id: string) => {
   switch (id) {
-    case "coding":
+    case CODING_NAME_ABBREV:
       return CODING_NAME_FULL;
-    case "robotics":
+    case ROBOTICS_NAME_ABBREV:
       return ROBOTICS_NAME_FULL;
-    case "ph":
+    case PH_DES_NAME_ABBREV:
       return PH_DES_NAME_FULL;
-    case "pr":
-      return "Ban PR";
-    case "hc":
+    case PR_CW_NAME_ABBREV:
+      return PR_CW_NAME_FULL;
+    case HC_NAME_ABBREV:
       return HC_NAME_FULL;
+    case PR_EXTERNAL_NAME_ABBREV:
+      return PR_EXTERNAL_NAME_FULL;
   }
 };

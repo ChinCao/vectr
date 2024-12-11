@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+import { NextResponse } from "next/server";
 
 const auth = new google.auth.GoogleAuth({
   credentials: {

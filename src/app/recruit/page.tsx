@@ -9,7 +9,10 @@ import {
 import Image from "next/image";
 import NavigationButton from "./_components/NavigationButton";
 import Navbar from "@/components/Navbar";
-import { CORE_IMAGE } from "@/constants/constants";
+import { DEPARTMENT_INFO } from "@/constants/constants";
+import MissionCard from "./_components/MissionCard";
+import ProcessBlock from "./_components/ProcessBlock";
+import ValuesCard from "./_components/ValuesCard";
 
 const RecruitPage = () => {
   return (
@@ -90,80 +93,39 @@ const RecruitPage = () => {
                   alt="community"
                 />
               </div>
-
-              <div className="border rounded flex col-span-2 lg:col-span-1 flex-col lg:flex-row sm:flex-row items-center">
-                <div className="flex items-start justify-center p-10 pt-0 sm:pt-10 gap-4 flex-col order-[1] sm:order-0">
-                  <h3 className="font-semibold text-2xl">Sự hợp tác</h3>
-                  <p className="text-gray-500 ">
-                    Chúng mình giao tiếp cởi mở và thoải mái. Chúng mình làm
+              <ValuesCard
+                title="Sự hợp tác"
+                content="Chúng mình giao tiếp cởi mở và thoải mái. Chúng mình làm
                     việc theo nhóm hướng tới mục tiêu chung là cùng nhau xây
-                    dựng cồng động và mang lại giá trị hữu ích.
-                  </p>
-                </div>
-                <Image
-                  className="order-[0] sm:order-1 pt-5 sm:pt-0"
-                  src="/collaboration2.svg"
-                  width={150}
-                  height={300}
-                  alt="community"
-                />
-              </div>
-
-              <div className="border rounded flex col-span-2 lg:col-span-1 flex-col lg:flex-row sm:flex-row items-center">
-                <div className="flex flex-col items-start justify-center p-10 pt-0 sm:pt-10 gap-4 order-[1] sm:order-0">
-                  <h3 className="font-semibold text-2xl">Táo bạo</h3>
-                  <p className="text-gray-500 ">
-                    Chúng mình hướng tới kết quả. Chúng mình hoàn thành và vượt
+                    dựng cồng động và mang lại giá trị hữu ích."
+                image_url="/collaboration2.svg"
+                image_alt="community"
+              />
+              <ValuesCard
+                title="Táo bạo"
+                content="Chúng mình hướng tới kết quả. Chúng mình hoàn thành và vượt
                     chỉ tiêu mọi việc. Chúng mình đam mê và làm việc chăm chỉ.
                     Khi thất bại, đó sẽ là cơ hội cho chúng mình học hỏi và tự
-                    đứng dậy vững vàng hơn.
-                  </p>
-                </div>
-                <Image
-                  className="order-[0] sm:order-1 pt-5 sm:pt-0"
-                  src="/hardcore3.svg"
-                  width={150}
-                  height={300}
-                  alt="community"
-                />
-              </div>
-
-              <div className="border rounded flex col-span-2 lg:col-span-1 flex-col lg:flex-row sm:flex-row items-center">
-                <div className="flex flex-col items-start justify-center p-10 pt-0 sm:pt-10 gap-4 order-[1] sm:order-0">
-                  <h3 className="font-semibold text-2xl">Tự do</h3>
-                  <p className="text-gray-500 ">
-                    Chúng mình thực hiện một cách có trách nhiệm và tự chủ.
+                    đứng dậy vững vàng hơn."
+                image_url="/hardcore3.svg"
+                image_alt="hardcore"
+              />
+              <ValuesCard
+                title="Tự do"
+                content="Chúng mình thực hiện một cách có trách nhiệm và tự chủ.
                     Chúng mình trao quyền cho những người xung quanh. Nhóm của
-                    chúng mình đa dạng và chúng mình thách thức hiện trạng.
-                  </p>
-                </div>
-                <Image
-                  className="order-[0] sm:order-1 pt-5 sm:pt-0"
-                  src="/freedom3.svg"
-                  width={150}
-                  height={300}
-                  alt="community"
-                />
-              </div>
-
-              <div className="border rounded flex col-span-2 lg:col-span-1 flex-col lg:flex-row sm:flex-row items-center">
-                <div className="flex flex-col items-start justify-center p-10 pt-0 sm:pt-10 gap-4 order-[1] sm:order-0">
-                  <h3 className="font-semibold text-2xl">Khiêm nhường</h3>
-                  <p className="text-gray-500 ">
-                    Chúng mình chấp nhận phản hồi mang tính phê bình. Chúng mình
+                    chúng mình đa dạng và chúng mình thách thức hiện trạng."
+                image_url="/freedom3.svg"
+                image_alt="freedome"
+              />
+              <ValuesCard
+                title="Khiêm nhường"
+                content="Chúng mình chấp nhận phản hồi mang tính phê bình. Chúng mình
                     đối xử với mọi người như nhau. Chúng mình khiêm tốn về thành
-                    công của mình.
-                  </p>
-                </div>
-                <Image
-                  className="order-[0] sm:order-1 pt-5 sm:pt-0"
-                  src="/humility3.svg"
-                  width={150}
-                  height={300}
-                  alt="community"
-                />
-              </div>
-
+                    công của mình."
+                image_url="/humility3.svg"
+                image_alt="humility"
+              />
               <div className="border-primary border rounded flex items-center justify-center col-span-2">
                 <div className="flex flex-col items-center justify-center p-10 gap-4">
                   <h3 className="text-center text-primary font-bold text-2xl uppercase">{`"Chúng ta cùng có thể tạo nên những kỳ tích phi thường!"`}</h3>
@@ -177,71 +139,26 @@ const RecruitPage = () => {
           <div className="container flex flex-col sm:flex-row pt-20 justify-center items-center gap-5 ">
             <Carousel className="w-[250px] order-[1] sm:order-0 sm:w-[300px]">
               <CarouselContent>
-                <CarouselItem className="flex flex-col gap-3 items-center justify-center">
-                  <Card>
-                    <CardContent className="pt-6">
-                      <Image
-                        src={CORE_IMAGE["coding"][0]}
-                        width={300}
-                        height={300}
-                        alt="Graphic"
-                      />
-                    </CardContent>
-                  </Card>
-                  <h4 className="font-semibold text-3xl">Ban Coding</h4>
-                </CarouselItem>
-                <CarouselItem className="flex flex-col gap-3 items-center justify-center">
-                  <Card>
-                    <CardContent className="pt-6">
-                      <Image
-                        src={CORE_IMAGE["robotics"][0]}
-                        width={300}
-                        height={300}
-                        alt="Graphic"
-                      />
-                    </CardContent>
-                  </Card>
-                  <h4 className="font-semibold text-3xl">Ban Robotics</h4>
-                </CarouselItem>
-                <CarouselItem className="flex flex-col gap-3 items-center justify-center">
-                  <Card>
-                    <CardContent className="pt-6">
-                      <Image
-                        src={CORE_IMAGE["hc"][0]}
-                        width={300}
-                        height={300}
-                        alt="Graphic"
-                      />
-                    </CardContent>
-                  </Card>
-                  <h4 className="font-semibold text-3xl">Ban Hậu Cần</h4>
-                </CarouselItem>
-                <CarouselItem className="flex flex-col gap-3 items-center justify-center">
-                  <Card>
-                    <CardContent className="pt-6">
-                      <Image
-                        src={CORE_IMAGE["ph"][0]}
-                        width={300}
-                        height={300}
-                        alt="Graphic"
-                      />
-                    </CardContent>
-                  </Card>
-                  <h4 className="font-semibold text-3xl">{`Ban PH (Design)`}</h4>
-                </CarouselItem>
-                <CarouselItem className="flex flex-col gap-3 items-center justify-center">
-                  <Card>
-                    <CardContent className="pt-6">
-                      <Image
-                        src={CORE_IMAGE["pr"][0]}
-                        width={300}
-                        height={300}
-                        alt="Graphic"
-                      />
-                    </CardContent>
-                  </Card>
-                  <h4 className="font-semibold text-3xl">Ban PR</h4>
-                </CarouselItem>
+                {DEPARTMENT_INFO.map((info, index) => (
+                  <CarouselItem
+                    className="flex flex-col gap-3 items-center justify-center"
+                    key={index}
+                  >
+                    <Card>
+                      <CardContent className="pt-6">
+                        <Image
+                          src={info["images"][0]}
+                          width={300}
+                          height={300}
+                          alt="Graphic"
+                        />
+                      </CardContent>
+                    </Card>
+                    <h4 className="font-semibold text-3xl text-center">
+                      {info["full"]}
+                    </h4>
+                  </CarouselItem>
+                ))}
               </CarouselContent>
               <CarouselPrevious />
               <CarouselNext />
@@ -268,64 +185,28 @@ const RecruitPage = () => {
             <h1 className="text-5xl font-bold text-center ">
               Sứ mệnh của VECTR
             </h1>
-            <div className="flex flex-col sm:flex-row gap-10 mt-10">
-              <div className="flex flex-col items-start justify-center gap-2 w-full sm:w-[33%]">
-                <Card className="w-full">
-                  <CardContent className="px-0 pt-6">
-                    <Image
-                      src="/innovation.svg"
-                      width={400}
-                      height={400}
-                      alt="innovation"
-                    />
-                  </CardContent>
-                </Card>
-                <h3 className="font-semibold text-xl">
-                  Lorem ipsum dolor sit amet.
-                </h3>
-                <p className="text-gray-500">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Facere, neque?
-                </p>
-              </div>
-              <div className="flex flex-col items-start justify-center gap-2 w-full sm:w-[33%]">
-                <Card className="w-full">
-                  <CardContent className="px-0 pt-6">
-                    <Image
-                      src="/grow.svg"
-                      width={400}
-                      height={400}
-                      alt="innovation"
-                    />
-                  </CardContent>
-                </Card>
-                <h3 className="font-semibold text-xl">
-                  Lorem ipsum dolor sit amet.
-                </h3>
-                <p className="text-gray-500">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Facere, neque?
-                </p>
-              </div>
-              <div className="flex flex-col items-start justify-center gap-2 w-full sm:w-[33%]">
-                <Card className="w-full">
-                  <CardContent className="px-0 pt-6">
-                    <Image
-                      src="/thrive.png"
-                      width={400}
-                      height={400}
-                      alt="innovation"
-                    />
-                  </CardContent>
-                </Card>
-                <h3 className="font-semibold text-xl">
-                  Lorem ipsum dolor sit amet.
-                </h3>
-                <p className="text-gray-500">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Facere, neque?
-                </p>
-              </div>
+            <div className="flex flex-col md:flex-row gap-10 mt-10">
+              <MissionCard
+                image_url="/innovation.svg"
+                image_alt="innovation"
+                title="Lorem ipsum dolor sit amet."
+                content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Facere, neque?"
+              />
+              <MissionCard
+                image_url="/grow.svg"
+                image_alt="grow"
+                title="Lorem ipsum dolor sit amet."
+                content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Facere, neque?"
+              />
+              <MissionCard
+                image_url="/thrive.png"
+                image_alt="thrive"
+                title="Lorem ipsum dolor sit amet."
+                content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Facere, neque?"
+              />
             </div>
           </div>
         </section>
@@ -340,30 +221,10 @@ const RecruitPage = () => {
             nhận đậu vào CLB (update sẽ được gửi qua email).`}
             </p>
             <div className="flex flex-col sm:flex-row gap-8 mt-4">
-              <div className="flex flex-col gap-5 w-full sm:w-[25%]">
-                <p className="text-5xl font-bold text-gray-400 opacity-40">
-                  01
-                </p>
-                <p className="font-semibold capitalize">Đánh giá đơn tuyển</p>
-              </div>
-              <div className="flex flex-col gap-5 w-[25%]">
-                <p className="text-5xl font-bold text-gray-400 opacity-40">
-                  02
-                </p>
-                <p className="font-semibold capitalize">Phỏng vấn</p>
-              </div>
-              <div className="flex flex-col gap-5 w-[25%]">
-                <p className="text-5xl font-bold text-gray-400 opacity-40">
-                  03
-                </p>
-                <p className="font-semibold capitalize">Cam kết</p>
-              </div>
-              <div className="flex flex-col gap-5 w-[25%]">
-                <p className="text-5xl font-bold text-gray-400 opacity-40">
-                  04
-                </p>
-                <p className="font-semibold capitalize">Gia nhập</p>
-              </div>
+              <ProcessBlock title="01" text="Đánh giá đơn tuyển" />
+              <ProcessBlock title="02" text="Phỏng vấn" />
+              <ProcessBlock title="03" text="Cam kết" />
+              <ProcessBlock title="04" text="Gia nhập" />
             </div>
             <NavigationButton
               text={"Xem Job Description"}
