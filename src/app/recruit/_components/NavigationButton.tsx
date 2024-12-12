@@ -1,6 +1,9 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
+import { CLICK_SOUND_URL, CLICK_SOUND_VOLUME } from "@/constants/constants";
+import useSound from "use-sound";
 
 const NavigationButton = ({
   className,
@@ -15,8 +18,11 @@ const NavigationButton = ({
   href: string;
   button_className?: string;
 }) => {
+  const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
+
   return (
     <Link
+      onClick={() => playClick()}
       href={href}
       className={`w-[max-content] flex items-center justify-center gap-2 ${className}`}
     >

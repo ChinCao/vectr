@@ -12,9 +12,12 @@ import React, { ReactNode, useState } from "react";
 import { Button } from "./ui/button";
 import { FaBars } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
+import useSound from "use-sound";
 
 const Navbar = ({ children }: { children: ReactNode }) => {
   const [toggle, setToggle] = useState(false);
+  const [playClick] = useSound("/sounds/click.mp3");
+
   return (
     <header className="fixed top-0 w-full z-[100] bg-background/95 shadow-lg">
       <nav className="flex flex-row items-center container justify-between py-2 relative gap-3">
@@ -54,7 +57,11 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             className="cursor-pointer hover:text-primary block lg:hidden"
             onClick={() => setToggle(!toggle)}
           >
-            {toggle ? <ImCross size={12} /> : <FaBars />}
+            {toggle ? (
+              <ImCross size={12} onClick={() => playClick()} />
+            ) : (
+              <FaBars onClick={() => playClick()} />
+            )}
           </div>
         </div>
       </nav>

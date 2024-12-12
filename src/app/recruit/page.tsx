@@ -1,3 +1,4 @@
+"use client";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -9,12 +10,16 @@ import {
 import Image from "next/image";
 import NavigationButton from "./_components/NavigationButton";
 import Navbar from "@/components/Navbar";
-import { DEPARTMENT_INFO } from "@/constants/constants";
+import { CLICK_SOUND_VOLUME, DEPARTMENT_INFO } from "@/constants/constants";
 import MissionCard from "./_components/MissionCard";
 import ProcessBlock from "./_components/ProcessBlock";
 import ValuesCard from "./_components/ValuesCard";
+import { CLICK_SOUND_URL } from "@/constants/constants";
+import useSound from "use-sound";
 
 const RecruitPage = () => {
+  const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
+
   return (
     <>
       <title>Recruit Gen1</title>
@@ -160,8 +165,12 @@ const RecruitPage = () => {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
+              <div onClick={() => playClick()}>
+                <CarouselPrevious />
+              </div>
+              <div onClick={() => playClick()}>
+                <CarouselNext />
+              </div>
             </Carousel>
             <div className="flex flex-col items-center gap-5 sm:gap-10 justify-center w-[80%] sm:w-[50%] order-[0] sm:order-1">
               <h1 className="text-5xl font-bold text-center">

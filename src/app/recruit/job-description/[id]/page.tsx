@@ -7,10 +7,10 @@ import { notFound } from "next/navigation";
 import NavigationButton from "../../_components/NavigationButton";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import Link from "next/link";
 import Description from "./_components/Description";
 import { Suspense } from "react";
 import DescriptionFallBack from "./_components/DescriptionFallBack";
+import ApplyButton from "./_components/ApplyButton";
 
 interface PageProps {
   params: { id: string };
@@ -47,11 +47,11 @@ const JobDescription = async ({ params }: PageProps) => {
                   className="w-full md:w-[max-content]"
                   button_className="w-full md:w-[max-content]"
                 />
-                <Link href={`/recruit/job-description/${id}/apply`}>
+                <ApplyButton id={id}>
                   <Button className="bg-[#f7c325] text-black w-full md:w-[max-content]">
                     Apply ban này
                   </Button>
-                </Link>
+                </ApplyButton>
               </div>
             </div>
             <Image
@@ -67,14 +67,11 @@ const JobDescription = async ({ params }: PageProps) => {
           <Suspense fallback={<DescriptionFallBack />}>
             <Description id={id} />
           </Suspense>
-          <Link
-            href={`/recruit/job-description/${id}/apply`}
-            className="w-full flex items-center justify-center"
-          >
-            <Button className="bg-[#f7c325] text-black w-full md:w-[50%]">
+          <ApplyButton id={id}>
+            <Button className="bg-[#f7c325] text-black sm:min-w-[500px] min-w-full ">
               Apply ban này
             </Button>
-          </Link>
+          </ApplyButton>
         </div>
       </div>
     </>

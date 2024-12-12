@@ -17,6 +17,22 @@ import { useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import { Toaster } from "@/components/ui/toaster";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import useSound from "use-sound";
+import { CLICK_SOUND_URL, CLICK_SOUND_VOLUME } from "@/constants/constants";
 
 const ApplyForm = ({
   data,
@@ -104,6 +120,8 @@ const ApplyForm = ({
   const [manual, setManual] = useState(false);
   const { formState } = form;
   const [activeTab, setActiveTab] = useState("personal-info");
+  const { toast } = useToast();
+  const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
 
   useEffect(() => {
     const hasPersonalInfoErrors = Object.keys(formState.errors).some((key) =>
@@ -126,7 +144,18 @@ const ApplyForm = ({
     } else if (hasQuestionErrors && activeTab !== "questions") {
       setActiveTab(activeTab);
     }
-  }, [activeTab, data, formState.errors]);
+    if (hasQuestionErrors || hasPersonalInfoErrors) {
+      toast({
+        title: "Lưu ý!",
+        description: "Vui lòng kiểm tra lại thông tin.",
+        action: (
+          <ToastAction altText="close" onClick={() => playClick()}>
+            Close
+          </ToastAction>
+        ),
+      });
+    }
+  }, [activeTab, data, formState.errors, playClick, toast]);
 
   return (
     <Form {...form}>
@@ -156,7 +185,7 @@ const ApplyForm = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Họ và tên</FormLabel>
+                  <FormLabel>1. Họ và tên</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -169,7 +198,7 @@ const ApplyForm = ({
               name="student_id"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Mã số học sinh</FormLabel>
+                  <FormLabel>2. Mã số học sinh</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -196,7 +225,7 @@ const ApplyForm = ({
               name="class"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Lớp</FormLabel>
+                  <FormLabel>3. Lớp</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -209,7 +238,7 @@ const ApplyForm = ({
               name="school_email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email trường</FormLabel>
+                  <FormLabel>4. Email trường</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -232,7 +261,7 @@ const ApplyForm = ({
               name="private_email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email riêng {`(để làm việc)`}</FormLabel>
+                  <FormLabel>5. Email riêng {`(để làm việc)`}</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -246,7 +275,8 @@ const ApplyForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Profile <span className="text-[#0966ff]">Facebook</span>
+                    6. Link profile{" "}
+                    <span className="text-[#0966ff]">Facebook</span>
                   </FormLabel>
                   <FormControl>
                     <Input {...field} />
@@ -275,7 +305,9 @@ const ApplyForm = ({
                 name={question as keyof FormData}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{question_title[index]}</FormLabel>
+                    <FormLabel>
+                      {index + 1}. {question_title[index]}
+                    </FormLabel>
                     <FormControl>
                       <Textarea {...field} />
                     </FormControl>
@@ -288,15 +320,47 @@ const ApplyForm = ({
               <TabsTrigger
                 value="personal-info"
                 className="flex flex-row gap-2 bg-[#f7c325] text-white w-full py-2 hover:opacity-90"
+                onClick={() => playClick()}
               >
                 <FaLongArrowAltLeft /> Thông tin cá nhân
               </TabsTrigger>
             </TabsList>
-            <Button type="submit" className="w-full">
-              Submit
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  className="w-full"
+                  type="button"
+                  onClick={() => playClick()}
+                >
+                  Gửi đơn
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Bạn có chắc chắn chưa?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Không thể hoàn tác hành động này và thông tin của bạn sẽ
+                    được ghi nhận.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel onClick={() => playClick()}>
+                    Hủy
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => {
+                      playClick();
+                      form.handleSubmit(onSubmit)();
+                    }}
+                  >
+                    Tiếp tục
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </TabsContent>
         </Tabs>
+        <Toaster />
       </form>
     </Form>
   );
