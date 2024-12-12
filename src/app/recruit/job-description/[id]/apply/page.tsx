@@ -7,13 +7,20 @@ interface PageProps {
 
 const Applypage = async ({ params }: PageProps) => {
   const { id } = await params;
-  const response: string[][] = (await GetSheetData(id, "qs")) as string[][];
-
+  const department_questions: string[][] = (await GetSheetData(
+    id,
+    "qs"
+  )) as string[][];
+  const general_questions: string[][] = (await GetSheetData(
+    "chung",
+    "qs"
+  )) as string[][];
+  console.log(general_questions);
   return (
     <div className="flex items-center justify-center">
       <ApplyForm
-        data={response[0].map((str) => str.replace(/["'`]/g, ""))}
-        question_title={response[0]}
+        department_questions={department_questions[0]}
+        general_questions={general_questions[0]}
       />
     </div>
   );

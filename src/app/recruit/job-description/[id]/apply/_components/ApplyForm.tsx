@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
@@ -35,14 +35,27 @@ import useSound from "use-sound";
 import { CLICK_SOUND_URL, CLICK_SOUND_VOLUME } from "@/constants/constants";
 
 const ApplyForm = ({
-  data,
-  question_title,
+  department_questions,
+  general_questions,
 }: {
-  data: string[];
-  question_title: string[];
+  department_questions: string[];
+  general_questions: string[];
 }) => {
-  const dynamicSchema = z.object(
-    data.reduce((acc, item) => {
+  const modified_department_questions = useMemo(
+    () => department_questions.map((str: string) => str.replace(/["'`.]/g, "")),
+    [department_questions]
+  );
+  const modified_general_questions = useMemo(
+    () => general_questions.map((str: string) => str.replace(/["'`.]/g, "")),
+    [general_questions]
+  );
+  const sanitizedData = useMemo(
+    () => [...modified_department_questions, ...modified_general_questions],
+    [modified_department_questions, modified_general_questions]
+  );
+
+  const dynamicQuestionSchema = z.object(
+    sanitizedData.reduce((acc, item) => {
       acc[item] = z
         .string()
         .max(3000, { message: "Không được vượt quá 3000 ký tự" })
@@ -89,10 +102,10 @@ const ApplyForm = ({
     facebook: z
       .string()
       .nonempty({ message: "Link profile Facebook không được để trống." }),
-    ...dynamicSchema.shape,
+    ...dynamicQuestionSchema.shape,
   });
 
-  const dynamicDefaultValues = data.reduce((acc, item) => {
+  const dynamicQuestions = sanitizedData.reduce((acc, item) => {
     acc[item] = "";
     return acc;
   }, {} as Record<string, string>);
@@ -106,10 +119,10 @@ const ApplyForm = ({
       facebook: "",
       private_email: "",
       class: "",
-      ...dynamicDefaultValues,
+      ...dynamicQuestions,
     },
   });
-  type FormData = z.infer<typeof formSchema>;
+  type FormsanitizedData = z.infer<typeof formSchema>;
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
@@ -134,20 +147,28 @@ const ApplyForm = ({
         "facebook",
       ].includes(key)
     );
-
-    const hasQuestionErrors = Object.keys(formState.errors).some((key) =>
-      data.includes(key)
+    const hasDepartmentErrors = Object.keys(formState.errors).some((key) =>
+      modified_department_questions.includes(key)
     );
-
+    const hasGeneralErrors = Object.keys(formState.errors).some((key) =>
+      modified_general_questions.includes(key)
+    );
     if (hasPersonalInfoErrors) {
       setActiveTab("personal-info");
-    } else if (hasQuestionErrors && activeTab !== "questions") {
+    } else if (hasDepartmentErrors || hasGeneralErrors) {
       setActiveTab(activeTab);
     }
-    if (hasQuestionErrors || hasPersonalInfoErrors) {
+    const errorText = hasPersonalInfoErrors
+      ? "thông tin cá nhân"
+      : hasGeneralErrors
+      ? "câu trả lời chung"
+      : hasDepartmentErrors
+      ? "câu trả lời chuyên môn"
+      : null;
+    if (hasDepartmentErrors || hasPersonalInfoErrors || hasGeneralErrors) {
       toast({
         title: "Lưu ý!",
-        description: "Vui lòng kiểm tra lại thông tin.",
+        description: `Vui lòng kiểm tra lại ${errorText}`,
         action: (
           <ToastAction altText="close" onClick={() => playClick()}>
             Close
@@ -155,7 +176,18 @@ const ApplyForm = ({
         ),
       });
     }
-  }, [activeTab, data, formState.errors, playClick, toast]);
+    window.scrollTo({
+      top: 0,
+    });
+  }, [
+    activeTab,
+    sanitizedData,
+    formState.errors,
+    modified_department_questions,
+    modified_general_questions,
+    playClick,
+    toast,
+  ]);
 
   return (
     <Form {...form}>
@@ -173,7 +205,10 @@ const ApplyForm = ({
             <TabsTrigger value="personal-info" className="flex-1 py-2">
               Thông tin cá nhân
             </TabsTrigger>
-            <TabsTrigger value="questions" className="flex-1 py-2">
+            <TabsTrigger value="general-questions" className="flex-1 py-2">
+              Câu hỏi chung
+            </TabsTrigger>
+            <TabsTrigger value="department-questions" className="flex-1 py-2">
               Câu hỏi chuyên môn
             </TabsTrigger>
           </TabsList>
@@ -287,26 +322,27 @@ const ApplyForm = ({
             />
             <TabsList className="w-full">
               <TabsTrigger
-                value="questions"
+                value="general-questions"
                 className="flex flex-row gap-2 bg-[#f7c325] text-white w-full py-2 hover:opacity-90"
               >
-                Câu hỏi chuyên môn <FaLongArrowAltRight />
+                Câu hỏi chung <FaLongArrowAltRight />
               </TabsTrigger>
             </TabsList>
           </TabsContent>
-          <TabsContent value="questions" className="flex flex-col gap-8">
-            <h1 className="font-bold text-2xl text-primary ">
-              Câu hỏi chuyên môn
-            </h1>
-            {data.map((question, index) => (
+          <TabsContent
+            value="general-questions"
+            className="flex flex-col gap-8"
+          >
+            <h1 className="font-bold text-2xl text-primary ">Câu hỏi chung</h1>
+            {modified_general_questions.map((question, index) => (
               <FormField
                 key={question}
                 control={form.control}
-                name={question as keyof FormData}
+                name={question as keyof FormsanitizedData}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      {index + 1}. {question_title[index]}
+                      {index + 1}. {general_questions[index]}
                     </FormLabel>
                     <FormControl>
                       <Textarea {...field} />
@@ -316,7 +352,56 @@ const ApplyForm = ({
                 )}
               />
             ))}
-            <TabsList className="w-full">
+            <TabsList className="w-full flex flex-col gap-5 mt-4">
+              <TabsTrigger
+                value="department-questions"
+                className="flex flex-row gap-2 bg-[#f7c325] text-white w-full py-2 hover:opacity-90"
+                onClick={() => playClick()}
+              >
+                Câu hỏi chuyên môn <FaLongArrowAltRight />
+              </TabsTrigger>
+              <TabsTrigger
+                value="personal-info"
+                className="flex flex-row gap-2 bg-[#f7c325] text-white w-full py-2 hover:opacity-90"
+                onClick={() => playClick()}
+              >
+                <FaLongArrowAltLeft /> Thông tin cá nhân
+              </TabsTrigger>
+            </TabsList>
+          </TabsContent>
+          <TabsContent
+            value="department-questions"
+            className="flex flex-col gap-8"
+          >
+            <h1 className="font-bold text-2xl text-primary ">
+              Câu hỏi chuyên môn
+            </h1>
+            {modified_department_questions.map((question, index) => (
+              <FormField
+                key={question}
+                control={form.control}
+                name={question as keyof FormsanitizedData}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      {index + 1}. {department_questions[index]}
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ))}
+            <TabsList className="w-full flex flex-col gap-5 my-4">
+              <TabsTrigger
+                value="general-questions"
+                className="flex flex-row gap-2 bg-[#f7c325] text-white w-full py-2 hover:opacity-90"
+                onClick={() => playClick()}
+              >
+                <FaLongArrowAltLeft /> Câu hỏi chung
+              </TabsTrigger>
               <TabsTrigger
                 value="personal-info"
                 className="flex flex-row gap-2 bg-[#f7c325] text-white w-full py-2 hover:opacity-90"

@@ -13,10 +13,11 @@ import { Button } from "./ui/button";
 import { FaBars } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import useSound from "use-sound";
+import { CLICK_SOUND_URL, CLICK_SOUND_VOLUME } from "@/constants/constants";
 
 const Navbar = ({ children }: { children: ReactNode }) => {
   const [toggle, setToggle] = useState(false);
-  const [playClick] = useSound("/sounds/click.mp3");
+  const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
 
   return (
     <header className="fixed top-0 w-full z-[100] bg-background/95 shadow-lg">
