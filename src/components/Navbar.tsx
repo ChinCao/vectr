@@ -21,7 +21,7 @@ const Navbar = ({ children }: { children: ReactNode }) => {
 
   return (
     <header className="fixed top-0 w-full z-[100] bg-background/95 shadow-lg">
-      <nav className="flex flex-row items-center container justify-between py-2 relative gap-3">
+      <nav className="flex flex-row items-center container justify-between py-2 gap-3 relative">
         <Link href="/">
           <Image src="/logo.png" height={44} width={111} alt="Logo Vectr" />
         </Link>

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,6 +32,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import useSound from "use-sound";
 import { CLICK_SOUND_URL, CLICK_SOUND_VOLUME } from "@/constants/constants";
+import { Progress } from "@/components/ui/progress";
 
 const ApplyForm = ({
   department_questions,
@@ -168,7 +168,7 @@ const ApplyForm = ({
     if (hasDepartmentErrors || hasPersonalInfoErrors || hasGeneralErrors) {
       toast({
         title: "Lưu ý!",
-        description: `Vui lòng kiểm tra lại ${errorText}`,
+        description: `Vui lòng kiểm tra lại ${errorText}.`,
         action: (
           <ToastAction altText="close" onClick={() => playClick()}>
             Close
@@ -189,11 +189,32 @@ const ApplyForm = ({
     toast,
   ]);
 
+  const tabs = ["personal-info", "general-questions", "department-questions"];
+
+  const increment = 100 / tabs.length;
+
+  const getValue = () => {
+    switch (activeTab) {
+      case "personal-info":
+        return increment * 1;
+      case "general-questions":
+        return increment * 2;
+      case "department-questions":
+        return increment * 3;
+      default:
+        return 0;
+    }
+  };
+
   return (
     <Form {...form}>
+      <Progress
+        value={getValue()}
+        className="w-full top-[0] z-[1000] h-[3px] fixed"
+      />
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 w-full flex items-center justify-center"
+        className="space-y-8 w-full flex items-center justify-center "
       >
         <Tabs
           defaultValue="personal-info"
@@ -220,7 +241,7 @@ const ApplyForm = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>1. Họ và tên</FormLabel>
+                  <FormLabel className="text-md">1. Họ và tên</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -233,11 +254,11 @@ const ApplyForm = ({
               name="student_id"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>2. Mã số học sinh</FormLabel>
+                  <FormLabel className="text-md">2. Mã số học sinh</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      onChange={(e: any) => {
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         field.onChange(e);
                         if (!manual) {
                           setSchoolEmail(
@@ -260,7 +281,7 @@ const ApplyForm = ({
               name="class"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>3. Lớp</FormLabel>
+                  <FormLabel className="text-md">3. Lớp</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -273,12 +294,12 @@ const ApplyForm = ({
               name="school_email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>4. Email trường</FormLabel>
+                  <FormLabel className="text-md">4. Email trường</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       value={schoolEmail}
-                      onChange={(e: any) => {
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         field.onChange(e);
                         if (!manual) {
                           setManual(!manual);
@@ -296,7 +317,9 @@ const ApplyForm = ({
               name="private_email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>5. Email riêng {`(để làm việc)`}</FormLabel>
+                  <FormLabel className="text-md">
+                    5. Email riêng {`(để làm việc)`}
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -309,7 +332,7 @@ const ApplyForm = ({
               name="facebook"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
+                  <FormLabel className="text-md">
                     6. Link profile{" "}
                     <span className="text-[#0966ff]">Facebook</span>
                   </FormLabel>
@@ -341,7 +364,7 @@ const ApplyForm = ({
                 name={question as keyof FormsanitizedData}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
+                    <FormLabel className="text-md">
                       {index + 1}. {general_questions[index]}
                     </FormLabel>
                     <FormControl>
@@ -383,7 +406,7 @@ const ApplyForm = ({
                 name={question as keyof FormsanitizedData}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
+                    <FormLabel className="text-md">
                       {index + 1}. {department_questions[index]}
                     </FormLabel>
                     <FormControl>

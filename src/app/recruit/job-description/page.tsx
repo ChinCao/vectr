@@ -51,28 +51,30 @@ const JobDescriptionPage = () => {
           <Accordion type="single" collapsible className="w-[80%]">
             <AccordionItem value="item-1">
               <AccordionTrigger onClick={() => playClick()}>
-                Is it accessible?
+                Tôi có thể apply nhiều ban khác nhau được không?
               </AccordionTrigger>
               <AccordionContent>
-                Yes. It adheres to the WAI-ARIA design pattern.
+                Có, bạn có thể apply được nhiều ban và tất cả câu trả lời của
+                bạn sẽ được ghi nhận. Nhưng sau quá trình tuyển thành viên bạn
+                chỉ có thể làm được 1 ban duy nhất mà chúng mình nghĩ là phù hợp
+                với bạn.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger onClick={() => playClick()}>
-                Is it styled?
+                Làm sao tôi có thể biết được trạng thái ứng tuyển của mình?
               </AccordionTrigger>
               <AccordionContent>
-                Yes. It comes with default styles that matches the other
-                components&apos; aesthetic.
+                Mọi thông tin sẽ được cập nhật qua email riêng và email trường.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3">
               <AccordionTrigger onClick={() => playClick()}>
-                Is it animated?
+                Thông tin trên website của được bảo mật không?
               </AccordionTrigger>
               <AccordionContent>
-                Yes. It&apos;s animated by default, but you can disable it if
-                you prefer.
+                Mọi thông tin trên website được bảo mật 1 cách chặt chẽ và chỉ
+                có thành viên CORE của VECTR mới có quyền truy cập.
               </AccordionContent>
             </AccordionItem>
           </Accordion>

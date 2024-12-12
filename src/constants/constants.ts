@@ -1,10 +1,10 @@
-export const CODING_NAME_FULL = "Ban Coding";
+export const CODING_NAME_FULL = "Ban Computer Science";
 export const ROBOTICS_NAME_FULL = "Ban Robotics";
 export const PH_DES_NAME_FULL = "Ban PH (Design)";
 export const HC_NAME_FULL = "Ban Hậu Cần";
 export const PR_CW_NAME_FULL = "Ban PR - Content Writer";
 export const PR_EXTERNAL_NAME_FULL = "Ban PR - External (Đối ngoại)";
-export const CODING_NAME_ABBREV = "coding";
+export const CODING_NAME_ABBREV = "computer science";
 export const ROBOTICS_NAME_ABBREV = "robotics";
 export const HC_NAME_ABBREV = "hc";
 export const PH_DES_NAME_ABBREV = "ph";

@@ -7,15 +7,15 @@ interface PageProps {
 
 const Applypage = async ({ params }: PageProps) => {
   const { id } = await params;
+  const decodedID = decodeURI(id);
   const department_questions: string[][] = (await GetSheetData(
-    id,
+    decodedID,
     "qs"
   )) as string[][];
   const general_questions: string[][] = (await GetSheetData(
     "chung",
     "qs"
   )) as string[][];
-  console.log(general_questions);
   return (
     <div className="flex items-center justify-center">
       <ApplyForm
