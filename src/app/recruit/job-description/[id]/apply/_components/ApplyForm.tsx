@@ -220,7 +220,7 @@ const ApplyForm = ({
           defaultValue="personal-info"
           value={activeTab}
           onValueChange={setActiveTab}
-          className="px-4 sm:px-12 py-8 mt-8 w-full sm:w-[80%]"
+          className="px-2 lg:px-12 py-8 mt-8 w-full lg:w-[80%]"
         >
           <TabsList className="flex items-center h-[max-content] justify-center flex-wrap flex-row p-2 mb-8">
             <TabsTrigger value="personal-info" className="flex-1 py-2">

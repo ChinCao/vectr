@@ -107,4 +107,4 @@ export const FULL_CORE_TITLE = (id: string) => {
 };
 
 export const CLICK_SOUND_URL = "/sounds/click.mp3";
-export const CLICK_SOUND_VOLUME = 0.02;
+export const CLICK_SOUND_VOLUME = 0.05;

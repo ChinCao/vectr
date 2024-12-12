@@ -24,6 +24,7 @@
     "embla-carousel-react": "^8.5.1",
     "googleapis": "^144.0.0",
     "lucide-react": "^0.468.0",
+    "mongoose": "^8.8.4",
     "next": "15.0.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

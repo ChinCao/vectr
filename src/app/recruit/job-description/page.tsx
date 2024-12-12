@@ -73,8 +73,17 @@ const JobDescriptionPage = () => {
                 Thông tin trên website của được bảo mật không?
               </AccordionTrigger>
               <AccordionContent>
-                Mọi thông tin trên website được bảo mật 1 cách chặt chẽ và chỉ
-                có thành viên CORE của VECTR mới có quyền truy cập.
+                Mọi thông tin trên website được bảo mật chặt chẽ và chỉ có thành
+                viên CORE của VECTR mới có quyền truy cập.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-4">
+              <AccordionTrigger onClick={() => playClick()}>
+                Những thông tin tôi điền trên form của website có được lưu
+                không?
+              </AccordionTrigger>
+              <AccordionContent>
+                Có, mọi thông tin bạn ghi trên form sẽ được lưu tự động.
               </AccordionContent>
             </AccordionItem>
           </Accordion>

@@ -10,7 +10,7 @@ const ApplyButton = ({ children, id }: { children: ReactNode; id: string }) => {
   return (
     <Link
       href={`/recruit/job-description/${id}/apply`}
-      className="flex items-center justify-center w-full sm:w-[max-content]"
+      className="flex items-center justify-center w-full md:w-[max-content]"
       onClick={() => playClick()}
     >
       {children}
