@@ -57,7 +57,7 @@ const JobDescriptionPage = () => {
                 Có, bạn có thể apply được nhiều ban và tất cả câu trả lời của
                 bạn sẽ được ghi nhận. Nhưng sau quá trình tuyển thành viên bạn
                 chỉ có thể làm được 1 ban duy nhất mà chúng mình nghĩ là phù hợp
-                với bạn.
+                với bạn nhất.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
@@ -70,7 +70,7 @@ const JobDescriptionPage = () => {
             </AccordionItem>
             <AccordionItem value="item-3">
               <AccordionTrigger onClick={() => playClick()}>
-                Thông tin trên website của được bảo mật không?
+                Thông tin trên website có được bảo mật không?
               </AccordionTrigger>
               <AccordionContent>
                 Mọi thông tin trên website được bảo mật chặt chẽ và chỉ có thành
@@ -83,7 +83,8 @@ const JobDescriptionPage = () => {
                 không?
               </AccordionTrigger>
               <AccordionContent>
-                Có, mọi thông tin bạn ghi trên form sẽ được lưu tự động.
+                Có, mọi thông tin bạn ghi trên form sẽ được lưu tự động và bạn
+                có thể quay trở lại để tiếp tục với câu trả lời của mình.
               </AccordionContent>
             </AccordionItem>
           </Accordion>
