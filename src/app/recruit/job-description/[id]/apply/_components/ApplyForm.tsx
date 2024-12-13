@@ -1,5 +1,5 @@
 "use client";
-import { z } from "zod";
+import { z, ZodOptional, ZodString } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
@@ -57,13 +57,23 @@ const ApplyForm = ({
   );
 
   const dynamicQuestionSchema = z.object(
-    sanitizedData.reduce((acc, item) => {
-      acc[item] = z
-        .string()
-        .max(3000, { message: "Không được vượt quá 3000 ký tự" })
-        .nonempty({ message: "Không được để trống, hãy viết gì đó nhé!" });
-      return acc;
-    }, {} as Record<string, z.ZodString>)
+    sanitizedData.reduce(
+      (acc: { [key: string]: ZodOptional<ZodString> | ZodString }, item) => {
+        if (item.includes("(optional)")) {
+          acc[item] = z
+            .string()
+            .max(3000, { message: "Không được vượt quá 3000 ký tự" })
+            .optional();
+        } else {
+          acc[item] = z
+            .string()
+            .max(3000, { message: "Không được vượt quá 3000 ký tự" })
+            .nonempty({ message: "Không được để trống, hãy viết gì đó nhé!" });
+        }
+        return acc;
+      },
+      {} as Record<string, z.ZodString>
+    )
   );
 
   const formSchema = z.object({
@@ -87,22 +97,26 @@ const ApplyForm = ({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const res = await fetch("/api/recruit", {
-      method: "POST",
-      body: JSON.stringify(FAKE_DATA),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!res.ok) {
-      throw new Error("Failed to create response.");
-    }
+    console.log(values);
+    // const res = await fetch("/api/recruit", {
+    //   method: "POST",
+    //   body: JSON.stringify(FAKE_DATA),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+    // if (!res.ok) {
+    //   throw new Error("Failed to create response.");
+    // }
   }
 
   const { formState } = form;
   const [activeTab, setActiveTab] = useState("personal-info");
   const { toast } = useToast();
   const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
+  const [studentID, setStudentID] = useState("VS");
+  const [schoolEmail, setSchoolEmail] = useState("@stu.vinschool.edu.vn");
+  const [manual, setManual] = useState(false);
 
   useEffect(() => {
     const hasPersonalInfoErrors = Object.keys(formState.errors).some((key) =>
@@ -187,7 +201,15 @@ const ApplyForm = ({
           </TabsList>
 
           <TabsContent value="personal-info" className="flex flex-col gap-8">
-            <PersonalInfo form={form} />
+            <PersonalInfo
+              form={form}
+              studentID={studentID}
+              schoolEmail={schoolEmail}
+              setSchoolEmail={setSchoolEmail}
+              manual={manual}
+              setManual={setManual}
+              setStudentID={setStudentID}
+            />
 
             <TabsList className="w-full">
               <ApplyTabTrigger

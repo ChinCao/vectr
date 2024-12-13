@@ -1,9 +1,4 @@
-import {
-  CORE_IMAGE,
-  DEPARTMENT_INFO,
-  FULL_CORE_TITLE,
-} from "@/constants/constants";
-import { notFound } from "next/navigation";
+import { CORE_IMAGE, FULL_CORE_TITLE } from "@/constants/constants";
 import NavigationButton from "../../_components/NavigationButton";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -17,15 +12,8 @@ interface PageProps {
 }
 
 const JobDescription = async ({ params }: PageProps) => {
-  const valid_department = DEPARTMENT_INFO.map(
-    (department) => department.abbreviation
-  );
-
   const { id } = await params;
   const decodedID = decodeURI(id);
-  if (!valid_department.includes(decodedID)) {
-    notFound();
-  }
 
   return (
     <>

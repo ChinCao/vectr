@@ -6,18 +6,28 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
+
+interface PersonalInfoProps {
+  studentID: string;
+  setStudentID: React.Dispatch<React.SetStateAction<string>>;
+  schoolEmail: string;
+  setSchoolEmail: React.Dispatch<React.SetStateAction<string>>;
+  manual: boolean;
+  setManual: React.Dispatch<React.SetStateAction<boolean>>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  form: UseFormReturn<any>;
+}
 
 const PersonalInfo = ({
   form,
-}: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  form: UseFormReturn<any>;
-}) => {
-  const [studentID, setStudentID] = useState("VS");
-  const [schoolEmail, setSchoolEmail] = useState("@stu.vinschool.edu.vn");
-  const [manual, setManual] = useState(false);
+  studentID,
+  setStudentID,
+  schoolEmail,
+  setSchoolEmail,
+  manual,
+  setManual,
+}: PersonalInfoProps) => {
   return (
     <>
       <h1 className="font-bold text-2xl">Thông tin cá nhân</h1>
@@ -119,6 +129,21 @@ const PersonalInfo = ({
           <FormItem>
             <FormLabel className="text-md">
               6. Link profile <span className="text-[#0966ff]">Facebook</span>
+            </FormLabel>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="instagram"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="text-md">
+              7. Link profile <span className="text-[#E1306C]">Instagram</span>
             </FormLabel>
             <FormControl>
               <Input {...field} />

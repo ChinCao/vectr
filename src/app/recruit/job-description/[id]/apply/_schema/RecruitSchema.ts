@@ -1,13 +1,15 @@
 import { DEPARTMENT_INFO } from "@/constants/constants";
 import mongoose, { Schema } from "mongoose";
+import { PersonalInfoType } from "./PersonalInfoSchema";
 
-const PersonalInfoSchema = new Schema({
-  full_name: { type: String, required: true },
+const PersonalInfoSchema = new Schema<PersonalInfoType>({
+  name: { type: String, required: true },
   class: { type: String, required: true },
   student_id: { type: String, required: true },
-  facebook_profile: { type: String, required: true },
+  facebook: { type: String, required: true },
   private_email: { type: String, required: true },
   school_email: { type: String, required: true },
+  instagram: { type: String, required: false },
 });
 
 const GeneralQuestionSchema = new Schema({
@@ -59,6 +61,6 @@ const RecruitSchema = new Schema({
 });
 
 const RecruitResponse =
-  mongoose.models.Recruit || mongoose.model("recruit", RecruitSchema);
+  mongoose.models.Recruit || mongoose.model("Recruit", RecruitSchema);
 
 export default RecruitResponse;

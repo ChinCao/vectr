@@ -1,3 +1,4 @@
+import { PersonalInfoType } from "@/app/recruit/job-description/[id]/apply/_schema/PersonalInfoSchema";
 import { z } from "zod";
 export const CODING_NAME_FULL = "Ban Computer Science";
 export const ROBOTICS_NAME_FULL = "Ban Robotics";
@@ -126,10 +127,10 @@ export const CLICK_SOUND_VOLUME = 0.05;
 export const FAKE_DATA = {
   user_id: "user_001",
   personal_info: {
-    full_name: "John Doe",
+    name: "John Doe",
     class: "Senior",
     student_id: "S123456",
-    facebook_profile: "https://facebook.com/johndoe",
+    facebook: "https://facebook.com/johndoe",
     private_email: "johndoe@example.com",
     school_email: "johndoe@school.edu",
   },

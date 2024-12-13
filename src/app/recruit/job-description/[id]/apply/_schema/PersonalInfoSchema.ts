@@ -1,14 +1,5 @@
 import { z } from "zod";
 
-export const PersonalInfoSchemaDefaults = {
-  name: "",
-  school_email: "",
-  student_id: "",
-  facebook: "",
-  private_email: "",
-  class: "",
-};
-
 export const PersonalInfoSchema = z.object({
   name: z
     .string()
@@ -47,4 +38,17 @@ export const PersonalInfoSchema = z.object({
   facebook: z
     .string()
     .nonempty({ message: "Link profile Facebook không được để trống." }),
+  instagram: z.string().optional(),
 });
+
+export type PersonalInfoType = z.infer<typeof PersonalInfoSchema>;
+
+export const PersonalInfoSchemaDefaults: PersonalInfoType = {
+  name: "",
+  school_email: "",
+  student_id: "",
+  facebook: "",
+  private_email: "",
+  class: "",
+  instagram: "",
+};
