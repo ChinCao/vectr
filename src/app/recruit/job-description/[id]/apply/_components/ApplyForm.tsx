@@ -21,27 +21,27 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import useSound from "use-sound";
-import {
-  CLICK_SOUND_URL,
-  CLICK_SOUND_VOLUME,
-  FAKE_DATA,
-} from "@/constants/constants";
+import { CLICK_SOUND_URL, CLICK_SOUND_VOLUME } from "@/constants/constants";
 import { Progress } from "@/components/ui/progress";
 import PersonalInfo from "./PersonalInfo";
 import GeneralQuestions from "./GeneralQuestions";
 import DepartmentQuestions from "./DepartmentQuestion";
 import ApplyTabTrigger from "./ApplyTabTrigger";
 import {
-  PersonalInfoSchemaDefaults,
+  PersonalInfoSchemaDefault,
   PersonalInfoSchema,
+  PersonalInfoType,
 } from "../_schema/PersonalInfoSchema";
+import { useUser } from "@clerk/clerk-react";
 
 const ApplyForm = ({
   department_questions,
   general_questions,
+  department,
 }: {
   department_questions: string[];
   general_questions: string[];
+  department: string;
 }) => {
   const modified_department_questions = useMemo(
     () => department_questions.map((str: string) => str.replace(/["'`.]/g, "")),
@@ -57,23 +57,18 @@ const ApplyForm = ({
   );
 
   const dynamicQuestionSchema = z.object(
-    sanitizedData.reduce(
-      (acc: { [key: string]: ZodOptional<ZodString> | ZodString }, item) => {
-        if (item.includes("(optional)")) {
-          acc[item] = z
+    sanitizedData.reduce((acc, item) => {
+      acc[item] = item.includes("(optional)")
+        ? z
             .string()
             .max(3000, { message: "Không được vượt quá 3000 ký tự" })
-            .optional();
-        } else {
-          acc[item] = z
+            .optional()
+        : z
             .string()
             .max(3000, { message: "Không được vượt quá 3000 ký tự" })
             .nonempty({ message: "Không được để trống, hãy viết gì đó nhé!" });
-        }
-        return acc;
-      },
-      {} as Record<string, z.ZodString>
-    )
+      return acc;
+    }, {} as Record<string, ZodOptional<ZodString> | ZodString>)
   );
 
   const formSchema = z.object({
@@ -81,34 +76,22 @@ const ApplyForm = ({
     ...dynamicQuestionSchema.shape,
   });
 
-  const dynamicQuestions = sanitizedData.reduce((acc, item) => {
+  const dynamicQuestionsDefault = sanitizedData.reduce((acc, item) => {
     acc[item] = "";
     return acc;
   }, {} as Record<string, string>);
 
   type FormSanitizedData = z.infer<typeof formSchema>;
+  type DynamicQuestionType = z.infer<typeof dynamicQuestionSchema>;
+  type CombinedType = FormSanitizedData & DynamicQuestionType;
 
   const form = useForm<FormSanitizedData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      ...PersonalInfoSchemaDefaults,
-      ...dynamicQuestions,
+      ...PersonalInfoSchemaDefault,
+      ...dynamicQuestionsDefault,
     },
   });
-
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // const res = await fetch("/api/recruit", {
-    //   method: "POST",
-    //   body: JSON.stringify(FAKE_DATA),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
-    // if (!res.ok) {
-    //   throw new Error("Failed to create response.");
-    // }
-  }
 
   const { formState } = form;
   const [activeTab, setActiveTab] = useState("personal-info");
@@ -117,10 +100,57 @@ const ApplyForm = ({
   const [studentID, setStudentID] = useState("VS");
   const [schoolEmail, setSchoolEmail] = useState("@stu.vinschool.edu.vn");
   const [manual, setManual] = useState(false);
+  const { user } = useUser();
+
+  async function onSubmit(values: CombinedType) {
+    interface Response {
+      user_id: string | undefined;
+      personal_info: Record<string, string | undefined>;
+      department_questions: {
+        response: Record<string, Record<string, string | boolean | undefined>>;
+      };
+      general_questions: {
+        response: Record<string, string | undefined>;
+      };
+    }
+
+    const response: Response = {
+      user_id: user?.id,
+      personal_info: {},
+      department_questions: { response: {} },
+      general_questions: { response: {} },
+    };
+    response["department_questions"]["response"][department] = {
+      hasSubmitted: true,
+    };
+
+    Object.keys(values).forEach((key: string) => {
+      if (modified_department_questions.includes(key)) {
+        response["department_questions"]["response"][department][key] =
+          values[key];
+      } else if (modified_general_questions.includes(key)) {
+        response["general_questions"]["response"][key] = values[key];
+      } else {
+        response["personal_info"][key as keyof PersonalInfoType] =
+          values[key as keyof PersonalInfoType];
+      }
+    });
+    console.log(response);
+    const res = await fetch("/api/recruit", {
+      method: "POST",
+      body: JSON.stringify(response),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      throw new Error("Failed to create response.");
+    }
+  }
 
   useEffect(() => {
     const hasPersonalInfoErrors = Object.keys(formState.errors).some((key) =>
-      Object.keys(PersonalInfoSchemaDefaults).includes(key)
+      Object.keys(PersonalInfoSchemaDefault).includes(key)
     );
     const hasDepartmentErrors = Object.keys(formState.errors).some((key) =>
       modified_department_questions.includes(key)

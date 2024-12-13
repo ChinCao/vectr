@@ -8,13 +8,13 @@ import React, { useEffect } from "react";
 import { CLICK_SOUND_URL, CLICK_SOUND_VOLUME } from "@/constants/constants";
 
 export default function Home() {
-  const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
-
   useEffect(() => {
     const audio = new Audio(CLICK_SOUND_URL);
     audio.preload = "auto";
     audio.load();
   }, []);
+
+  const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
 
   return (
     <>

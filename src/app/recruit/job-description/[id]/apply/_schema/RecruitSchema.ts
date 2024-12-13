@@ -13,7 +13,7 @@ const PersonalInfoSchema = new Schema<PersonalInfoType>({
 });
 
 const GeneralQuestionSchema = new Schema({
-  reponse: {
+  response: {
     type: Map,
     of: String,
     default: {},
@@ -21,7 +21,7 @@ const GeneralQuestionSchema = new Schema({
 });
 
 const DepartmentQuestionSchema = new Schema({
-  reponse: {
+  response: {
     type: Map,
     of: {
       type: Map,
@@ -39,7 +39,7 @@ const DepartmentQuestionSchema = new Schema({
 });
 
 DepartmentQuestionSchema.pre("save", function (next) {
-  const departmentResponseMap = this.reponse || new Map();
+  const departmentResponseMap = this.response || new Map();
 
   DEPARTMENT_INFO.forEach((department) => {
     if (!departmentResponseMap.has(department.abbreviation)) {
@@ -49,7 +49,7 @@ DepartmentQuestionSchema.pre("save", function (next) {
     }
   });
 
-  this.reponse = departmentResponseMap;
+  this.response = departmentResponseMap;
   next();
 });
 

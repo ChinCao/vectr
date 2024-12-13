@@ -7,6 +7,7 @@ const isPublicRoute = createRouteMatcher([
   "/recruit",
   "/recruit/job-description",
   "/recruit/job-description/:id",
+  "/sounds(.*)",
 ]);
 
 export default clerkMiddleware(async (auth, req) => {

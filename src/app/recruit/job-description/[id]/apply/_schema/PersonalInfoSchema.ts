@@ -43,7 +43,7 @@ export const PersonalInfoSchema = z.object({
 
 export type PersonalInfoType = z.infer<typeof PersonalInfoSchema>;
 
-export const PersonalInfoSchemaDefaults: PersonalInfoType = {
+export const PersonalInfoSchemaDefault: PersonalInfoType = {
   name: "",
   school_email: "",
   student_id: "",

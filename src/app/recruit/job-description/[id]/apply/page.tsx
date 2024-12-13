@@ -21,6 +21,7 @@ const Applypage = async ({ params }: PageProps) => {
       <ApplyForm
         department_questions={department_questions[0]}
         general_questions={general_questions[0]}
+        department={decodedID}
       />
     </div>
   );

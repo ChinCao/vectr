@@ -1,15 +1,14 @@
-import { PersonalInfoType } from "@/app/recruit/job-description/[id]/apply/_schema/PersonalInfoSchema";
 import { z } from "zod";
-export const CODING_NAME_FULL = "Ban Computer Science";
+export const COMPUTER_SCIENCE_NAME_FULL = "Ban Computer Science";
 export const ROBOTICS_NAME_FULL = "Ban Robotics";
-export const PH_DES_NAME_FULL = "Ban Design";
+export const DESIGN_NAME_FULL = "Ban Design";
 export const HC_NAME_FULL = "Ban Hậu Cần";
 export const PR_CW_NAME_FULL = "Ban PR - Content Writer";
 export const PR_EXTERNAL_NAME_FULL = "Ban PR - External (Đối ngoại)";
-export const CODING_NAME_ABBREV = "computer science";
+export const COMPUTER_SCIENCE_NAME_ABBREV = "computer science";
 export const ROBOTICS_NAME_ABBREV = "robotics";
 export const HC_NAME_ABBREV = "hc";
-export const PH_DES_NAME_ABBREV = "design";
+export const DESIGN_NAME_ABBREV = "design";
 export const PR_CW_NAME_ABBREV = "pr-cw";
 export const PR_EXTERNAL_NAME_ABBREV = "pr-ext";
 
@@ -18,15 +17,15 @@ export function capitalizeFirstLetter(val: string) {
 }
 
 type CoreImageKeys =
-  | typeof CODING_NAME_ABBREV
+  | typeof COMPUTER_SCIENCE_NAME_ABBREV
   | typeof ROBOTICS_NAME_ABBREV
-  | typeof PH_DES_NAME_ABBREV
+  | typeof DESIGN_NAME_ABBREV
   | typeof HC_NAME_ABBREV
   | typeof PR_CW_NAME_ABBREV
   | typeof PR_EXTERNAL_NAME_ABBREV;
 
 export const CORE_IMAGE: Record<CoreImageKeys, string[]> = {
-  [CODING_NAME_ABBREV]: [
+  [COMPUTER_SCIENCE_NAME_ABBREV]: [
     "/special-relativity-ZZpyj9.png",
     "/programming-python-dmduOj.png",
   ],
@@ -34,7 +33,7 @@ export const CORE_IMAGE: Record<CoreImageKeys, string[]> = {
     "/electromagnetism-AzFMTl.png",
     "/quantum-computing-UHpCJ1.png",
   ],
-  [PH_DES_NAME_ABBREV]: [
+  [DESIGN_NAME_ABBREV]: [
     "/creative-coding-XgYZa1.png",
     "/calculus-nutshell-1DhUxj.png",
   ],
@@ -66,10 +65,10 @@ export type DepartmentInfoType = z.infer<typeof DepartmentInfoSchema>;
 
 export const DEPARTMENT_INFO: DepartmentInfoType = [
   {
-    abbreviation: CODING_NAME_ABBREV,
-    full: CODING_NAME_FULL,
-    images: CORE_IMAGE[CODING_NAME_ABBREV],
-    url: `/recruit/job-description/${CODING_NAME_ABBREV}`,
+    abbreviation: COMPUTER_SCIENCE_NAME_ABBREV,
+    full: COMPUTER_SCIENCE_NAME_FULL,
+    images: CORE_IMAGE[COMPUTER_SCIENCE_NAME_ABBREV],
+    url: `/recruit/job-description/${COMPUTER_SCIENCE_NAME_ABBREV}`,
   },
   {
     abbreviation: ROBOTICS_NAME_ABBREV,
@@ -78,10 +77,10 @@ export const DEPARTMENT_INFO: DepartmentInfoType = [
     url: `/recruit/job-description/${ROBOTICS_NAME_ABBREV}`,
   },
   {
-    abbreviation: PH_DES_NAME_ABBREV,
-    full: PH_DES_NAME_FULL,
-    images: CORE_IMAGE[PH_DES_NAME_ABBREV],
-    url: `/recruit/job-description/${PH_DES_NAME_ABBREV}`,
+    abbreviation: DESIGN_NAME_ABBREV,
+    full: DESIGN_NAME_FULL,
+    images: CORE_IMAGE[DESIGN_NAME_ABBREV],
+    url: `/recruit/job-description/${DESIGN_NAME_ABBREV}`,
   },
 
   {
@@ -106,12 +105,12 @@ export const DEPARTMENT_INFO: DepartmentInfoType = [
 
 export const FULL_CORE_TITLE = (id: string) => {
   switch (id) {
-    case CODING_NAME_ABBREV:
-      return CODING_NAME_FULL;
+    case COMPUTER_SCIENCE_NAME_ABBREV:
+      return COMPUTER_SCIENCE_NAME_FULL;
     case ROBOTICS_NAME_ABBREV:
       return ROBOTICS_NAME_FULL;
-    case PH_DES_NAME_ABBREV:
-      return PH_DES_NAME_FULL;
+    case DESIGN_NAME_ABBREV:
+      return DESIGN_NAME_FULL;
     case PR_CW_NAME_ABBREV:
       return PR_CW_NAME_FULL;
     case HC_NAME_ABBREV:
@@ -123,36 +122,3 @@ export const FULL_CORE_TITLE = (id: string) => {
 
 export const CLICK_SOUND_URL = "/sounds/click.mp3";
 export const CLICK_SOUND_VOLUME = 0.05;
-
-export const FAKE_DATA = {
-  user_id: "user_001",
-  personal_info: {
-    name: "John Doe",
-    class: "Senior",
-    student_id: "S123456",
-    facebook: "https://facebook.com/johndoe",
-    private_email: "johndoe@example.com",
-    school_email: "johndoe@school.edu",
-  },
-  department_questions: {
-    reponse: {
-      "computer science": {
-        hasSubmitted: false,
-        skibidi: "aaa",
-      },
-      "pr-cw": {
-        hasSubmitted: false,
-        nuhhh: "qijwqjwqjwqjwqwq",
-      },
-      MATH: {
-        hasSubmitted: false,
-      },
-    },
-  },
-  general_questions: {
-    reponse: {
-      question1: "Answer to question 1",
-      question2: "Answer to question 2",
-    },
-  },
-};
