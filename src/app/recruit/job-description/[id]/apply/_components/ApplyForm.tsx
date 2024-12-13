@@ -27,7 +27,10 @@ import PersonalInfo from "./PersonalInfo";
 import GeneralQuestions from "./GeneralQuestions";
 import DepartmentQuestions from "./DepartmentQuestion";
 import ApplyTabTrigger from "./ApplyTabTrigger";
-import { StaticSchema, StaticSchemaDefaults } from "../_schema/StaticSchema";
+import {
+  PersonalInfoSchemaDefaults,
+  PersonalInfoSchema,
+} from "../_schema/PersonalInfoSchema";
 
 const ApplyForm = ({
   department_questions,
@@ -60,7 +63,7 @@ const ApplyForm = ({
   );
 
   const formSchema = z.object({
-    ...StaticSchema.shape,
+    ...PersonalInfoSchema.shape,
     ...dynamicQuestionSchema.shape,
   });
 
@@ -74,7 +77,7 @@ const ApplyForm = ({
   const form = useForm<FormSanitizedData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      ...StaticSchemaDefaults,
+      ...PersonalInfoSchemaDefaults,
       ...dynamicQuestions,
     },
   });
@@ -90,7 +93,7 @@ const ApplyForm = ({
 
   useEffect(() => {
     const hasPersonalInfoErrors = Object.keys(formState.errors).some((key) =>
-      Object.keys(StaticSchemaDefaults).includes(key)
+      Object.keys(PersonalInfoSchemaDefaults).includes(key)
     );
     const hasDepartmentErrors = Object.keys(formState.errors).some((key) =>
       modified_department_questions.includes(key)

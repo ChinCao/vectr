@@ -1,3 +1,4 @@
+import { z } from "zod";
 export const CODING_NAME_FULL = "Ban Computer Science";
 export const ROBOTICS_NAME_FULL = "Ban Robotics";
 export const PH_DES_NAME_FULL = "Ban PH (Design)";
@@ -50,7 +51,20 @@ export const CORE_IMAGE: Record<CoreImageKeys, string[]> = {
   ],
 };
 
-export const DEPARTMENT_INFO = [
+const DepartmentSchema = z.object({
+  abbreviation: z.string(),
+  full: z.string(),
+  images: z.array(z.string()),
+  url: z.string().url(),
+});
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const DepartmentInfoSchema = z.array(DepartmentSchema);
+
+export type Department = z.infer<typeof DepartmentSchema>;
+export type DepartmentInfoType = z.infer<typeof DepartmentInfoSchema>;
+
+export const DEPARTMENT_INFO: DepartmentInfoType = [
   {
     abbreviation: CODING_NAME_ABBREV,
     full: CODING_NAME_FULL,
@@ -89,6 +103,7 @@ export const DEPARTMENT_INFO = [
     url: `/recruit/job-description/${HC_NAME_ABBREV}`,
   },
 ];
+
 export const FULL_CORE_TITLE = (id: string) => {
   switch (id) {
     case CODING_NAME_ABBREV:

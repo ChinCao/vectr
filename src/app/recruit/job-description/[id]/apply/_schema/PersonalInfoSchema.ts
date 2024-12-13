@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const StaticSchemaDefaults = {
+export const PersonalInfoSchemaDefaults = {
   name: "",
   school_email: "",
   student_id: "",
@@ -9,7 +9,7 @@ export const StaticSchemaDefaults = {
   class: "",
 };
 
-export const StaticSchema = z.object({
+export const PersonalInfoSchema = z.object({
   name: z
     .string()
     .max(100, { message: "Họ và tên của bạn không được vượt quá 100 ký tự" })

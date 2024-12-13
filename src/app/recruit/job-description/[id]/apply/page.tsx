@@ -1,5 +1,6 @@
 import { GetSheetData } from "@/lib/GoogleSpreadsheet";
 import ApplyForm from "./_components/ApplyForm";
+import ConnectDB from "@/db/db";
 
 interface PageProps {
   params: { id: string };
@@ -16,6 +17,7 @@ const Applypage = async ({ params }: PageProps) => {
     "chung",
     "qs"
   )) as string[][];
+  ConnectDB();
   return (
     <div className="flex items-center justify-center">
       <ApplyForm
