@@ -1,14 +1,14 @@
 import { z } from "zod";
 export const CODING_NAME_FULL = "Ban Computer Science";
 export const ROBOTICS_NAME_FULL = "Ban Robotics";
-export const PH_DES_NAME_FULL = "Ban PH (Design)";
+export const PH_DES_NAME_FULL = "Ban Design";
 export const HC_NAME_FULL = "Ban Hậu Cần";
 export const PR_CW_NAME_FULL = "Ban PR - Content Writer";
 export const PR_EXTERNAL_NAME_FULL = "Ban PR - External (Đối ngoại)";
 export const CODING_NAME_ABBREV = "computer science";
 export const ROBOTICS_NAME_ABBREV = "robotics";
 export const HC_NAME_ABBREV = "hc";
-export const PH_DES_NAME_ABBREV = "ph";
+export const PH_DES_NAME_ABBREV = "design";
 export const PR_CW_NAME_ABBREV = "pr-cw";
 export const PR_EXTERNAL_NAME_ABBREV = "pr-ext";
 
@@ -61,7 +61,6 @@ const DepartmentSchema = z.object({
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DepartmentInfoSchema = z.array(DepartmentSchema);
 
-export type Department = z.infer<typeof DepartmentSchema>;
 export type DepartmentInfoType = z.infer<typeof DepartmentInfoSchema>;
 
 export const DEPARTMENT_INFO: DepartmentInfoType = [
@@ -123,3 +122,36 @@ export const FULL_CORE_TITLE = (id: string) => {
 
 export const CLICK_SOUND_URL = "/sounds/click.mp3";
 export const CLICK_SOUND_VOLUME = 0.05;
+
+export const FAKE_DATA = {
+  user_id: "user_001",
+  personal_info: {
+    full_name: "John Doe",
+    class: "Senior",
+    student_id: "S123456",
+    facebook_profile: "https://facebook.com/johndoe",
+    private_email: "johndoe@example.com",
+    school_email: "johndoe@school.edu",
+  },
+  department_questions: {
+    reponse: {
+      "computer science": {
+        hasSubmitted: false,
+        skibidi: "aaa",
+      },
+      "pr-cw": {
+        hasSubmitted: false,
+        nuhhh: "qijwqjwqjwqjwqwq",
+      },
+      MATH: {
+        hasSubmitted: false,
+      },
+    },
+  },
+  general_questions: {
+    reponse: {
+      question1: "Answer to question 1",
+      question2: "Answer to question 2",
+    },
+  },
+};

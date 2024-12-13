@@ -1,4 +1,4 @@
-import { Department, DEPARTMENT_INFO } from "@/constants/constants";
+import { DEPARTMENT_INFO } from "@/constants/constants";
 import mongoose, { Schema } from "mongoose";
 
 const PersonalInfoSchema = new Schema({
@@ -10,42 +10,55 @@ const PersonalInfoSchema = new Schema({
   school_email: { type: String, required: true },
 });
 
-const QuestionsSchema = new Schema({
-  general_questions: {
+const GeneralQuestionSchema = new Schema({
+  reponse: {
     type: Map,
     of: String,
     default: {},
   },
-  department_questions: {
+});
+
+const DepartmentQuestionSchema = new Schema({
+  reponse: {
     type: Map,
     of: {
       type: Map,
       of: String,
-      default: {},
+      hasSubmitted: { type: Boolean, required: true },
     },
     default: () => {
       const map = new Map();
-      DEPARTMENT_INFO.forEach((department: Department) => {
-        map.set(department.abbreviation, {});
+      DEPARTMENT_INFO.forEach((department) => {
+        map.set(department.abbreviation, { hasSubmitted: false });
       });
       return map;
     },
   },
 });
 
+DepartmentQuestionSchema.pre("save", function (next) {
+  const departmentResponseMap = this.reponse || new Map();
+
+  DEPARTMENT_INFO.forEach((department) => {
+    if (!departmentResponseMap.has(department.abbreviation)) {
+      departmentResponseMap.set(department.abbreviation, {
+        hasSubmitted: false,
+      });
+    }
+  });
+
+  this.reponse = departmentResponseMap;
+  next();
+});
+
 const RecruitSchema = new Schema({
   user_id: { type: String, required: true },
-  recruits: {
-    type: Map,
-    of: new Schema({
-      personal_info: PersonalInfoSchema,
-      questions: QuestionsSchema,
-    }),
-    default: {},
-  },
+  personal_info: PersonalInfoSchema,
+  department_questions: DepartmentQuestionSchema,
+  general_questions: GeneralQuestionSchema,
 });
 
 const RecruitResponse =
-  mongoose.models.Recruit || mongoose.model("Recruit", RecruitSchema);
+  mongoose.models.Recruit || mongoose.model("recruit", RecruitSchema);
 
 export default RecruitResponse;
