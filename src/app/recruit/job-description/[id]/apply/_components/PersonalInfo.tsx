@@ -30,7 +30,7 @@ const PersonalInfo = ({
 }: PersonalInfoProps) => {
   return (
     <>
-      <h1 className="font-bold text-2xl">Thông tin cá nhân</h1>
+      <h1 className="font-bold text-2xl text-primary">Thông tin cá nhân</h1>
       <FormField
         control={form.control}
         name="name"

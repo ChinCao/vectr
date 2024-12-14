@@ -5,12 +5,12 @@ import ConnectDB from "@/db/db";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    const user_id = body.user_id;
     await ConnectDB();
     const existingUser = await RecruitResponse.findOne({
-      user_id: body.user_id,
+      user_id,
     });
     const responseKeys = Object.keys(body.department_questions.response)[0];
-    const user_id = body.user_id;
     if (existingUser) {
       const updatedResponse = await RecruitResponse.findOneAndUpdate(
         { user_id },

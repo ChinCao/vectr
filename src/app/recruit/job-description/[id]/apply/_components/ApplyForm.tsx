@@ -1,7 +1,7 @@
 "use client";
 import { z, ZodOptional, ZodString } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, setValue } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useEffect, useMemo, useState } from "react";
@@ -21,18 +21,23 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import useSound from "use-sound";
-import { CLICK_SOUND_URL, CLICK_SOUND_VOLUME } from "@/constants/constants";
+import {
+  CLICK_SOUND_URL,
+  CLICK_SOUND_VOLUME,
+  Response,
+} from "@/constants/constants";
 import { Progress } from "@/components/ui/progress";
 import PersonalInfo from "./PersonalInfo";
 import GeneralQuestions from "./GeneralQuestions";
 import DepartmentQuestions from "./DepartmentQuestion";
 import ApplyTabTrigger from "./ApplyTabTrigger";
 import {
-  PersonalInfoSchemaDefault,
   PersonalInfoSchema,
+  PersonalInfoSchemaDefault,
   PersonalInfoType,
 } from "../_schema/PersonalInfoSchema";
 import { useUser } from "@clerk/clerk-react";
+import { NextResponse } from "next/server";
 
 const ApplyForm = ({
   department_questions,
@@ -55,6 +60,15 @@ const ApplyForm = ({
     () => [...modified_department_questions, ...modified_general_questions],
     [modified_department_questions, modified_general_questions]
   );
+
+  const [activeTab, setActiveTab] = useState("personal-info");
+  const { toast } = useToast();
+  const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
+  const [studentID, setStudentID] = useState("VS");
+  const [schoolEmail, setSchoolEmail] = useState("@stu.vinschool.edu.vn");
+  const [manual, setManual] = useState(false);
+  const { user } = useUser();
+  // const [defaultData, setDefaultData] = useState({});
 
   const dynamicQuestionSchema = z.object(
     sanitizedData.reduce((acc, item) => {
@@ -84,7 +98,6 @@ const ApplyForm = ({
   type FormSanitizedData = z.infer<typeof formSchema>;
   type DynamicQuestionType = z.infer<typeof dynamicQuestionSchema>;
   type CombinedType = FormSanitizedData & DynamicQuestionType;
-
   const form = useForm<FormSanitizedData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -92,28 +105,73 @@ const ApplyForm = ({
       ...dynamicQuestionsDefault,
     },
   });
-
   const { formState } = form;
-  const [activeTab, setActiveTab] = useState("personal-info");
-  const { toast } = useToast();
-  const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
-  const [studentID, setStudentID] = useState("VS");
-  const [schoolEmail, setSchoolEmail] = useState("@stu.vinschool.edu.vn");
-  const [manual, setManual] = useState(false);
-  const { user } = useUser();
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch("/api/recruit/get", {
+        method: "POST",
+        body: JSON.stringify({ user_id: user?.id }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data: any = await res.json();
+
+      if (!res.ok) {
+        const errorMessage = await res.text();
+        return NextResponse.json({ error: errorMessage }, { status: 200 });
+      }
+      if (data.recruit) {
+        const personalInfo = data.recruit.personal_info;
+
+        if (personalInfo) {
+          if (personalInfo.name) {
+            form.setValue("name", personalInfo.name);
+          }
+          if (personalInfo.school_email) {
+            form.setValue("school_email", personalInfo.school_email);
+            setSchoolEmail(personalInfo.school_email);
+            setManual(true);
+          }
+          if (personalInfo.student_id) {
+            form.setValue("student_id", personalInfo.student_id);
+            setStudentID(personalInfo.student_id);
+          }
+          if (personalInfo.facebook) {
+            form.setValue("facebook", personalInfo.facebook);
+          }
+          if (personalInfo.private_email) {
+            form.setValue("private_email", personalInfo.private_email);
+          }
+          if (personalInfo.class) {
+            form.setValue("class", personalInfo.class);
+          }
+        }
+
+        for (const question of sanitizedData) {
+          if (modified_department_questions.includes(question)) {
+            if (data.recruit.department_questions.response[department]) {
+              form.setValue(
+                question,
+                data.recruit.department_questions.response[department][question]
+              );
+            }
+          } else if (modified_general_questions.includes(question)) {
+            if (data.recruit.general_questions.response) {
+              form.setValue(
+                question,
+                data.recruit.general_questions.response[question]
+              );
+            }
+          }
+        }
+      }
+    }
+    fetchData();
+  }, [user?.id]);
 
   async function onSubmit(values: CombinedType) {
-    interface Response {
-      user_id: string | undefined;
-      personal_info: Record<string, string | undefined>;
-      department_questions: {
-        response: Record<string, Record<string, string | boolean | undefined>>;
-      };
-      general_questions: {
-        response: Record<string, string | undefined>;
-      };
-    }
-
     const response: Response = {
       user_id: user?.id,
       personal_info: {},
@@ -135,8 +193,7 @@ const ApplyForm = ({
           values[key as keyof PersonalInfoType];
       }
     });
-    console.log(response);
-    const res = await fetch("/api/recruit", {
+    const res = await fetch("/api/recruit/save", {
       method: "POST",
       body: JSON.stringify(response),
       headers: {
@@ -225,7 +282,10 @@ const ApplyForm = ({
             <TabsTrigger value="general-questions" className="flex-1 py-2">
               Câu hỏi chung
             </TabsTrigger>
-            <TabsTrigger value="department-questions" className="flex-1 py-2">
+            <TabsTrigger
+              value="department-questions"
+              className="flex-1 py-2 text-primary"
+            >
               Câu hỏi chuyên môn
             </TabsTrigger>
           </TabsList>

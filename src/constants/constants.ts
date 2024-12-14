@@ -122,3 +122,14 @@ export const FULL_CORE_TITLE = (id: string) => {
 
 export const CLICK_SOUND_URL = "/sounds/click.mp3";
 export const CLICK_SOUND_VOLUME = 0.05;
+
+export interface Response {
+  user_id: string | undefined;
+  personal_info: Record<string, string | undefined>;
+  department_questions: {
+    response: Record<string, Record<string, string | boolean | undefined>>;
+  };
+  general_questions: {
+    response: Record<string, string | undefined>;
+  };
+}
