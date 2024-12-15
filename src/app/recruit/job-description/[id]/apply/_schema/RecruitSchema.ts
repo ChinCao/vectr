@@ -3,12 +3,12 @@ import mongoose, { Schema } from "mongoose";
 import { PersonalInfoType } from "./PersonalInfoSchema";
 
 const PersonalInfoSchema = new Schema<PersonalInfoType>({
-  name: { type: String, required: true },
-  class: { type: String, required: true },
-  student_id: { type: String, required: true },
-  facebook: { type: String, required: true },
-  private_email: { type: String, required: true },
-  school_email: { type: String, required: true },
+  name: { type: String, required: false },
+  class: { type: String, required: false },
+  student_id: { type: String, required: false },
+  facebook: { type: String, required: false },
+  private_email: { type: String, required: false },
+  school_email: { type: String, required: false },
   instagram: { type: String, required: false },
 });
 

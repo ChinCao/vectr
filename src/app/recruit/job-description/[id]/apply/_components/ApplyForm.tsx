@@ -1,10 +1,10 @@
 "use client";
 import { z, ZodOptional, ZodString } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, setValue } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
@@ -38,6 +38,13 @@ import {
 } from "../_schema/PersonalInfoSchema";
 import { useUser } from "@clerk/clerk-react";
 import { NextResponse } from "next/server";
+import { useDebounce } from "../_hook/useDebounce";
+import { useNavigationGuard } from "next-navigation-guard";
+import {
+  MdOutlineCloudDone,
+  MdOutlineCloudDownload,
+  MdOutlineCloudUpload,
+} from "react-icons/md";
 
 const ApplyForm = ({
   department_questions,
@@ -68,7 +75,7 @@ const ApplyForm = ({
   const [schoolEmail, setSchoolEmail] = useState("@stu.vinschool.edu.vn");
   const [manual, setManual] = useState(false);
   const { user } = useUser();
-  // const [defaultData, setDefaultData] = useState({});
+  const [isFetching, setIsFetching] = useState(true);
 
   const dynamicQuestionSchema = z.object(
     sanitizedData.reduce((acc, item) => {
@@ -111,13 +118,12 @@ const ApplyForm = ({
     async function fetchData() {
       const res = await fetch("/api/recruit/get", {
         method: "POST",
-        body: JSON.stringify({ user_id: user?.id }),
+        body: JSON.stringify({ user_id: user?.id, department: department }),
         headers: {
           "Content-Type": "application/json",
         },
       });
       const data: any = await res.json();
-
       if (!res.ok) {
         const errorMessage = await res.text();
         return NextResponse.json({ error: errorMessage }, { status: 200 });
@@ -167,7 +173,9 @@ const ApplyForm = ({
           }
         }
       }
+      setIsFetching(false);
     }
+
     fetchData();
   }, [user?.id]);
 
@@ -200,10 +208,33 @@ const ApplyForm = ({
         "Content-Type": "application/json",
       },
     });
+
     if (!res.ok) {
       throw new Error("Failed to create response.");
     }
   }
+
+  const isSavedRef = useRef(true);
+  const watchedValues = useMemo(() => form.watch(), [form]);
+  const debouncedValues = useDebounce(watchedValues, 2000, isSavedRef);
+  useEffect(() => {
+    if (debouncedValues && !isFetching) {
+      onSubmit(watchedValues);
+      isSavedRef.current = true;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedValues]);
+
+  const navGuard = useNavigationGuard({
+    enabled: !isSavedRef.current,
+  });
+
+  useEffect(() => {
+    if (navGuard.active) {
+      onSubmit(watchedValues);
+      navGuard.accept();
+    }
+  }, [navGuard, isSavedRef]);
 
   useEffect(() => {
     const hasPersonalInfoErrors = Object.keys(formState.errors).some((key) =>
@@ -265,6 +296,7 @@ const ApplyForm = ({
         }
         className="w-full top-[0] z-[1000] h-[3px] fixed"
       />
+
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 w-full flex items-center justify-center "
@@ -275,6 +307,21 @@ const ApplyForm = ({
           onValueChange={setActiveTab}
           className="px-2 lg:px-12 py-8 mt-8 w-full lg:w-[80%]"
         >
+          {isSavedRef.current && !isFetching ? (
+            <div className="flex items-center justify-start gap-4 mb-4 text-green-900">
+              <MdOutlineCloudDone /> Mọi dữ liệu đã được lưu
+            </div>
+          ) : isFetching ? (
+            <div className="flex items-center justify-start gap-4 mb-4 text-primary">
+              <MdOutlineCloudDownload />
+              Đang lấy thông tin từ cơ sở dữ liệu
+            </div>
+          ) : (
+            <div className="flex items-center justify-start gap-4 mb-4 text-red-600">
+              <MdOutlineCloudUpload />
+              Đang lưu câu trả lời của bạn
+            </div>
+          )}
           <TabsList className="flex items-center h-[max-content] justify-center flex-wrap flex-row p-2 mb-8">
             <TabsTrigger value="personal-info" className="flex-1 py-2">
               Thông tin cá nhân
@@ -293,6 +340,7 @@ const ApplyForm = ({
           <TabsContent value="personal-info" className="flex flex-col gap-8">
             <PersonalInfo
               form={form}
+              isFetching={isFetching}
               studentID={studentID}
               schoolEmail={schoolEmail}
               setSchoolEmail={setSchoolEmail}
@@ -317,6 +365,7 @@ const ApplyForm = ({
               form={form}
               modified_general_questions={modified_general_questions}
               general_questions={general_questions}
+              isFetching={isFetching}
             />
             <TabsList className="w-full flex flex-col gap-5 mt-4">
               <ApplyTabTrigger
@@ -337,6 +386,7 @@ const ApplyForm = ({
           >
             <DepartmentQuestions
               form={form}
+              isFetching={isFetching}
               department_questions={department_questions}
               modified_department_questions={modified_department_questions}
             />

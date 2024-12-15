@@ -20,8 +20,8 @@ const JobDescription = async ({ params }: PageProps) => {
       <title>{FULL_CORE_TITLE(decodedID)}</title>
       <div className="flex flex-col items-center">
         <div className="flex bg-gray-100 w-[100vw]">
-          <div className="container flex flex-col md:flex-row md:gap-6 pt-14 pb-8 items-center justify-center">
-            <div className="flex flex-col items-center md:items-start gap-5 w-[90%] md:w-[40%] order-1 md:order-[0] ">
+          <div className="container flex flex-col md:flex-row md:gap-16 pt-14 pb-8 items-center justify-center">
+            <div className="flex flex-col items-center md:items-start gap-5 w-[90%] md:w-[50%] order-1 md:order-[0] ">
               <h1 className="text-3xl font-semibold">
                 {FULL_CORE_TITLE(decodedID)}
               </h1>

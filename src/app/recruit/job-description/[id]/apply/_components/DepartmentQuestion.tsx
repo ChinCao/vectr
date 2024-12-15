@@ -7,16 +7,19 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn } from "react-hook-form";
+import QuestionFallBack from "./QuestionFallBack";
 
 const DepartmentQuestions = ({
   form,
   modified_department_questions,
   department_questions,
+  isFetching,
 }: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: UseFormReturn<any>;
   modified_department_questions: string[];
   department_questions: string[];
+  isFetching: boolean;
 }) => {
   return (
     <>
@@ -32,7 +35,7 @@ const DepartmentQuestions = ({
                 {index + 1}. {department_questions[index]}
               </FormLabel>
               <FormControl>
-                <Textarea {...field} />
+                {isFetching ? <QuestionFallBack /> : <Textarea {...field} />}
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -5,11 +5,19 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   const body = await req.json();
   const user_id = body.user_id;
+  const department = body.department;
+
   await ConnectDB();
   try {
+    const projection = {
+      [`department_questions.response.${department}`]: 1,
+      general_questions: 1,
+      personal_info: 1,
+    };
     const recruit = await RecruitResponse.findOne({ user_id: user_id }).select(
-      "department_questions general_questions personal_info"
+      projection
     );
+
     return NextResponse.json({ recruit }, { status: 200 });
   } catch (error) {
     console.log(error);

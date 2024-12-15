@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
+import QuestionFallBack from "./QuestionFallBack";
 
 interface PersonalInfoProps {
   studentID: string;
@@ -17,11 +18,13 @@ interface PersonalInfoProps {
   setManual: React.Dispatch<React.SetStateAction<boolean>>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: UseFormReturn<any>;
+  isFetching: boolean;
 }
 
 const PersonalInfo = ({
   form,
   studentID,
+  isFetching,
   setStudentID,
   schoolEmail,
   setSchoolEmail,
@@ -38,7 +41,7 @@ const PersonalInfo = ({
           <FormItem>
             <FormLabel className="text-md">1. Họ và tên</FormLabel>
             <FormControl>
-              <Input {...field} />
+              {isFetching ? <QuestionFallBack /> : <Input {...field} />}
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -51,21 +54,25 @@ const PersonalInfo = ({
           <FormItem>
             <FormLabel className="text-md">2. Mã số học sinh</FormLabel>
             <FormControl>
-              <Input
-                {...field}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  field.onChange(e);
-                  if (!manual) {
-                    setSchoolEmail(
-                      (e.target.value.match(/\d+/)
-                        ? e.target.value.match(/\d+/)
-                        : "") + "@stu.vinschool.edu.vn"
-                    );
-                  }
-                  setStudentID(e.target.value);
-                }}
-                value={studentID}
-              />
+              {isFetching ? (
+                <QuestionFallBack />
+              ) : (
+                <Input
+                  {...field}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    field.onChange(e);
+                    if (!manual) {
+                      setSchoolEmail(
+                        (e.target.value.match(/\d+/)
+                          ? e.target.value.match(/\d+/)
+                          : "") + "@stu.vinschool.edu.vn"
+                      );
+                    }
+                    setStudentID(e.target.value);
+                  }}
+                  value={studentID}
+                />
+              )}
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -78,7 +85,7 @@ const PersonalInfo = ({
           <FormItem>
             <FormLabel className="text-md">3. Lớp</FormLabel>
             <FormControl>
-              <Input {...field} />
+              {isFetching ? <QuestionFallBack /> : <Input {...field} />}
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -91,17 +98,21 @@ const PersonalInfo = ({
           <FormItem>
             <FormLabel className="text-md">4. Email trường</FormLabel>
             <FormControl>
-              <Input
-                {...field}
-                value={schoolEmail}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  field.onChange(e);
-                  if (!manual) {
-                    setManual(!manual);
-                  }
-                  setSchoolEmail(e.target.value);
-                }}
-              />
+              {isFetching ? (
+                <QuestionFallBack />
+              ) : (
+                <Input
+                  {...field}
+                  value={schoolEmail}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    field.onChange(e);
+                    if (!manual) {
+                      setManual(!manual);
+                    }
+                    setSchoolEmail(e.target.value);
+                  }}
+                />
+              )}
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -116,7 +127,7 @@ const PersonalInfo = ({
               5. Email riêng {`(để làm việc)`}
             </FormLabel>
             <FormControl>
-              <Input {...field} />
+              {isFetching ? <QuestionFallBack /> : <Input {...field} />}
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -131,7 +142,7 @@ const PersonalInfo = ({
               6. Link profile <span className="text-[#0966ff]">Facebook</span>
             </FormLabel>
             <FormControl>
-              <Input {...field} />
+              {isFetching ? <QuestionFallBack /> : <Input {...field} />}
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -146,7 +157,7 @@ const PersonalInfo = ({
               7. Link profile <span className="text-[#E1306C]">Instagram</span>
             </FormLabel>
             <FormControl>
-              <Input {...field} />
+              {isFetching ? <QuestionFallBack /> : <Input {...field} />}
             </FormControl>
             <FormMessage />
           </FormItem>

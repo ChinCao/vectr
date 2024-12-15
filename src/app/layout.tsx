@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { FaFacebook } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
+import { NavigationGuardProvider } from "next-navigation-guard";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,7 +33,8 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
         >
-          {children}
+          <NavigationGuardProvider>{children}</NavigationGuardProvider>
+
           <footer className="pb-5 pt-3 border-t-2 flex items-center justify-evenly flex-wrap gap-10">
             VECTR© 2024
             <div className="flex gap-2 items-center justify-center flex-wrap">

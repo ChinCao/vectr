@@ -7,16 +7,19 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn } from "react-hook-form";
+import QuestionFallBack from "./QuestionFallBack";
 
 const GeneralQuestions = ({
   form,
   modified_general_questions,
   general_questions,
+  isFetching,
 }: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: UseFormReturn<any>;
   modified_general_questions: string[];
   general_questions: string[];
+  isFetching: boolean;
 }) => {
   return (
     <>
@@ -32,7 +35,7 @@ const GeneralQuestions = ({
                 {index + 1}. {general_questions[index]}
               </FormLabel>
               <FormControl>
-                <Textarea {...field} />
+                {isFetching ? <QuestionFallBack /> : <Textarea {...field} />}
               </FormControl>
               <FormMessage />
             </FormItem>
