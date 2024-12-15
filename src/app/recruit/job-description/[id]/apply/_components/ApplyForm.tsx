@@ -208,25 +208,25 @@ const ApplyForm = ({
         "Content-Type": "application/json",
       },
     });
+    setIsSavedRef(true);
 
     if (!res.ok) {
       throw new Error("Failed to create response.");
     }
   }
 
-  const isSavedRef = useRef(true);
+  const [isSavedRef, setIsSavedRef] = useState(true);
   const watchedValues = useMemo(() => form.watch(), [form]);
-  const debouncedValues = useDebounce(watchedValues, 2000, isSavedRef);
+  const debouncedValues = useDebounce(watchedValues, 2000, setIsSavedRef);
   useEffect(() => {
     if (debouncedValues && !isFetching) {
       onSubmit(watchedValues);
-      isSavedRef.current = true;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValues]);
 
   const navGuard = useNavigationGuard({
-    enabled: !isSavedRef.current,
+    enabled: !isSavedRef,
   });
 
   useEffect(() => {
@@ -307,7 +307,7 @@ const ApplyForm = ({
           onValueChange={setActiveTab}
           className="px-2 lg:px-12 py-8 mt-8 w-full lg:w-[80%]"
         >
-          {isSavedRef.current && !isFetching ? (
+          {isSavedRef && !isFetching ? (
             <div className="flex items-center justify-start gap-4 mb-4 text-green-900">
               <MdOutlineCloudDone /> Mọi dữ liệu đã được lưu
             </div>
@@ -316,12 +316,12 @@ const ApplyForm = ({
               <MdOutlineCloudDownload />
               Đang lấy thông tin từ cơ sở dữ liệu
             </div>
-          ) : (
+          ) : !isSavedRef ? (
             <div className="flex items-center justify-start gap-4 mb-4 text-red-600">
               <MdOutlineCloudUpload />
               Đang lưu câu trả lời của bạn
             </div>
-          )}
+          ) : null}
           <TabsList className="flex items-center h-[max-content] justify-center flex-wrap flex-row p-2 mb-8">
             <TabsTrigger value="personal-info" className="flex-1 py-2">
               Thông tin cá nhân
