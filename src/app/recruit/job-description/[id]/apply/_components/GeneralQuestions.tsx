@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn } from "react-hook-form";
 import QuestionFallBack from "./QuestionFallBack";
 import { useRef, useEffect } from "react";
+import { RESPONSE_MAX_CHARACTER } from "@/constants/constants";
 
 const GeneralQuestions = ({
   form,
@@ -53,7 +54,9 @@ const GeneralQuestions = ({
                   <QuestionFallBack />
                 ) : (
                   <Textarea
+                    className="resize-none scrollbar-hide overflow-hidden"
                     value={value}
+                    maxLength={RESPONSE_MAX_CHARACTER + 1}
                     ref={(el) => {
                       refs.current[index] = el;
                     }}

@@ -26,6 +26,7 @@ import {
   CLICK_SOUND_VOLUME,
   FULL_CORE_TITLE,
   Response,
+  RESPONSE_MAX_CHARACTER,
 } from "@/constants/constants";
 import { Progress } from "@/components/ui/progress";
 import PersonalInfo from "./PersonalInfo";
@@ -88,11 +89,15 @@ const ApplyForm = ({
       acc[item] = item.includes("(optional)")
         ? z
             .string()
-            .max(3000, { message: "Không được vượt quá 3000 ký tự" })
+            .max(RESPONSE_MAX_CHARACTER, {
+              message: `Không được vượt quá ${RESPONSE_MAX_CHARACTER} ký tự`,
+            })
             .optional()
         : z
             .string()
-            .max(3000, { message: "Không được vượt quá 3000 ký tự" })
+            .max(RESPONSE_MAX_CHARACTER, {
+              message: `Không được vượt quá ${RESPONSE_MAX_CHARACTER} ký tự`,
+            })
             .nonempty({ message: "Không được để trống, hãy viết gì đó nhé!" });
       return acc;
     }, {} as Record<string, ZodOptional<ZodString> | ZodString>)
@@ -117,7 +122,7 @@ const ApplyForm = ({
       ...PersonalInfoSchemaDefault,
       ...dynamicQuestionsDefault,
     },
-    mode: "onSubmit",
+    mode: "onChange",
   });
   const { formState } = form;
 

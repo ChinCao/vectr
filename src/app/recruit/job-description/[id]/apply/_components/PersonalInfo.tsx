@@ -8,6 +8,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import QuestionFallBack from "./QuestionFallBack";
+import { INFO_MAX_CHARACTER } from "@/constants/constants";
 
 interface PersonalInfoProps {
   studentID: string;
@@ -45,6 +46,7 @@ const PersonalInfo = ({
                 <QuestionFallBack />
               ) : (
                 <Input
+                  maxLength={INFO_MAX_CHARACTER + 1}
                   value={value}
                   ref={ref}
                   onChange={(e) => {
@@ -68,6 +70,7 @@ const PersonalInfo = ({
                 <QuestionFallBack />
               ) : (
                 <Input
+                  maxLength={INFO_MAX_CHARACTER + 1}
                   ref={ref}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     onChange(e);
@@ -99,6 +102,7 @@ const PersonalInfo = ({
                 <QuestionFallBack />
               ) : (
                 <Input
+                  maxLength={INFO_MAX_CHARACTER + 1}
                   value={value}
                   ref={ref}
                   onChange={(e) => {
@@ -122,6 +126,7 @@ const PersonalInfo = ({
                 <QuestionFallBack />
               ) : (
                 <Input
+                  maxLength={INFO_MAX_CHARACTER + 1}
                   value={schoolEmail}
                   ref={ref}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,6 +156,7 @@ const PersonalInfo = ({
                 <QuestionFallBack />
               ) : (
                 <Input
+                  maxLength={INFO_MAX_CHARACTER + 1}
                   value={value}
                   ref={ref}
                   onChange={(e) => {
@@ -176,6 +182,7 @@ const PersonalInfo = ({
                 <QuestionFallBack />
               ) : (
                 <Input
+                  maxLength={INFO_MAX_CHARACTER * 5 + 1}
                   value={value}
                   ref={ref}
                   onChange={(e) => {
@@ -201,6 +208,7 @@ const PersonalInfo = ({
                 <QuestionFallBack />
               ) : (
                 <Input
+                  maxLength={INFO_MAX_CHARACTER * 5 + 1}
                   value={value}
                   ref={ref}
                   onChange={(e) => {
