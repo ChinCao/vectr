@@ -139,7 +139,6 @@ const ApplyForm = ({
         },
       });
       const data: any = await res.json();
-      // console.log(data);
       if (!res.ok) {
         const errorMessage = await res.text();
         return NextResponse.json({ error: errorMessage }, { status: 200 });
@@ -200,7 +199,6 @@ const ApplyForm = ({
           }
         }
       } else {
-        console.log("new user");
         setNewUser(true);
       }
 
@@ -235,7 +233,6 @@ const ApplyForm = ({
           values[key as keyof PersonalInfoType];
       }
     });
-    console.log(response);
     const res = await fetch("/api/recruit/save", {
       method: "POST",
       body: JSON.stringify(response),
@@ -244,7 +241,6 @@ const ApplyForm = ({
       },
     });
     if (submit) {
-      console.log("submit success");
       setHasSubmit(true);
     }
     setIsSavedRef(true);
@@ -261,7 +257,6 @@ const ApplyForm = ({
   const debouncedValues = useDebounce(watchedValues, 2000, setIsSavedRef);
   useEffect(() => {
     async function bruh() {
-      console.log(isFetching, hasSubmit);
       if (debouncedValues && !isFetching && !hasSubmit) {
         await saveToDatabase(watchedValues);
       } else if (hasSubmit) {
@@ -352,7 +347,7 @@ const ApplyForm = ({
 
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 w-full flex items-center justify-center "
+            className="space-y-8 w-full flex items-center justify-center"
           >
             <Tabs
               defaultValue="personal-info"
@@ -361,7 +356,7 @@ const ApplyForm = ({
               className="px-2 lg:px-12 py-8 mt-8 w-full lg:w-[80%]"
             >
               {isSavedRef && !isFetching ? (
-                <div className="flex items-center justify-start gap-4 mb-4 text-green-900">
+                <div className="flex items-center justify-start gap-4 mb-4 text-green-900 flex-col sm:flex-row">
                   <MdOutlineCloudDone /> Mọi dữ liệu đã được lưu
                 </div>
               ) : isFetching ? (
@@ -372,7 +367,7 @@ const ApplyForm = ({
                   </p>
                 </div>
               ) : !isSavedRef ? (
-                <div className="flex items-center justify-start gap-4 mb-4 text-red-600">
+                <div className="flex items-center justify-start gap-4 mb-4 text-red-600 flex-col sm:flex-row">
                   <MdOutlineCloudUpload />
                   Đang lưu câu trả lời của bạn
                 </div>
@@ -394,7 +389,7 @@ const ApplyForm = ({
 
               <TabsContent
                 value="personal-info"
-                className="flex flex-col gap-8"
+                className="flex flex-col gap-4 rounded"
               >
                 <PersonalInfo
                   form={form}
@@ -407,7 +402,7 @@ const ApplyForm = ({
                   setStudentID={setStudentID}
                 />
 
-                <TabsList className="w-full">
+                <TabsList className="w-full bg-[transparent]">
                   <ApplyTabTrigger
                     direction="right"
                     value="general-questions"
@@ -425,7 +420,7 @@ const ApplyForm = ({
                   general_questions={general_questions}
                   isFetching={isFetching}
                 />
-                <TabsList className="w-full flex flex-col gap-5 mt-4">
+                <TabsList className="w-full flex flex-col gap-5 mt-4 bg-[transparent]">
                   <ApplyTabTrigger
                     direction="right"
                     value="department-questions"
@@ -440,7 +435,7 @@ const ApplyForm = ({
               </TabsContent>
               <TabsContent
                 value="department-questions"
-                className="flex flex-col gap-8"
+                className="flex flex-col gap-4"
               >
                 <DepartmentQuestions
                   form={form}
@@ -448,7 +443,7 @@ const ApplyForm = ({
                   department_questions={department_questions}
                   modified_department_questions={modified_department_questions}
                 />
-                <TabsList className="w-full flex flex-col gap-5 my-4">
+                <TabsList className="w-full flex flex-col gap-5 my-4 bg-[transparent]">
                   <ApplyTabTrigger
                     direction="left"
                     value="general-questions"
@@ -471,7 +466,7 @@ const ApplyForm = ({
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button
-                      className="w-full"
+                      className="w-full mt-5"
                       type="button"
                       onClick={() => playClick()}
                     >

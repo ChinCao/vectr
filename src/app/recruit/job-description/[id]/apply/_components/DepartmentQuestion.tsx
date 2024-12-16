@@ -46,7 +46,7 @@ const DepartmentQuestions = ({
           control={form.control}
           name={question}
           render={({ field: { onChange, value } }) => (
-            <FormItem>
+            <FormItem className="bg-white rounded p-4">
               <FormLabel className="text-md">
                 {index + 1}. {department_questions[index]}
               </FormLabel>
