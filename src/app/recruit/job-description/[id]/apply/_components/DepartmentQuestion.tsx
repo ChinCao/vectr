@@ -1,3 +1,4 @@
+"use client";
 import {
   FormControl,
   FormField,
@@ -8,6 +9,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn } from "react-hook-form";
 import QuestionFallBack from "./QuestionFallBack";
+import { useEffect, useRef } from "react";
 
 const DepartmentQuestions = ({
   form,
@@ -21,6 +23,19 @@ const DepartmentQuestions = ({
   department_questions: string[];
   isFetching: boolean;
 }) => {
+  const refs = useRef<(HTMLTextAreaElement | null)[]>([]);
+
+  useEffect(() => {
+    if (!isFetching) {
+      refs.current.forEach((textarea) => {
+        if (textarea) {
+          textarea.style.height = "inherit";
+          textarea.style.height = `${textarea.scrollHeight}px`;
+        }
+      });
+    }
+  }, [isFetching]);
+
   return (
     <>
       <h1 className="font-bold text-2xl text-primary ">Câu hỏi chuyên môn</h1>
@@ -29,7 +44,7 @@ const DepartmentQuestions = ({
           key={question}
           control={form.control}
           name={question}
-          render={({ field: { onChange, value, ref } }) => (
+          render={({ field: { onChange, value } }) => (
             <FormItem>
               <FormLabel className="text-md">
                 {index + 1}. {department_questions[index]}
@@ -39,10 +54,18 @@ const DepartmentQuestions = ({
                   <QuestionFallBack />
                 ) : (
                   <Textarea
+                    className="resize-none"
                     value={value}
-                    ref={ref}
+                    ref={(el) => {
+                      refs.current[index] = el;
+                    }}
                     onChange={(e) => {
                       onChange(e.target.value);
+                      refs.current[index]!.style.height = "inherit";
+
+                      refs.current[index]!.style.height = `${
+                        refs.current[index]!.scrollHeight
+                      }px`;
                     }}
                   />
                 )}

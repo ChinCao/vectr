@@ -8,6 +8,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn } from "react-hook-form";
 import QuestionFallBack from "./QuestionFallBack";
+import { useRef, useEffect } from "react";
 
 const GeneralQuestions = ({
   form,
@@ -21,6 +22,19 @@ const GeneralQuestions = ({
   general_questions: string[];
   isFetching: boolean;
 }) => {
+  const refs = useRef<(HTMLTextAreaElement | null)[]>([]);
+
+  useEffect(() => {
+    if (!isFetching) {
+      refs.current.forEach((textarea) => {
+        if (textarea) {
+          textarea.style.height = "inherit";
+          textarea.style.height = `${textarea.scrollHeight}px`;
+        }
+      });
+    }
+  }, [isFetching]);
+
   return (
     <>
       <h1 className="font-bold text-2xl text-primary ">Câu hỏi chung</h1>
@@ -29,7 +43,7 @@ const GeneralQuestions = ({
           key={question}
           control={form.control}
           name={question}
-          render={({ field: { onChange, value, ref } }) => (
+          render={({ field: { onChange, value } }) => (
             <FormItem>
               <FormLabel className="text-md">
                 {index + 1}. {general_questions[index]}
@@ -40,9 +54,16 @@ const GeneralQuestions = ({
                 ) : (
                   <Textarea
                     value={value}
-                    ref={ref}
+                    ref={(el) => {
+                      refs.current[index] = el;
+                    }}
                     onChange={(e) => {
                       onChange(e.target.value);
+                      refs.current[index]!.style.height = "inherit";
+
+                      refs.current[index]!.style.height = `${
+                        refs.current[index]!.scrollHeight
+                      }px`;
                     }}
                   />
                 )}

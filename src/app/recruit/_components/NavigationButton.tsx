@@ -11,12 +11,14 @@ const NavigationButton = ({
   direction,
   href,
   button_className,
+  noArrow,
 }: {
   className?: string;
   text: string;
-  direction: "left" | "right";
+  direction?: "left" | "right";
   href: string;
   button_className?: string;
+  noArrow?: boolean;
 }) => {
   const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
 
@@ -32,11 +34,11 @@ const NavigationButton = ({
         <h3 className={`${direction == "right" ? "order-[0]" : "order-1"}`}>
           {text}
         </h3>
-        {direction == "right" ? (
+        {direction == "right" && !noArrow ? (
           <FaLongArrowAltRight color="white" className="order-1" />
-        ) : (
+        ) : direction == "left" && !noArrow ? (
           <FaLongArrowAltLeft color="white" className="order-[0]" />
-        )}
+        ) : null}
       </Button>
     </Link>
   );

@@ -4,13 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import {
-  BaseSyntheticEvent,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
@@ -30,6 +24,7 @@ import useSound from "use-sound";
 import {
   CLICK_SOUND_URL,
   CLICK_SOUND_VOLUME,
+  FULL_CORE_TITLE,
   Response,
 } from "@/constants/constants";
 import { Progress } from "@/components/ui/progress";
@@ -51,6 +46,9 @@ import {
   MdOutlineCloudDownload,
   MdOutlineCloudUpload,
 } from "react-icons/md";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { IoMdCheckmarkCircle } from "react-icons/io";
+import NavigationButton from "@/app/recruit/_components/NavigationButton";
 
 const ApplyForm = ({
   department_questions,
@@ -83,6 +81,7 @@ const ApplyForm = ({
   const { user } = useUser();
   const [isFetching, setIsFetching] = useState(true);
   const [hasSubmit, setHasSubmit] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const dynamicQuestionSchema = z.object(
     sanitizedData.reduce((acc, item) => {
@@ -188,6 +187,9 @@ const ApplyForm = ({
   }, [user?.id]);
 
   async function saveToDatabase(values: CombinedType, submit?: boolean) {
+    if (submit) {
+      setIsSubmitting(true);
+    }
     const response: Response = {
       user_id: user?.id,
       personal_info: {},
@@ -216,9 +218,11 @@ const ApplyForm = ({
         "Content-Type": "application/json",
       },
     });
-    setHasSubmit(true);
+    if (submit) {
+      setHasSubmit(true);
+    }
     setIsSavedRef(true);
-
+    setIsSubmitting(false);
     if (!res.ok) {
       throw new Error("Failed to create response.");
     }
@@ -228,7 +232,7 @@ const ApplyForm = ({
   };
   const [isSavedRef, setIsSavedRef] = useState(true);
   const watchedValues = useMemo(() => form.watch(), [form]);
-  const debouncedValues = useDebounce(watchedValues, 3000, setIsSavedRef);
+  const debouncedValues = useDebounce(watchedValues, 2000, setIsSavedRef);
   useEffect(() => {
     async function bruh() {
       if (debouncedValues && !isFetching && !hasSubmit) {
@@ -240,7 +244,7 @@ const ApplyForm = ({
     bruh();
     console.log(form.formState.dirtyFields);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedValues]);
+  }, [debouncedValues, isFetching]);
 
   const navGuard = useNavigationGuard({
     enabled: !isSavedRef,
@@ -300,163 +304,197 @@ const ApplyForm = ({
   ]);
 
   return (
-    <Form {...form}>
-      <Progress
-        value={
-          activeTab === "personal-info"
-            ? (100 / 3) * 1
-            : activeTab === "general-questions"
-            ? (100 / 3) * 2
-            : activeTab === "department-questions"
-            ? (100 / 3) * 3
-            : 0
-        }
-        className="w-full top-[0] z-[1000] h-[3px] fixed"
-      />
+    <>
+      {!hasSubmit ? (
+        <Form {...form}>
+          <Progress
+            value={
+              activeTab === "personal-info"
+                ? (100 / 3) * 1
+                : activeTab === "general-questions"
+                ? (100 / 3) * 2
+                : activeTab === "department-questions"
+                ? (100 / 3) * 3
+                : 0
+            }
+            className="w-full top-[0] z-[1000] h-[3px] fixed"
+          />
 
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 w-full flex items-center justify-center "
-      >
-        <Tabs
-          defaultValue="personal-info"
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className="px-2 lg:px-12 py-8 mt-8 w-full lg:w-[80%]"
-        >
-          {isSavedRef && !isFetching ? (
-            <div className="flex items-center justify-start gap-4 mb-4 text-green-900">
-              <MdOutlineCloudDone /> Mọi dữ liệu đã được lưu
-            </div>
-          ) : isFetching ? (
-            <div className="flex items-center justify-start gap-4 mb-4 text-primary">
-              <MdOutlineCloudDownload />
-              Đang lấy thông tin từ cơ sở dữ liệu
-            </div>
-          ) : !isSavedRef ? (
-            <div className="flex items-center justify-start gap-4 mb-4 text-red-600">
-              <MdOutlineCloudUpload />
-              Đang lưu câu trả lời của bạn
-            </div>
-          ) : null}
-          <TabsList className="flex items-center h-[max-content] justify-center flex-wrap flex-row p-2 mb-8">
-            <TabsTrigger value="personal-info" className="flex-1 py-2">
-              Thông tin cá nhân
-            </TabsTrigger>
-            <TabsTrigger value="general-questions" className="flex-1 py-2">
-              Câu hỏi chung
-            </TabsTrigger>
-            <TabsTrigger
-              value="department-questions"
-              className="flex-1 py-2 text-primary"
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-8 w-full flex items-center justify-center "
+          >
+            <Tabs
+              defaultValue="personal-info"
+              value={activeTab}
+              onValueChange={setActiveTab}
+              className="px-2 lg:px-12 py-8 mt-8 w-full lg:w-[80%]"
             >
-              Câu hỏi chuyên môn
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="personal-info" className="flex flex-col gap-8">
-            <PersonalInfo
-              form={form}
-              isFetching={isFetching}
-              studentID={studentID}
-              schoolEmail={schoolEmail}
-              setSchoolEmail={setSchoolEmail}
-              manual={manual}
-              setManual={setManual}
-              setStudentID={setStudentID}
-            />
-
-            <TabsList className="w-full">
-              <ApplyTabTrigger
-                direction="right"
-                value="general-questions"
-                text="Câu hỏi chung"
-              />
-            </TabsList>
-          </TabsContent>
-          <TabsContent
-            value="general-questions"
-            className="flex flex-col gap-8"
-          >
-            <GeneralQuestions
-              form={form}
-              modified_general_questions={modified_general_questions}
-              general_questions={general_questions}
-              isFetching={isFetching}
-            />
-            <TabsList className="w-full flex flex-col gap-5 mt-4">
-              <ApplyTabTrigger
-                direction="right"
-                value="department-questions"
-                text="Câu hỏi chuyên môn"
-              />
-              <ApplyTabTrigger
-                direction="left"
-                value="personal-info"
-                text="Thông tin cá nhân"
-              />
-            </TabsList>
-          </TabsContent>
-          <TabsContent
-            value="department-questions"
-            className="flex flex-col gap-8"
-          >
-            <DepartmentQuestions
-              form={form}
-              isFetching={isFetching}
-              department_questions={department_questions}
-              modified_department_questions={modified_department_questions}
-            />
-            <TabsList className="w-full flex flex-col gap-5 my-4">
-              <ApplyTabTrigger
-                direction="left"
-                value="general-questions"
-                text="Câu hỏi chung"
-              />
-              <ApplyTabTrigger
-                direction="left"
-                value="personal-info"
-                text="Thông tin cá nhân"
-              />
-            </TabsList>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button
-                  className="w-full"
-                  type="button"
-                  onClick={() => playClick()}
+              {isSavedRef && !isFetching ? (
+                <div className="flex items-center justify-start gap-4 mb-4 text-green-900">
+                  <MdOutlineCloudDone /> Mọi dữ liệu đã được lưu
+                </div>
+              ) : isFetching ? (
+                <div className="flex items-center justify-start gap-4 mb-4 text-primary">
+                  <MdOutlineCloudDownload />
+                  Đang lấy thông tin từ cơ sở dữ liệu
+                </div>
+              ) : !isSavedRef ? (
+                <div className="flex items-center justify-start gap-4 mb-4 text-red-600">
+                  <MdOutlineCloudUpload />
+                  Đang lưu câu trả lời của bạn
+                </div>
+              ) : null}
+              <TabsList className="flex items-center h-[max-content] justify-center flex-wrap flex-row p-2 mb-8">
+                <TabsTrigger value="personal-info" className="flex-1 py-2">
+                  Thông tin cá nhân
+                </TabsTrigger>
+                <TabsTrigger value="general-questions" className="flex-1 py-2">
+                  Câu hỏi chung
+                </TabsTrigger>
+                <TabsTrigger
+                  value="department-questions"
+                  className="flex-1 py-2 text-primary"
                 >
-                  Gửi đơn
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Bạn có chắc chắn chưa?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Không thể hoàn tác hành động này và thông tin của bạn sẽ
-                    được ghi nhận.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel onClick={() => playClick()}>
-                    Hủy
-                  </AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={() => {
-                      playClick();
-                      form.handleSubmit(onSubmit)();
-                    }}
-                  >
-                    Tiếp tục
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </TabsContent>
-        </Tabs>
-        <Toaster />
-      </form>
-    </Form>
+                  Câu hỏi chuyên môn
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent
+                value="personal-info"
+                className="flex flex-col gap-8"
+              >
+                <PersonalInfo
+                  form={form}
+                  isFetching={isFetching}
+                  studentID={studentID}
+                  schoolEmail={schoolEmail}
+                  setSchoolEmail={setSchoolEmail}
+                  manual={manual}
+                  setManual={setManual}
+                  setStudentID={setStudentID}
+                />
+
+                <TabsList className="w-full">
+                  <ApplyTabTrigger
+                    direction="right"
+                    value="general-questions"
+                    text="Câu hỏi chung"
+                  />
+                </TabsList>
+              </TabsContent>
+              <TabsContent
+                value="general-questions"
+                className="flex flex-col gap-8"
+              >
+                <GeneralQuestions
+                  form={form}
+                  modified_general_questions={modified_general_questions}
+                  general_questions={general_questions}
+                  isFetching={isFetching}
+                />
+                <TabsList className="w-full flex flex-col gap-5 mt-4">
+                  <ApplyTabTrigger
+                    direction="right"
+                    value="department-questions"
+                    text="Câu hỏi chuyên môn"
+                  />
+                  <ApplyTabTrigger
+                    direction="left"
+                    value="personal-info"
+                    text="Thông tin cá nhân"
+                  />
+                </TabsList>
+              </TabsContent>
+              <TabsContent
+                value="department-questions"
+                className="flex flex-col gap-8"
+              >
+                <DepartmentQuestions
+                  form={form}
+                  isFetching={isFetching}
+                  department_questions={department_questions}
+                  modified_department_questions={modified_department_questions}
+                />
+                <TabsList className="w-full flex flex-col gap-5 my-4">
+                  <ApplyTabTrigger
+                    direction="left"
+                    value="general-questions"
+                    text="Câu hỏi chung"
+                  />
+                  <ApplyTabTrigger
+                    direction="left"
+                    value="personal-info"
+                    text="Thông tin cá nhân"
+                  />
+                </TabsList>
+                <AlertDialog open={isSubmitting}>
+                  <AlertDialogContent className="flex flex-col items-center justify-center">
+                    <AlertDialogTitle>
+                      Đang ghi nhận thông tin của bạn
+                    </AlertDialogTitle>
+                    <LoadingSpinner />
+                  </AlertDialogContent>
+                </AlertDialog>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      className="w-full"
+                      type="button"
+                      onClick={() => playClick()}
+                    >
+                      Gửi đơn
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Bạn có chắc chắn chưa?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Không thể hoàn tác hành động này và thông tin của bạn sẽ
+                        được ghi nhận.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel onClick={() => playClick()}>
+                        Hủy
+                      </AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => {
+                          playClick();
+                          form.handleSubmit(onSubmit)();
+                        }}
+                      >
+                        Tiếp tục
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </TabsContent>
+            </Tabs>
+            <Toaster />
+          </form>
+        </Form>
+      ) : (
+        <div className="flex flex-col items-center justify-between mt-3 gap-3">
+          <IoMdCheckmarkCircle fill="green" size={69} />
+          <h1 className="font-semibold text-xl text-green-700 text-center">
+            Xin chúc mừng! Bạn đã apply thành công vào{" "}
+            {FULL_CORE_TITLE(department)?.toLowerCase()}.
+          </h1>
+          <p className="text-green-700">
+            Hãy kiểm tra email của bạn để biết thêm thông tin!
+          </p>
+          <NavigationButton
+            noArrow={true}
+            text="Xem các ban khác"
+            href="/recruit/job-description"
+            button_className="bg-green-700"
+          />
+        </div>
+      )}
+    </>
   );
 };
 
