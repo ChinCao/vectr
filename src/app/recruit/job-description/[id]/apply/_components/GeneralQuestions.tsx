@@ -29,13 +29,23 @@ const GeneralQuestions = ({
           key={question}
           control={form.control}
           name={question}
-          render={({ field }) => (
+          render={({ field: { onChange, value, ref } }) => (
             <FormItem>
               <FormLabel className="text-md">
                 {index + 1}. {general_questions[index]}
               </FormLabel>
               <FormControl>
-                {isFetching ? <QuestionFallBack /> : <Textarea {...field} />}
+                {isFetching ? (
+                  <QuestionFallBack />
+                ) : (
+                  <Textarea
+                    value={value}
+                    ref={ref}
+                    onChange={(e) => {
+                      onChange(e.target.value);
+                    }}
+                  />
+                )}
               </FormControl>
               <FormMessage />
             </FormItem>

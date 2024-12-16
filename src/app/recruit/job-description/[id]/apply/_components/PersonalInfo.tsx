@@ -37,11 +37,21 @@ const PersonalInfo = ({
       <FormField
         control={form.control}
         name="name"
-        render={({ field }) => (
+        render={({ field: { onChange, value, ref } }) => (
           <FormItem>
             <FormLabel className="text-md">1. Họ và tên</FormLabel>
             <FormControl>
-              {isFetching ? <QuestionFallBack /> : <Input {...field} />}
+              {isFetching ? (
+                <QuestionFallBack />
+              ) : (
+                <Input
+                  value={value}
+                  ref={ref}
+                  onChange={(e) => {
+                    onChange(e.target.value);
+                  }}
+                />
+              )}
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -50,7 +60,7 @@ const PersonalInfo = ({
       <FormField
         control={form.control}
         name="student_id"
-        render={({ field }) => (
+        render={({ field: { onChange, ref } }) => (
           <FormItem>
             <FormLabel className="text-md">2. Mã số học sinh</FormLabel>
             <FormControl>
@@ -58,9 +68,9 @@ const PersonalInfo = ({
                 <QuestionFallBack />
               ) : (
                 <Input
-                  {...field}
+                  ref={ref}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    field.onChange(e);
+                    onChange(e);
                     if (!manual) {
                       setSchoolEmail(
                         (e.target.value.match(/\d+/)
@@ -81,11 +91,21 @@ const PersonalInfo = ({
       <FormField
         control={form.control}
         name="class"
-        render={({ field }) => (
+        render={({ field: { onChange, value, ref } }) => (
           <FormItem>
             <FormLabel className="text-md">3. Lớp</FormLabel>
             <FormControl>
-              {isFetching ? <QuestionFallBack /> : <Input {...field} />}
+              {isFetching ? (
+                <QuestionFallBack />
+              ) : (
+                <Input
+                  value={value}
+                  ref={ref}
+                  onChange={(e) => {
+                    onChange(e.target.value);
+                  }}
+                />
+              )}
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -94,7 +114,7 @@ const PersonalInfo = ({
       <FormField
         control={form.control}
         name="school_email"
-        render={({ field }) => (
+        render={({ field: { onChange, ref } }) => (
           <FormItem>
             <FormLabel className="text-md">4. Email trường</FormLabel>
             <FormControl>
@@ -102,10 +122,10 @@ const PersonalInfo = ({
                 <QuestionFallBack />
               ) : (
                 <Input
-                  {...field}
                   value={schoolEmail}
+                  ref={ref}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    field.onChange(e);
+                    onChange(e);
                     if (!manual) {
                       setManual(!manual);
                     }
@@ -121,13 +141,23 @@ const PersonalInfo = ({
       <FormField
         control={form.control}
         name="private_email"
-        render={({ field }) => (
+        render={({ field: { onChange, value, ref } }) => (
           <FormItem>
             <FormLabel className="text-md">
               5. Email riêng {`(để làm việc)`}
             </FormLabel>
             <FormControl>
-              {isFetching ? <QuestionFallBack /> : <Input {...field} />}
+              {isFetching ? (
+                <QuestionFallBack />
+              ) : (
+                <Input
+                  value={value}
+                  ref={ref}
+                  onChange={(e) => {
+                    onChange(e.target.value);
+                  }}
+                />
+              )}
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -136,13 +166,23 @@ const PersonalInfo = ({
       <FormField
         control={form.control}
         name="facebook"
-        render={({ field }) => (
+        render={({ field: { onChange, value, ref } }) => (
           <FormItem>
             <FormLabel className="text-md">
               6. Link profile <span className="text-[#0966ff]">Facebook</span>
             </FormLabel>
             <FormControl>
-              {isFetching ? <QuestionFallBack /> : <Input {...field} />}
+              {isFetching ? (
+                <QuestionFallBack />
+              ) : (
+                <Input
+                  value={value}
+                  ref={ref}
+                  onChange={(e) => {
+                    onChange(e.target.value);
+                  }}
+                />
+              )}
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -151,13 +191,23 @@ const PersonalInfo = ({
       <FormField
         control={form.control}
         name="instagram"
-        render={({ field }) => (
+        render={({ field: { onChange, value, ref } }) => (
           <FormItem>
             <FormLabel className="text-md">
               7. Link profile <span className="text-[#E1306C]">Instagram</span>
             </FormLabel>
             <FormControl>
-              {isFetching ? <QuestionFallBack /> : <Input {...field} />}
+              {isFetching ? (
+                <QuestionFallBack />
+              ) : (
+                <Input
+                  value={value}
+                  ref={ref}
+                  onChange={(e) => {
+                    onChange(e.target.value);
+                  }}
+                />
+              )}
             </FormControl>
             <FormMessage />
           </FormItem>

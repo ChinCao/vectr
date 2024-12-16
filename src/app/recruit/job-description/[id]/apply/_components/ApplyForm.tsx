@@ -4,7 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  BaseSyntheticEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
@@ -76,6 +82,7 @@ const ApplyForm = ({
   const [manual, setManual] = useState(false);
   const { user } = useUser();
   const [isFetching, setIsFetching] = useState(true);
+  const [hasSubmit, setHasSubmit] = useState(false);
 
   const dynamicQuestionSchema = z.object(
     sanitizedData.reduce((acc, item) => {
@@ -111,6 +118,7 @@ const ApplyForm = ({
       ...PersonalInfoSchemaDefault,
       ...dynamicQuestionsDefault,
     },
+    mode: "onSubmit",
   });
   const { formState } = form;
 
@@ -179,7 +187,7 @@ const ApplyForm = ({
     fetchData();
   }, [user?.id]);
 
-  async function onSubmit(values: CombinedType) {
+  async function saveToDatabase(values: CombinedType, submit?: boolean) {
     const response: Response = {
       user_id: user?.id,
       personal_info: {},
@@ -187,9 +195,8 @@ const ApplyForm = ({
       general_questions: { response: {} },
     };
     response["department_questions"]["response"][department] = {
-      hasSubmitted: true,
+      hasSubmitted: submit ? true : false,
     };
-
     Object.keys(values).forEach((key: string) => {
       if (modified_department_questions.includes(key)) {
         response["department_questions"]["response"][department][key] =
@@ -201,6 +208,7 @@ const ApplyForm = ({
           values[key as keyof PersonalInfoType];
       }
     });
+
     const res = await fetch("/api/recruit/save", {
       method: "POST",
       body: JSON.stringify(response),
@@ -208,20 +216,29 @@ const ApplyForm = ({
         "Content-Type": "application/json",
       },
     });
+    setHasSubmit(true);
     setIsSavedRef(true);
 
     if (!res.ok) {
       throw new Error("Failed to create response.");
     }
   }
-
+  const onSubmit = async (values: CombinedType) => {
+    await saveToDatabase(values, true);
+  };
   const [isSavedRef, setIsSavedRef] = useState(true);
   const watchedValues = useMemo(() => form.watch(), [form]);
-  const debouncedValues = useDebounce(watchedValues, 2000, setIsSavedRef);
+  const debouncedValues = useDebounce(watchedValues, 3000, setIsSavedRef);
   useEffect(() => {
-    if (debouncedValues && !isFetching) {
-      onSubmit(watchedValues);
+    async function bruh() {
+      if (debouncedValues && !isFetching && !hasSubmit) {
+        await saveToDatabase(watchedValues);
+      } else if (hasSubmit) {
+        setIsSavedRef(true);
+      }
     }
+    bruh();
+    console.log(form.formState.dirtyFields);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValues]);
 
@@ -231,7 +248,7 @@ const ApplyForm = ({
 
   useEffect(() => {
     if (navGuard.active) {
-      onSubmit(watchedValues);
+      saveToDatabase(watchedValues);
       navGuard.accept();
     }
   }, [navGuard, isSavedRef]);

@@ -24,7 +24,7 @@ const NavigationButton = ({
     <Link
       onClick={() => playClick()}
       href={href}
-      className={`w-[max-content] flex items-center justify-center gap-2 ${className}`}
+      className={`w-[max-content] flex items-center justify-center gap-2 active:scale-[0.99] ${className}`}
     >
       <Button
         className={`flex flex-row items-center justify-center ${button_className}`}
