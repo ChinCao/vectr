@@ -25,8 +25,10 @@ import {
   CLICK_SOUND_URL,
   CLICK_SOUND_VOLUME,
   FULL_CORE_TITLE,
+  lowercaseFirstLetter,
   Response,
   RESPONSE_MAX_CHARACTER,
+  strToBool,
 } from "@/constants/constants";
 import { Progress } from "@/components/ui/progress";
 import PersonalInfo from "./PersonalInfo";
@@ -83,6 +85,7 @@ const ApplyForm = ({
   const [isFetching, setIsFetching] = useState(true);
   const [hasSubmit, setHasSubmit] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [newUser, setNewUser] = useState(false);
 
   const dynamicQuestionSchema = z.object(
     sanitizedData.reduce((acc, item) => {
@@ -136,11 +139,23 @@ const ApplyForm = ({
         },
       });
       const data: any = await res.json();
+      // console.log(data);
       if (!res.ok) {
         const errorMessage = await res.text();
         return NextResponse.json({ error: errorMessage }, { status: 200 });
       }
       if (data.recruit) {
+        if (
+          strToBool(
+            data["recruit"]["department_questions"]["response"][department][
+              "hasSubmitted"
+            ]
+          )
+        ) {
+          setHasSubmit(true);
+          setIsFetching(false);
+          return;
+        }
         const personalInfo = data.recruit.personal_info;
 
         if (personalInfo) {
@@ -184,12 +199,17 @@ const ApplyForm = ({
             }
           }
         }
+      } else {
+        console.log("new user");
+        setNewUser(true);
       }
+
       setIsFetching(false);
     }
-
-    fetchData();
-  }, [user?.id]);
+    if (user?.id) {
+      fetchData();
+    }
+  }, [user?.id, hasSubmit, isFetching]);
 
   async function saveToDatabase(values: CombinedType, submit?: boolean) {
     if (submit) {
@@ -215,7 +235,7 @@ const ApplyForm = ({
           values[key as keyof PersonalInfoType];
       }
     });
-
+    console.log(response);
     const res = await fetch("/api/recruit/save", {
       method: "POST",
       body: JSON.stringify(response),
@@ -224,6 +244,7 @@ const ApplyForm = ({
       },
     });
     if (submit) {
+      console.log("submit success");
       setHasSubmit(true);
     }
     setIsSavedRef(true);
@@ -240,19 +261,22 @@ const ApplyForm = ({
   const debouncedValues = useDebounce(watchedValues, 2000, setIsSavedRef);
   useEffect(() => {
     async function bruh() {
+      console.log(isFetching, hasSubmit);
       if (debouncedValues && !isFetching && !hasSubmit) {
         await saveToDatabase(watchedValues);
       } else if (hasSubmit) {
         setIsSavedRef(true);
       }
     }
-    bruh();
-    console.log(form.formState.dirtyFields);
+    if (user?.id) {
+      bruh();
+    }
+    // console.log(form.formState.dirtyFields);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedValues, isFetching]);
+  }, [user?.id, debouncedValues, hasSubmit, newUser]);
 
   const navGuard = useNavigationGuard({
-    enabled: !isSavedRef,
+    enabled: !isSavedRef && !hasSubmit,
   });
 
   useEffect(() => {
@@ -294,10 +318,11 @@ const ApplyForm = ({
           </ToastAction>
         ),
       });
+    } else {
+      window.scrollTo({
+        top: 0,
+      });
     }
-    window.scrollTo({
-      top: 0,
-    });
   }, [
     activeTab,
     sanitizedData,
@@ -340,9 +365,11 @@ const ApplyForm = ({
                   <MdOutlineCloudDone /> Mọi dữ liệu đã được lưu
                 </div>
               ) : isFetching ? (
-                <div className="flex items-center justify-start gap-4 mb-4 text-primary">
+                <div className="flex items-center justify-start gap-4 mb-4 text-primary flex-col sm:flex-row">
                   <MdOutlineCloudDownload />
-                  Đang lấy thông tin từ cơ sở dữ liệu
+                  <p className="text-center">
+                    Đang lấy thông tin từ cơ sở dữ liệu
+                  </p>
                 </div>
               ) : !isSavedRef ? (
                 <div className="flex items-center justify-start gap-4 mb-4 text-red-600">
@@ -485,11 +512,11 @@ const ApplyForm = ({
         <div className="flex flex-col items-center justify-between mt-3 gap-3">
           <IoMdCheckmarkCircle fill="green" size={69} />
           <h1 className="font-semibold text-xl text-green-700 text-center">
-            Xin chúc mừng! Bạn đã apply thành công vào{" "}
-            {FULL_CORE_TITLE(department)?.toLowerCase()}.
+            Xin chúc mừng! Bạn đã gửi đơn thành công đến{" "}
+            {lowercaseFirstLetter(FULL_CORE_TITLE(department)!)}.
           </h1>
-          <p className="text-green-700">
-            Hãy kiểm tra email của bạn để biết thêm thông tin!
+          <p className="text-green-700 text-center">
+            Hãy kiểm tra email của bạn để biết thêm thông tin chi tiết!
           </p>
           <NavigationButton
             noArrow={true}

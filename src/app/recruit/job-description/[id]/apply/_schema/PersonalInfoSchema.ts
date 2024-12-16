@@ -25,7 +25,10 @@ export const PersonalInfoSchema = z.object({
     .max(INFO_MAX_CHARACTER, {
       message: `Email cá nhân của bạn không được vượt quá ${INFO_MAX_CHARACTER} ký tự`,
     })
-    .nonempty({ message: "Email cá nhân không được để trống." }),
+    .nonempty({ message: "Email cá nhân không được để trống." })
+    .refine((email) => !email.endsWith("@stu.vinschool.edu.vn"), {
+      message: "Không được sử dụng email trường cho email cá nhân.",
+    }),
   student_id: z
     .string()
     .nonempty({
@@ -35,7 +38,7 @@ export const PersonalInfoSchema = z.object({
       message: `Mã số HS của bạn không được vượt quá ${INFO_MAX_CHARACTER} ký tự`,
     })
 
-    .regex(/^VS\d{6}$/, { message: "Vui lòng nhập mã số HS hợp lệ." }),
+    .regex(/^vs\d{6}$/i, { message: "Vui lòng nhập mã số HS hợp lệ." }),
   class: z
     .string()
     .nonempty({ message: "Tên lớp không được để trống." })
