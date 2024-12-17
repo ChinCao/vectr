@@ -233,6 +233,7 @@ const ApplyForm = ({
           values[key as keyof PersonalInfoType];
       }
     });
+
     const res = await fetch("/api/recruit/save", {
       method: "POST",
       body: JSON.stringify(response),
@@ -249,6 +250,7 @@ const ApplyForm = ({
       throw new Error("Failed to create response.");
     }
   }
+
   const onSubmit = async (values: CombinedType) => {
     await saveToDatabase(values, true);
   };
