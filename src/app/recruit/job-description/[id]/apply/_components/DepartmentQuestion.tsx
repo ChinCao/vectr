@@ -14,14 +14,12 @@ import { RESPONSE_MAX_CHARACTER } from "@/constants/constants";
 
 const DepartmentQuestions = ({
   form,
-  modified_department_questions,
   department_questions,
   isFetching,
 }: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: UseFormReturn<any>;
-  modified_department_questions: string[];
-  department_questions: string[];
+  department_questions: string[][];
   isFetching: boolean;
 }) => {
   const refs = useRef<(HTMLTextAreaElement | null)[]>([]);
@@ -40,7 +38,7 @@ const DepartmentQuestions = ({
   return (
     <>
       <h1 className="font-bold text-2xl text-primary ">Câu hỏi chuyên môn</h1>
-      {modified_department_questions.map((question, index) => (
+      {department_questions[0].map((question, index) => (
         <FormField
           key={question}
           control={form.control}
@@ -48,7 +46,7 @@ const DepartmentQuestions = ({
           render={({ field: { onChange, value } }) => (
             <FormItem className="bg-white rounded p-4">
               <FormLabel className="text-md">
-                {index + 1}. {department_questions[index]}
+                {index + 1}. {department_questions[1][index]}
               </FormLabel>
               <FormControl>
                 {isFetching ? (

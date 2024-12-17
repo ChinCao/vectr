@@ -14,24 +14,34 @@ const PersonalInfoSchema = new Schema<PersonalInfoType>({
 
 const GeneralQuestionSchema = new Schema({
   response: {
-    type: Map,
-    of: String,
-    default: {},
+    type: Map, // Question ID
+    of: {
+      question: { type: String, required: false },
+      answer: { type: String, required: false },
+    },
   },
 });
 
 const DepartmentQuestionSchema = new Schema({
   response: {
-    type: Map,
+    type: Map, // Department
     of: {
-      type: Map,
-      of: String,
+      questions: {
+        type: Map, // Question ID
+        of: {
+          question: { type: String, required: false },
+          answer: { type: String, required: false },
+        },
+      },
       hasSubmitted: { type: Boolean, required: true },
     },
     default: () => {
       const map = new Map();
       DEPARTMENT_INFO.forEach((department) => {
-        map.set(department.abbreviation, { hasSubmitted: false });
+        map.set(department.abbreviation, {
+          questions: null,
+          hasSubmitted: false,
+        });
       });
       return map;
     },
@@ -44,6 +54,7 @@ DepartmentQuestionSchema.pre("save", function (next) {
   DEPARTMENT_INFO.forEach((department) => {
     if (!departmentResponseMap.has(department.abbreviation)) {
       departmentResponseMap.set(department.abbreviation, {
+        questions: null,
         hasSubmitted: false,
       });
     }

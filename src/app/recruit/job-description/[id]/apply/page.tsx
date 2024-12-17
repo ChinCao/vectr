@@ -16,11 +16,12 @@ const Applypage = async ({ params }: PageProps) => {
     "chung",
     "qs"
   )) as string[][];
+
   return (
     <div className="flex items-center justify-center">
       <ApplyForm
-        department_questions={department_questions[0]}
-        general_questions={general_questions[0]}
+        department_questions={department_questions}
+        general_questions={general_questions}
         department={decodedID}
       />
     </div>

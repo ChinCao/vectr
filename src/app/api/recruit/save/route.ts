@@ -10,14 +10,14 @@ export async function POST(req: Request) {
     const existingUser = await RecruitResponse.findOne({
       user_id,
     });
-    const responseKeys = Object.keys(body.department_questions.response)[0];
+    const department = Object.keys(body.department_questions.response)[0];
     if (existingUser) {
       const updatedResponse = await RecruitResponse.findOneAndUpdate(
         { user_id },
         {
           $set: {
-            [`department_questions.response.${responseKeys}`]:
-              body.department_questions.response[responseKeys],
+            [`department_questions.response.${department}`]:
+              body.department_questions.response[department],
             general_questions: body.general_questions,
             personal_info: body.personal_info,
           },
@@ -33,6 +33,7 @@ export async function POST(req: Request) {
       );
     }
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ message: error }, { status: 500 });
   }
 }

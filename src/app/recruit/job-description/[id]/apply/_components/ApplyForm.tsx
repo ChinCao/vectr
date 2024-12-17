@@ -28,7 +28,6 @@ import {
   lowercaseFirstLetter,
   Response,
   RESPONSE_MAX_CHARACTER,
-  strToBool,
 } from "@/constants/constants";
 import { Progress } from "@/components/ui/progress";
 import PersonalInfo from "./PersonalInfo";
@@ -58,23 +57,10 @@ const ApplyForm = ({
   general_questions,
   department,
 }: {
-  department_questions: string[];
-  general_questions: string[];
+  department_questions: string[][];
+  general_questions: string[][];
   department: string;
 }) => {
-  const modified_department_questions = useMemo(
-    () => department_questions.map((str: string) => str.replace(/["'`.]/g, "")),
-    [department_questions]
-  );
-  const modified_general_questions = useMemo(
-    () => general_questions.map((str: string) => str.replace(/["'`.]/g, "")),
-    [general_questions]
-  );
-  const sanitizedData = useMemo(
-    () => [...modified_department_questions, ...modified_general_questions],
-    [modified_department_questions, modified_general_questions]
-  );
-
   const [activeTab, setActiveTab] = useState("personal-info");
   const { toast } = useToast();
   const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
@@ -86,9 +72,12 @@ const ApplyForm = ({
   const [hasSubmit, setHasSubmit] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [newUser, setNewUser] = useState(false);
-
+  const questions_id = useMemo(
+    () => [...department_questions[0], ...general_questions[0]],
+    [department_questions, general_questions]
+  );
   const dynamicQuestionSchema = z.object(
-    sanitizedData.reduce((acc, item) => {
+    questions_id.reduce((acc, item) => {
       acc[item] = item.includes("(optional)")
         ? z
             .string()
@@ -101,7 +90,9 @@ const ApplyForm = ({
             .max(RESPONSE_MAX_CHARACTER, {
               message: `Không được vượt quá ${RESPONSE_MAX_CHARACTER} ký tự`,
             })
-            .nonempty({ message: "Không được để trống, hãy viết gì đó nhé!" });
+            .nonempty({
+              message: "Không được để trống, hãy viết gì đó nhé!",
+            });
       return acc;
     }, {} as Record<string, ZodOptional<ZodString> | ZodString>)
   );
@@ -111,7 +102,7 @@ const ApplyForm = ({
     ...dynamicQuestionSchema.shape,
   });
 
-  const dynamicQuestionsDefault = sanitizedData.reduce((acc, item) => {
+  const dynamicQuestionsDefault = questions_id.reduce((acc, item) => {
     acc[item] = "";
     return acc;
   }, {} as Record<string, string>);
@@ -139,17 +130,16 @@ const ApplyForm = ({
         },
       });
       const data: any = await res.json();
+      console.log(data);
       if (!res.ok) {
         const errorMessage = await res.text();
         return NextResponse.json({ error: errorMessage }, { status: 200 });
       }
       if (data.recruit) {
         if (
-          strToBool(
-            data["recruit"]["department_questions"]["response"][department][
-              "hasSubmitted"
-            ]
-          )
+          data["recruit"]["department_questions"]["response"][department][
+            "hasSubmitted"
+          ]
         ) {
           setHasSubmit(true);
           setIsFetching(false);
@@ -181,19 +171,27 @@ const ApplyForm = ({
           }
         }
 
-        for (const question of sanitizedData) {
-          if (modified_department_questions.includes(question)) {
-            if (data.recruit.department_questions.response[department]) {
+        for (const question of questions_id) {
+          console.log(question);
+
+          if (department_questions[0].includes(question)) {
+            if (
+              data.recruit.department_questions.response[department][
+                "questions"
+              ]
+            ) {
               form.setValue(
                 question,
-                data.recruit.department_questions.response[department][question]
+                data.recruit.department_questions.response[department][
+                  "questions"
+                ][question]["answer"]
               );
             }
-          } else if (modified_general_questions.includes(question)) {
+          } else if (general_questions[0].includes(question)) {
             if (data.recruit.general_questions.response) {
               form.setValue(
                 question,
-                data.recruit.general_questions.response[question]
+                data.recruit.general_questions.response[question]["answer"]
               );
             }
           }
@@ -221,19 +219,29 @@ const ApplyForm = ({
     };
     response["department_questions"]["response"][department] = {
       hasSubmitted: submit ? true : false,
+      questions: {},
     };
+
     Object.keys(values).forEach((key: string) => {
-      if (modified_department_questions.includes(key)) {
-        response["department_questions"]["response"][department][key] =
-          values[key];
-      } else if (modified_general_questions.includes(key)) {
-        response["general_questions"]["response"][key] = values[key];
+      if (department_questions[0].includes(key)) {
+        response["department_questions"]["response"][department]["questions"][
+          key
+        ] = {
+          question:
+            department_questions[1][department_questions[0].indexOf(key)],
+          answer: values[key],
+        };
+      } else if (general_questions[0].includes(key)) {
+        response["general_questions"]["response"][key] = {
+          question: general_questions[1][general_questions[0].indexOf(key)],
+          answer: values[key],
+        };
       } else {
         response["personal_info"][key as keyof PersonalInfoType] =
           values[key as keyof PersonalInfoType];
       }
     });
-
+    console.log(response);
     const res = await fetch("/api/recruit/save", {
       method: "POST",
       body: JSON.stringify(response),
@@ -247,7 +255,8 @@ const ApplyForm = ({
     setIsSavedRef(true);
     setIsSubmitting(false);
     if (!res.ok) {
-      throw new Error("Failed to create response.");
+      const errorData = await res.json();
+      throw new Error(errorData.message || "An error occurred");
     }
   }
 
@@ -288,10 +297,10 @@ const ApplyForm = ({
       Object.keys(PersonalInfoSchemaDefault).includes(key)
     );
     const hasDepartmentErrors = Object.keys(formState.errors).some((key) =>
-      modified_department_questions.includes(key)
+      department_questions[0].includes(key)
     );
     const hasGeneralErrors = Object.keys(formState.errors).some((key) =>
-      modified_general_questions.includes(key)
+      general_questions[0].includes(key)
     );
     if (hasPersonalInfoErrors) {
       setActiveTab("personal-info");
@@ -322,12 +331,12 @@ const ApplyForm = ({
     }
   }, [
     activeTab,
-    sanitizedData,
+    questions_id,
     formState.errors,
-    modified_department_questions,
-    modified_general_questions,
     playClick,
     toast,
+    department_questions,
+    general_questions,
   ]);
 
   return (
@@ -418,7 +427,6 @@ const ApplyForm = ({
               >
                 <GeneralQuestions
                   form={form}
-                  modified_general_questions={modified_general_questions}
                   general_questions={general_questions}
                   isFetching={isFetching}
                 />
@@ -443,7 +451,6 @@ const ApplyForm = ({
                   form={form}
                   isFetching={isFetching}
                   department_questions={department_questions}
-                  modified_department_questions={modified_department_questions}
                 />
                 <TabsList className="w-full flex flex-col gap-5 my-4 bg-[transparent]">
                   <ApplyTabTrigger

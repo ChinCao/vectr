@@ -13,14 +13,12 @@ import { RESPONSE_MAX_CHARACTER } from "@/constants/constants";
 
 const GeneralQuestions = ({
   form,
-  modified_general_questions,
   general_questions,
   isFetching,
 }: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: UseFormReturn<any>;
-  modified_general_questions: string[];
-  general_questions: string[];
+  general_questions: string[][];
   isFetching: boolean;
 }) => {
   const refs = useRef<(HTMLTextAreaElement | null)[]>([]);
@@ -39,7 +37,7 @@ const GeneralQuestions = ({
   return (
     <>
       <h1 className="font-bold text-2xl text-primary ">Câu hỏi chung</h1>
-      {modified_general_questions.map((question, index) => (
+      {general_questions[0].map((question, index) => (
         <FormField
           key={question}
           control={form.control}
@@ -47,7 +45,7 @@ const GeneralQuestions = ({
           render={({ field: { onChange, value } }) => (
             <FormItem className="bg-white rounded p-4">
               <FormLabel className="text-md">
-                {index + 1}. {general_questions[index]}
+                {index + 1}. {general_questions[1][index]}
               </FormLabel>
               <FormControl>
                 {isFetching ? (
