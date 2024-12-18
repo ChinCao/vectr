@@ -144,12 +144,20 @@ export const CLICK_SOUND_URL = "/sounds/click.mp3";
 export const CLICK_SOUND_VOLUME = 0.05;
 
 export interface PersonalInfo {
-  [key: string]: string | undefined;
+  name: string | undefined;
+  school_email: string | undefined;
+  student_id: string | undefined;
+  facebook: string | undefined;
+  private_email: string | undefined;
+  class: string | undefined;
+  instagram: string | undefined;
+  _id?: string;
 }
 
 export interface DepartmentQuestionEntry {
   question: string;
   answer: string | undefined;
+  _id?: string;
 }
 
 export interface DepartmentQuestionsResponse {
@@ -162,6 +170,7 @@ export interface DepartmentQuestionsResponse {
 export interface GeneralQuestionEntry {
   question: string;
   answer: string | undefined;
+  _id?: string;
 }
 
 export interface GeneralQuestionsResponse {
@@ -177,6 +186,7 @@ export interface Response {
   general_questions: {
     response: GeneralQuestionsResponse;
   };
+  _id?: string;
 }
 export const RESPONSE_MAX_CHARACTER = 3000;
 export const INFO_MAX_CHARACTER = 111;

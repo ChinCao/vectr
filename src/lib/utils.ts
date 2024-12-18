@@ -16,5 +16,5 @@ const GOOGLE_DRIVE_IDS = {
 };
 
 export function getDriveId(department: DepartmentsAbbreviation) {
-  return GOOGLE_DRIVE_IDS[department] || undefined;
+  return GOOGLE_DRIVE_IDS[department];
 }

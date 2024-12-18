@@ -160,9 +160,6 @@ function addText(
   ];
 }
 
-const text_request: InsertText[] = [];
-const style_request: (UpdateTextStyle | UpdateParagraphStyle)[] = [];
-
 const personalIndexTable = {
   name: "Họ và tên",
   class: "Lớp",
@@ -179,8 +176,10 @@ const fieldsIndexTable = {
   department_questions: "Câu hỏi chuyên môn",
 };
 
-let indexTracker = 1;
 function GoogleDocParser(
+  indexTracker: number,
+  text_request: InsertText[],
+  style_request: (UpdateTextStyle | UpdateParagraphStyle)[],
   title: string,
   questions:
     | DepartmentQuestionsResponse
@@ -207,7 +206,8 @@ function GoogleDocParser(
     indexTracker = indexTracker + question[1];
     let answerText: string | undefined;
     if (title == "Thông tin cá nhân") {
-      answerText = (answers as PersonalInfo)[key];
+      const personalInfo = answers as PersonalInfo;
+      answerText = personalInfo[key as keyof PersonalInfo];
     } else {
       const entry = (
         answers as GeneralQuestionsResponse | DepartmentQuestionsResponse
@@ -231,24 +231,37 @@ function GoogleDocParser(
   });
 }
 
-export const parseData = (data: Response, department: string) => {
+export const parseData = (
+  data: Response,
+  department: string
+): [InsertText[], (UpdateTextStyle | UpdateParagraphStyle)[]] => {
+  let indexTracker = 1;
+  const text_request: InsertText[] = [];
+  const style_request: (UpdateTextStyle | UpdateParagraphStyle)[] = [];
   GoogleDocParser(
+    indexTracker,
+    text_request,
+    style_request,
     fieldsIndexTable["personal_info"],
     personalIndexTable,
     data["personal_info"]
   );
   GoogleDocParser(
+    indexTracker,
+    text_request,
+    style_request,
     fieldsIndexTable["general_questions"],
     data["general_questions"]["response"],
     data["general_questions"]["response"]
   );
   GoogleDocParser(
+    indexTracker,
+    text_request,
+    style_request,
     fieldsIndexTable["department_questions"],
     data["department_questions"]["response"][department]["questions"],
     data["department_questions"]["response"][department]["questions"]
   );
-  return {
-    textRequest: text_request,
-    styleRequest: style_request,
-  };
+  console.log(text_request, style_request);
+  return [text_request, style_request];
 };

@@ -1,5 +1,5 @@
-import { DepartmentsAbbreviation } from "./../constants/constants";
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { DepartmentsAbbreviation } from "./../constants/constants";
 import { google } from "googleapis";
 import { NextResponse } from "next/server";
 import {
@@ -69,6 +69,7 @@ export const createDocumentInDrive = async (
     const documentId = docResponse.data.documentId;
 
     if (!documentId) {
+      console.log(documentId);
       throw new Error("Document ID is not available or is invalid.");
     }
 

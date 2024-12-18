@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { z, ZodOptional, ZodString } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -52,6 +53,8 @@ import {
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import NavigationButton from "@/app/recruit/_components/NavigationButton";
+import { parseData } from "@/lib/GoogleDocParser";
+import { SaveToGoogleDoc } from "../_lib/SaveToGoogleDoc";
 
 const ApplyForm = ({
   department_questions,
@@ -130,7 +133,10 @@ const ApplyForm = ({
           "Content-Type": "application/json",
         },
       });
-      const data: any = await res.json();
+      interface Recruit {
+        recruit: Response;
+      }
+      const data: Recruit = await res.json();
       if (!res.ok) {
         const errorMessage = await res.text();
         return NextResponse.json({ error: errorMessage }, { status: 200 });
@@ -179,7 +185,7 @@ const ApplyForm = ({
               ]
             ) {
               form.setValue(
-                question,
+                question as any,
                 data.recruit.department_questions.response[department][
                   "questions"
                 ][question]["answer"]
@@ -188,7 +194,7 @@ const ApplyForm = ({
           } else if (general_questions[0].includes(question)) {
             if (data.recruit.general_questions.response) {
               form.setValue(
-                question,
+                question as any,
                 data.recruit.general_questions.response[question]["answer"]
               );
             }
@@ -211,7 +217,15 @@ const ApplyForm = ({
     }
     const response: Response = {
       user_id: user?.id,
-      personal_info: {},
+      personal_info: {
+        name: undefined,
+        school_email: undefined,
+        student_id: undefined,
+        facebook: undefined,
+        private_email: undefined,
+        class: undefined,
+        instagram: undefined,
+      },
       department_questions: { response: {} },
       general_questions: { response: {} },
     };
@@ -247,11 +261,21 @@ const ApplyForm = ({
         "Content-Type": "application/json",
       },
     });
+
     if (submit) {
+      console.log(response);
+      const parsedData = parseData(response, department);
+      const documentTitle = `${response["personal_info"]["name"]}_${response["personal_info"]["class"]}_${response["personal_info"]["student_id"]}`;
+      await SaveToGoogleDoc(
+        documentTitle,
+        parsedData[0],
+        parsedData[1],
+        department
+      );
       setHasSubmit(true);
+      setIsSubmitting(false);
     }
     setIsSavedRef(true);
-    setIsSubmitting(false);
     if (!res.ok) {
       const errorData = await res.json();
       throw new Error(errorData.message || "An error occurred");
