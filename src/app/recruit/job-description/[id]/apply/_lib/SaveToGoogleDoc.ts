@@ -6,7 +6,7 @@ import {
   UpdateTextStyle,
   UpdateParagraphStyle,
 } from "@/lib/_types/ParserTypes";
-import { createDocumentInDrive } from "@/lib/GoogleSpreadsheet";
+import { createDocumentInDrive } from "@/lib/GoogleUtils";
 
 export async function SaveToGoogleDoc(
   title: string,

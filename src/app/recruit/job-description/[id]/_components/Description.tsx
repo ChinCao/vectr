@@ -1,4 +1,4 @@
-import { GetSheetData } from "@/lib/GoogleSpreadsheet";
+import { GetSheetData } from "@/lib/GoogleUtils";
 
 const Description = async ({ id }: { id: string }) => {
   const description_data: string[][] = (await GetSheetData(

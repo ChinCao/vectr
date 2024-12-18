@@ -38,7 +38,7 @@ const JobDescription = async ({ params }: PageProps) => {
                   button_className="w-full md:w-[max-content]"
                 />
                 <ApplyButton id={decodedID}>
-                  <Button className="bg-[#f7c325] text-black w-full md:w-[max-content]">
+                  <Button className="bg-[#f7c325] text-black w-full md:w-[max-content] active:scale-[0.985]">
                     Apply ban này
                   </Button>
                 </ApplyButton>
@@ -58,7 +58,7 @@ const JobDescription = async ({ params }: PageProps) => {
             <Description id={decodedID} />
           </Suspense>
           <ApplyButton id={decodedID}>
-            <Button className="bg-[#f7c325] text-black sm:min-w-[500px] min-w-full ">
+            <Button className="bg-[#f7c325] text-black sm:min-w-[500px] min-w-full active:scale-[0.985]">
               Apply ban này
             </Button>
           </ApplyButton>

@@ -1,5 +1,6 @@
-import { GetSheetData } from "@/lib/GoogleSpreadsheet";
+import { GetSheetData } from "@/lib/GoogleUtils";
 import ApplyForm from "./_components/ApplyForm";
+import { DepartmentsAbbreviation } from "@/constants/RecruitConstants";
 
 interface PageProps {
   params: { id: string };
@@ -8,8 +9,10 @@ interface PageProps {
 const Applypage = async ({ params }: PageProps) => {
   const { id } = await params;
   const decodedID = decodeURI(id);
+  const department: DepartmentsAbbreviation =
+    decodedID as DepartmentsAbbreviation;
   const department_questions: string[][] = (await GetSheetData(
-    decodedID,
+    department,
     "qs"
   )) as string[][];
   const general_questions: string[][] = (await GetSheetData(
@@ -22,7 +25,7 @@ const Applypage = async ({ params }: PageProps) => {
       <ApplyForm
         department_questions={department_questions}
         general_questions={general_questions}
-        department={decodedID}
+        department={department}
       />
     </div>
   );

@@ -209,6 +209,7 @@ const ApplyForm = ({
     if (user?.id) {
       fetchData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id, hasSubmit, isFetching]);
 
   async function saveToDatabase(values: CombinedType, submit?: boolean) {
@@ -253,6 +254,7 @@ const ApplyForm = ({
           values[key as keyof PersonalInfoType];
       }
     });
+    console.log(response);
 
     const res = await fetch("/api/recruit/save", {
       method: "POST",
@@ -283,14 +285,16 @@ const ApplyForm = ({
   }
 
   const onSubmit = async (values: CombinedType) => {
-    await saveToDatabase(values, true);
+    if (!isSubmitting) {
+      await saveToDatabase(values, true);
+    }
   };
   const [isSavedRef, setIsSavedRef] = useState(true);
   const watchedValues = useMemo(() => form.watch(), [form]);
   const debouncedValues = useDebounce(watchedValues, 2000, setIsSavedRef);
   useEffect(() => {
     async function bruh() {
-      if (debouncedValues && !isFetching && !hasSubmit) {
+      if (debouncedValues && !isFetching && !hasSubmit && !isSubmitting) {
         await saveToDatabase(watchedValues);
       } else if (hasSubmit) {
         setIsSavedRef(true);
@@ -299,9 +303,8 @@ const ApplyForm = ({
     if (user?.id) {
       bruh();
     }
-    // console.log(form.formState.dirtyFields);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id, debouncedValues, hasSubmit, newUser]);
+  }, [user?.id, debouncedValues, hasSubmit, newUser, isSubmitting]);
 
   const navGuard = useNavigationGuard({
     enabled: !isSavedRef && !hasSubmit,
@@ -312,6 +315,7 @@ const ApplyForm = ({
       saveToDatabase(watchedValues);
       navGuard.accept();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navGuard, isSavedRef]);
 
   useEffect(() => {
