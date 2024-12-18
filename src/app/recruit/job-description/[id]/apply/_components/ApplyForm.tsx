@@ -24,6 +24,7 @@ import useSound from "use-sound";
 import {
   CLICK_SOUND_URL,
   CLICK_SOUND_VOLUME,
+  DepartmentsAbbreviation,
   FULL_CORE_TITLE,
   lowercaseFirstLetter,
   Response,
@@ -59,7 +60,7 @@ const ApplyForm = ({
 }: {
   department_questions: string[][];
   general_questions: string[][];
-  department: string;
+  department: DepartmentsAbbreviation;
 }) => {
   const [activeTab, setActiveTab] = useState("personal-info");
   const { toast } = useToast();
@@ -130,7 +131,6 @@ const ApplyForm = ({
         },
       });
       const data: any = await res.json();
-      console.log(data);
       if (!res.ok) {
         const errorMessage = await res.text();
         return NextResponse.json({ error: errorMessage }, { status: 200 });
@@ -172,8 +172,6 @@ const ApplyForm = ({
         }
 
         for (const question of questions_id) {
-          console.log(question);
-
           if (department_questions[0].includes(question)) {
             if (
               data.recruit.department_questions.response[department][
@@ -241,7 +239,7 @@ const ApplyForm = ({
           values[key as keyof PersonalInfoType];
       }
     });
-    console.log(response);
+
     const res = await fetch("/api/recruit/save", {
       method: "POST",
       body: JSON.stringify(response),

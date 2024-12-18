@@ -32,7 +32,7 @@ const JobDescriptionPage = () => {
           <div className="flex flex-row gap-6 flex-wrap items-center justify-center ">
             {DEPARTMENT_INFO.map((info, index) => (
               <Link href={info["url"]} key={index} onClick={() => playClick()}>
-                <Card className="py-3 hover:scale-[1.01] hover:text-primary">
+                <Card className="py-3 hover:scale-[1.01] hover:text-primary active:scale-[0.998]">
                   <CardContent>
                     <Image
                       src={info["images"][0]}

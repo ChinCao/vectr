@@ -1,16 +1,36 @@
 import { z } from "zod";
-export const COMPUTER_SCIENCE_NAME_FULL = "Ban Computer Science";
-export const ROBOTICS_NAME_FULL = "Ban Robotics";
-export const DESIGN_NAME_FULL = "Ban Design";
-export const HC_NAME_FULL = "Ban Hậu Cần";
-export const PR_CW_NAME_FULL = "Ban PR - Content Writer";
-export const PR_EXTERNAL_NAME_FULL = "Ban PR - External (Đối ngoại)";
-export const COMPUTER_SCIENCE_NAME_ABBREV = "computer science";
-export const ROBOTICS_NAME_ABBREV = "robotics";
-export const HC_NAME_ABBREV = "hc";
-export const DESIGN_NAME_ABBREV = "design";
-export const PR_CW_NAME_ABBREV = "pr-cw";
-export const PR_EXTERNAL_NAME_ABBREV = "pr-ext";
+
+export enum DepartmentsAbbreviation {
+  COMPUTER_SCIENCE = "computer science",
+  ROBOTICS = "robotics",
+  HC = "hc",
+  DESIGN = "design",
+  PR_CW = "pr-cw",
+  PR_EXTERNAL = "pr-ext",
+}
+
+export enum DepartmentsFull {
+  COMPUTER_SCIENCE = "Ban Computer Science",
+  ROBOTICS = "Ban Robotics",
+  DESIGN = "Ban Design",
+  HC = "Ban Hậu Cần",
+  PR_CW = "Ban PR - Content Writer",
+  PR_EXTERNAL = "Ban PR - External (Đối ngoại)",
+}
+
+export const COMPUTER_SCIENCE_NAME_FULL = DepartmentsFull.COMPUTER_SCIENCE;
+export const ROBOTICS_NAME_FULL = DepartmentsFull.ROBOTICS;
+export const DESIGN_NAME_FULL = DepartmentsFull.DESIGN;
+export const HC_NAME_FULL = DepartmentsFull.HC;
+export const PR_CW_NAME_FULL = DepartmentsFull.PR_CW;
+export const PR_EXTERNAL_NAME_FULL = DepartmentsFull.PR_EXTERNAL;
+export const COMPUTER_SCIENCE_NAME_ABBREV =
+  DepartmentsAbbreviation.COMPUTER_SCIENCE;
+export const ROBOTICS_NAME_ABBREV = DepartmentsAbbreviation.ROBOTICS;
+export const HC_NAME_ABBREV = DepartmentsAbbreviation.HC;
+export const DESIGN_NAME_ABBREV = DepartmentsAbbreviation.DESIGN;
+export const PR_CW_NAME_ABBREV = DepartmentsAbbreviation.PR_CW;
+export const PR_EXTERNAL_NAME_ABBREV = DepartmentsAbbreviation.PR_EXTERNAL;
 
 export function capitalizeFirstLetter(val: string) {
   return String(val).charAt(0).toUpperCase() + String(val).slice(1);
@@ -123,17 +143,41 @@ export const FULL_CORE_TITLE = (id: string) => {
 export const CLICK_SOUND_URL = "/sounds/click.mp3";
 export const CLICK_SOUND_VOLUME = 0.05;
 
-export interface Response {
-  user_id: string | undefined;
-  personal_info: Record<string, string | undefined>;
-  department_questions: {
-    response: Record<string, Record<string, string | boolean | undefined>>;
-  };
-  general_questions: {
-    response: Record<string, string | undefined>;
+export interface PersonalInfo {
+  [key: string]: string | undefined;
+}
+
+export interface DepartmentQuestionEntry {
+  question: string;
+  answer: string | undefined;
+}
+
+export interface DepartmentQuestionsResponse {
+  [key: string]: {
+    hasSubmitted: boolean;
+    questions: Record<string, DepartmentQuestionEntry>;
   };
 }
 
+export interface GeneralQuestionEntry {
+  question: string;
+  answer: string | undefined;
+}
+
+export interface GeneralQuestionsResponse {
+  [key: string]: GeneralQuestionEntry;
+}
+
+export interface Response {
+  user_id: string | undefined;
+  personal_info: PersonalInfo;
+  department_questions: {
+    response: DepartmentQuestionsResponse;
+  };
+  general_questions: {
+    response: GeneralQuestionsResponse;
+  };
+}
 export const RESPONSE_MAX_CHARACTER = 3000;
 export const INFO_MAX_CHARACTER = 111;
 

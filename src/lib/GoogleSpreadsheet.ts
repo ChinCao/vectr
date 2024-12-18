@@ -1,6 +1,13 @@
+import { DepartmentsAbbreviation } from "./../constants/constants";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { google } from "googleapis";
 import { NextResponse } from "next/server";
+import {
+  InsertText,
+  UpdateTextStyle,
+  UpdateParagraphStyle,
+} from "./_types/ParserTypes";
+import { getDriveId } from "./utils";
 
 const auth = new google.auth.GoogleAuth({
   credentials: {
@@ -37,18 +44,22 @@ export const GetSheetData = async (department: string, sheet: "jd" | "qs") => {
   }
 };
 
-export const createDocumentInDrive = async (title: string) => {
+export const createDocumentInDrive = async (
+  title: string,
+  textRequest: InsertText[],
+  styleRequest: (UpdateTextStyle | UpdateParagraphStyle)[],
+  department: DepartmentsAbbreviation
+) => {
   const docs = google.docs({
     version: "v1",
-    auth: await auth.getClient(),
+    auth: (await auth.getClient()) as any,
   });
   const drive = google.drive({
     version: "v3",
-    auth: await auth.getClient(),
+    auth: (await auth.getClient()) as any,
   });
 
   try {
-    // Create the document
     const docResponse = await docs.documents.create({
       requestBody: {
         title: title,
@@ -56,96 +67,27 @@ export const createDocumentInDrive = async (title: string) => {
     });
 
     const documentId = docResponse.data.documentId;
-    const text1 = "Thisissome text:";
-    const text2 = " here is the actual data\n\n";
-    const text3 = " Skiid text:";
-    const text4 = " here is the fake data\n";
-    const requests = [
-      {
-        insertText: {
-          text: text1,
-          endOfSegmentLocation: {},
-        },
-      },
-      {
-        insertText: {
-          text: text2,
-          endOfSegmentLocation: {},
-        },
-      },
 
-      {
-        insertText: {
-          text: text3,
-          endOfSegmentLocation: {},
-        },
-      },
-      {
-        insertText: {
-          text: text4,
-          endOfSegmentLocation: {},
-        },
-      },
-    ];
+    if (!documentId) {
+      throw new Error("Document ID is not available or is invalid.");
+    }
+
     await docs.documents.batchUpdate({
       documentId: documentId,
       requestBody: {
-        requests: requests,
+        requests: textRequest,
       },
     });
 
-    const bold_requests = [
-      {
-        updateTextStyle: {
-          range: {
-            startIndex: 1,
-            endIndex: 17,
-          },
-          textStyle: {
-            bold: true,
-            fontSize: {
-              magnitude: 25, // Set your desired font size here
-              unit: "PT", // PT for points
-            },
-            weightedFontFamily: {
-              fontFamily: "Times New Roman",
-            },
-            foregroundColor: {
-              color: {
-                rgbColor: {
-                  red: 231 / 255,
-                  green: 127 / 255,
-                  blue: 29 / 255,
-                },
-              },
-            },
-          },
-          fields: "bold,fontSize,foregroundColor,weightedFontFamily",
-        },
-      },
-      {
-        updateTextStyle: {
-          range: {
-            startIndex: 43,
-            endIndex: 55,
-          },
-          textStyle: {
-            bold: true,
-          },
-          fields: "bold",
-        },
-      },
-    ];
     await docs.documents.batchUpdate({
       documentId: documentId,
       requestBody: {
-        requests: bold_requests,
+        requests: styleRequest,
       },
     });
-
     await drive.files.update({
       fileId: documentId,
-      addParents: process.env.GOOGLE_DRIVE_ID_CS, // Use addParents to specify the folder
+      addParents: getDriveId(department),
       fields: "id, parents",
     });
 
