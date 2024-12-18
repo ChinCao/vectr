@@ -20,6 +20,8 @@ import {
   GOOGLE_DOC_TITLE_BOLD,
   GOOGLE_DOC_LINK_COLOR,
   GOOGLE_DOC_TEXT_FONT_SIZE,
+  NamedStyleType,
+  TextAlignment,
 } from "./_types/ParserTypes";
 
 function formatQuestion(
@@ -35,8 +37,9 @@ function formatQuestion(
         },
         paragraphStyle: {
           namedStyleType: GOOGLE_DOC_SUBTITLE_TYPE,
+          alignment: TextAlignment.JUSTIFIED,
         },
-        fields: "namedStyleType",
+        fields: "alignment,namedStyleType",
       },
     },
     {
@@ -123,7 +126,7 @@ function formatAnswer(
   endIndex: number,
   isLink?: boolean,
   url?: string
-): [UpdateTextStyle] {
+): [UpdateParagraphStyle, UpdateTextStyle] {
   const updateTextStyle: UpdateTextStyle = {
     updateTextStyle: {
       range: {
@@ -153,15 +156,34 @@ function formatAnswer(
     updateTextStyle.updateTextStyle.textStyle.link = { url: url };
   }
 
-  return [updateTextStyle];
+  return [
+    {
+      updateParagraphStyle: {
+        range: {
+          startIndex: startIndex,
+          endIndex: endIndex,
+        },
+        paragraphStyle: {
+          namedStyleType: NamedStyleType.NORMAL_TEXT,
+          alignment: TextAlignment.JUSTIFIED,
+          indentFirstLine: {
+            magnitude: 36,
+            unit: "PT",
+          },
+        },
+        fields: "alignment,indentFirstLine,namedStyleType",
+      },
+    },
+    updateTextStyle,
+  ];
 }
 
 function addText(
-  text: string | undefined,
-  textType?: string
+  text: string,
+  textType: "title" | "answer" | "question"
 ): [InsertText, number] {
   const lineSeperator =
-    textType == "title" ? "\n" : textType == "answer" ? "\n\n" : ":";
+    textType == "title" ? "\n" : textType == "answer" ? "\n\n" : "\n";
   const additionalLength = lineSeperator.length;
   return [
     {
@@ -211,7 +233,8 @@ function GoogleDocParser(
     const question = addText(
       title == "Thông tin cá nhân"
         ? `${index + 1}. ` + value
-        : `${index + 1}. ` + value["question"]
+        : `${index + 1}. ` + value["question"],
+      "question"
     );
     text_request.push(question[0]);
     style_request.push(
@@ -229,7 +252,7 @@ function GoogleDocParser(
       answerText = "answer" in entry ? entry["answer"] : undefined;
     }
 
-    const answer = addText(answerText, "answer");
+    const answer = addText(answerText!, "answer");
     text_request.push(answer[0]);
     const isLink: boolean =
       key == "facebook" || key == "instagram" ? true : false;
@@ -279,6 +302,5 @@ export const parseData = (
     data["department_questions"]["response"][department]["questions"],
     data["department_questions"]["response"][department]["questions"]
   );
-
   return [text_request, style_request];
 };

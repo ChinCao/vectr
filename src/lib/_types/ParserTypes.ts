@@ -1,3 +1,5 @@
+import { RGBValue } from "@/constants/constants";
+
 export enum NamedStyleType {
   HEADING_1 = "HEADING_1",
   HEADING_2 = "HEADING_2",
@@ -11,6 +13,13 @@ export enum NamedStyleType {
   NAMED_STYLE_TYPE_UNSPECIFIED = "NAMED_STYLE_TYPE_UNSPECIFIED",
 }
 
+export enum TextAlignment {
+  CENTER = "CENTER",
+  START = "START",
+  END = "END",
+  JUSTIFIED = "JUSTIFIED",
+}
+
 export interface UpdateParagraphStyle {
   updateParagraphStyle: {
     range: {
@@ -18,9 +27,14 @@ export interface UpdateParagraphStyle {
       endIndex: number;
     };
     paragraphStyle: {
-      namedStyleType: NamedStyleType;
+      namedStyleType?: NamedStyleType;
+      alignment?: TextAlignment;
+      indentFirstLine?: {
+        magnitude: number;
+        unit: "PT";
+      };
     };
-    fields: "namedStyleType";
+    fields: string;
   };
 }
 
@@ -63,17 +77,31 @@ export interface InsertText {
   };
 }
 
+interface RGB {
+  red: RGBValue;
+  green: RGBValue;
+  blue: RGBValue;
+}
+
 export const GOOGLE_DOC_TITLE_TYPE = NamedStyleType.HEADING_1;
 export const GOOGLE_DOC_TITLE_FONT_SIZE = 25;
 export const GOOGLE_DOC_TITLE_FONT_FAMILY = "Times New Roman";
-export const GOOGLE_DOC_TITLE_TEXT_COLOR = { red: 231, green: 127, blue: 29 };
+export const GOOGLE_DOC_TITLE_TEXT_COLOR: RGB = {
+  red: 231,
+  green: 127,
+  blue: 29,
+};
 export const GOOGLE_DOC_TITLE_BOLD = true;
 
 export const GOOGLE_DOC_SUBTITLE_TYPE = NamedStyleType.HEADING_2;
 export const GOOGLE_DOC_SUBTITLE_FONT_SIZE = 13;
 export const GOOGLE_DOC_SUBTITLE_BOLD = true;
 export const GOOGLE_DOC_SUBTITLE_FONT_FAMILY = "Arial";
-export const GOOGLE_DOC_SUBTITLE_TEXT_COLOR = { red: 255, green: 0, blue: 0 };
+export const GOOGLE_DOC_SUBTITLE_TEXT_COLOR: RGB = {
+  red: 224,
+  green: 102,
+  blue: 102,
+};
 
 export const GOOGLE_DOC_TEXT_FONT_SIZE = 13;
 
