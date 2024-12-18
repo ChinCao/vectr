@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn } from "react-hook-form";
 import QuestionFallBack from "./QuestionFallBack";
 import { useEffect, useRef } from "react";
-import { RESPONSE_MAX_CHARACTER } from "@/constants/constants";
+import { RESPONSE_MAX_CHARACTER } from "@/constants/RecruitConstants";
 
 const DepartmentQuestions = ({
   form,

@@ -27,10 +27,9 @@ import {
   CLICK_SOUND_VOLUME,
   DepartmentsAbbreviation,
   FULL_CORE_TITLE,
-  lowercaseFirstLetter,
   Response,
   RESPONSE_MAX_CHARACTER,
-} from "@/constants/constants";
+} from "@/constants/RecruitConstants";
 import { Progress } from "@/components/ui/progress";
 import PersonalInfo from "./PersonalInfo";
 import GeneralQuestions from "./GeneralQuestions";
@@ -55,6 +54,7 @@ import { IoMdCheckmarkCircle } from "react-icons/io";
 import NavigationButton from "@/app/recruit/_components/NavigationButton";
 import { parseData } from "@/lib/GoogleDocParser";
 import { SaveToGoogleDoc } from "../_lib/SaveToGoogleDoc";
+import { lowercaseFirstLetter } from "@/lib/utils";
 
 const ApplyForm = ({
   department_questions,

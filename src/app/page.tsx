@@ -5,7 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import useSound from "use-sound";
 import React, { useEffect } from "react";
-import { CLICK_SOUND_URL, CLICK_SOUND_VOLUME } from "@/constants/constants";
+import {
+  CLICK_SOUND_URL,
+  CLICK_SOUND_VOLUME,
+} from "@/constants/RecruitConstants";
 
 export default function Home() {
   useEffect(() => {

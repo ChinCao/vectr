@@ -1,7 +1,7 @@
 import NavigationButton from "@/app/recruit/_components/NavigationButton";
 import { ReactNode, Suspense } from "react";
 import FormFallBack from "./_components/FormFallBack";
-import { FULL_CORE_TITLE } from "@/constants/constants";
+import { FULL_CORE_TITLE } from "@/constants/RecruitConstants";
 
 const JobLayout = async ({
   children,

@@ -3,14 +3,17 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import NavigationButton from "../_components/NavigationButton";
-import { CLICK_SOUND_VOLUME, DEPARTMENT_INFO } from "@/constants/constants";
+import {
+  CLICK_SOUND_VOLUME,
+  DEPARTMENT_INFO,
+} from "@/constants/RecruitConstants";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { CLICK_SOUND_URL } from "@/constants/constants";
+import { CLICK_SOUND_URL } from "@/constants/RecruitConstants";
 import useSound from "use-sound";
 
 const JobDescriptionPage = () => {

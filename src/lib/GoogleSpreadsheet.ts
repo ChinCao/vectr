@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DepartmentsAbbreviation } from "./../constants/constants";
+import { DepartmentsAbbreviation } from "../constants/RecruitConstants";
 import { google } from "googleapis";
 import { NextResponse } from "next/server";
 import {

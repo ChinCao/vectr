@@ -1,4 +1,4 @@
-import { DepartmentsAbbreviation } from "@/constants/constants";
+import { DepartmentsAbbreviation } from "@/constants/RecruitConstants";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -17,4 +17,8 @@ const GOOGLE_DRIVE_IDS = {
 
 export function getDriveId(department: DepartmentsAbbreviation) {
   return GOOGLE_DRIVE_IDS[department];
+}
+
+export function lowercaseFirstLetter(str: string) {
+  return str.charAt(0).toLowerCase() + str.slice(1);
 }

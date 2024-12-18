@@ -13,7 +13,10 @@ import { Button } from "./ui/button";
 import { FaBars } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import useSound from "use-sound";
-import { CLICK_SOUND_URL, CLICK_SOUND_VOLUME } from "@/constants/constants";
+import {
+  CLICK_SOUND_URL,
+  CLICK_SOUND_VOLUME,
+} from "@/constants/RecruitConstants";
 
 const Navbar = ({ children }: { children: ReactNode }) => {
   const [toggle, setToggle] = useState(false);

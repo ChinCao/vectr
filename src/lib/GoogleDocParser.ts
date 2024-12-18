@@ -3,12 +3,23 @@ import {
   GeneralQuestionsResponse,
   PersonalInfo,
   Response,
-} from "@/constants/constants";
+} from "@/constants/RecruitConstants";
 import {
   UpdateParagraphStyle,
   UpdateTextStyle,
-  NamedStyleType,
   InsertText,
+  GOOGLE_DOC_TITLE_FONT_SIZE,
+  GOOGLE_DOC_TITLE_FONT_FAMILY,
+  GOOGLE_DOC_TITLE_TYPE,
+  GOOGLE_DOC_SUBTITLE_FONT_SIZE,
+  GOOGLE_DOC_TITLE_TEXT_COLOR,
+  GOOGLE_DOC_SUBTITLE_TYPE,
+  GOOGLE_DOC_SUBTITLE_FONT_FAMILY,
+  GOOGLE_DOC_SUBTITLE_TEXT_COLOR,
+  GOOGLE_DOC_SUBTITLE_BOLD,
+  GOOGLE_DOC_TITLE_BOLD,
+  GOOGLE_DOC_LINK_COLOR,
+  GOOGLE_DOC_TEXT_FONT_SIZE,
 } from "./_types/ParserTypes";
 
 function formatQuestion(
@@ -23,7 +34,7 @@ function formatQuestion(
           endIndex: endIndex,
         },
         paragraphStyle: {
-          namedStyleType: NamedStyleType.HEADING_2,
+          namedStyleType: GOOGLE_DOC_SUBTITLE_TYPE,
         },
         fields: "namedStyleType",
       },
@@ -35,22 +46,25 @@ function formatQuestion(
           endIndex: endIndex,
         },
         textStyle: {
-          bold: true,
+          bold: GOOGLE_DOC_SUBTITLE_BOLD,
           fontSize: {
-            magnitude: 13,
+            magnitude: GOOGLE_DOC_SUBTITLE_FONT_SIZE,
             unit: "PT",
+          },
+          weightedFontFamily: {
+            fontFamily: GOOGLE_DOC_SUBTITLE_FONT_FAMILY,
           },
           foregroundColor: {
             color: {
               rgbColor: {
-                red: 1,
-                green: 0,
-                blue: 0,
+                red: GOOGLE_DOC_SUBTITLE_TEXT_COLOR.red / 255,
+                green: GOOGLE_DOC_SUBTITLE_TEXT_COLOR.green / 255,
+                blue: GOOGLE_DOC_SUBTITLE_TEXT_COLOR.blue / 255,
               },
             },
           },
         },
-        fields: "bold,foregroundColor,fontSize",
+        fields: "bold,foregroundColor,fontSize,weightedFontFamily",
       },
     },
   ];
@@ -68,7 +82,7 @@ function formatTitle(
           endIndex: endIndex,
         },
         paragraphStyle: {
-          namedStyleType: NamedStyleType.HEADING_1,
+          namedStyleType: GOOGLE_DOC_TITLE_TYPE,
         },
         fields: "namedStyleType",
       },
@@ -80,20 +94,20 @@ function formatTitle(
           endIndex: endIndex,
         },
         textStyle: {
-          bold: true,
+          bold: GOOGLE_DOC_TITLE_BOLD,
           fontSize: {
-            magnitude: 25,
+            magnitude: GOOGLE_DOC_TITLE_FONT_SIZE,
             unit: "PT",
           },
           weightedFontFamily: {
-            fontFamily: "Times New Roman",
+            fontFamily: GOOGLE_DOC_TITLE_FONT_FAMILY,
           },
           foregroundColor: {
             color: {
               rgbColor: {
-                red: 231 / 255,
-                green: 127 / 255,
-                blue: 29 / 255,
+                red: GOOGLE_DOC_TITLE_TEXT_COLOR.red / 255,
+                green: GOOGLE_DOC_TITLE_TEXT_COLOR.green / 255,
+                blue: GOOGLE_DOC_TITLE_TEXT_COLOR.blue / 255,
               },
             },
           },
@@ -118,15 +132,15 @@ function formatAnswer(
       },
       textStyle: {
         fontSize: {
-          magnitude: 13,
+          magnitude: GOOGLE_DOC_TEXT_FONT_SIZE,
           unit: "PT",
         },
         foregroundColor: {
           color: {
             rgbColor: {
-              red: isLink ? 17 / 255 : 0,
-              green: isLink ? 85 / 255 : 0,
-              blue: isLink ? 204 / 255 : 0,
+              red: isLink ? GOOGLE_DOC_LINK_COLOR.red / 255 : 0,
+              green: isLink ? GOOGLE_DOC_LINK_COLOR.green / 255 : 0,
+              blue: isLink ? GOOGLE_DOC_LINK_COLOR.blue / 255 : 0,
             },
           },
         },
@@ -186,7 +200,7 @@ function GoogleDocParser(
     | GeneralQuestionsResponse
     | PersonalInfo,
   answers: DepartmentQuestionsResponse | GeneralQuestionsResponse | PersonalInfo
-) {
+): number {
   const field_title = addText(title, "title");
   text_request.push(field_title[0]);
   style_request.push(
@@ -229,6 +243,7 @@ function GoogleDocParser(
     );
     indexTracker = indexTracker + answer[1];
   });
+  return indexTracker;
 }
 
 export const parseData = (
@@ -238,7 +253,7 @@ export const parseData = (
   let indexTracker = 1;
   const text_request: InsertText[] = [];
   const style_request: (UpdateTextStyle | UpdateParagraphStyle)[] = [];
-  GoogleDocParser(
+  indexTracker = GoogleDocParser(
     indexTracker,
     text_request,
     style_request,
@@ -246,7 +261,8 @@ export const parseData = (
     personalIndexTable,
     data["personal_info"]
   );
-  GoogleDocParser(
+
+  indexTracker = GoogleDocParser(
     indexTracker,
     text_request,
     style_request,
@@ -254,6 +270,7 @@ export const parseData = (
     data["general_questions"]["response"],
     data["general_questions"]["response"]
   );
+
   GoogleDocParser(
     indexTracker,
     text_request,
@@ -262,6 +279,6 @@ export const parseData = (
     data["department_questions"]["response"][department]["questions"],
     data["department_questions"]["response"][department]["questions"]
   );
-  console.log(text_request, style_request);
+
   return [text_request, style_request];
 };

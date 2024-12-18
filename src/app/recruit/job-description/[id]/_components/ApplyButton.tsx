@@ -1,7 +1,10 @@
 "use client";
 import Link from "next/link";
 import { ReactNode } from "react";
-import { CLICK_SOUND_URL, CLICK_SOUND_VOLUME } from "@/constants/constants";
+import {
+  CLICK_SOUND_URL,
+  CLICK_SOUND_VOLUME,
+} from "@/constants/RecruitConstants";
 import useSound from "use-sound";
 
 const ApplyButton = ({ children, id }: { children: ReactNode; id: string }) => {

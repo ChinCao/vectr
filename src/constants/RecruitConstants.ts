@@ -190,7 +190,3 @@ export interface Response {
 }
 export const RESPONSE_MAX_CHARACTER = 3000;
 export const INFO_MAX_CHARACTER = 111;
-
-export function lowercaseFirstLetter(str: string) {
-  return str.charAt(0).toLowerCase() + str.slice(1);
-}

@@ -2,7 +2,10 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
-import { CLICK_SOUND_URL, CLICK_SOUND_VOLUME } from "@/constants/constants";
+import {
+  CLICK_SOUND_URL,
+  CLICK_SOUND_VOLUME,
+} from "@/constants/RecruitConstants";
 import useSound from "use-sound";
 
 const NavigationButton = ({

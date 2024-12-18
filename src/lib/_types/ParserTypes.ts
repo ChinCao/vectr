@@ -62,3 +62,19 @@ export interface InsertText {
     endOfSegmentLocation: Record<string, unknown>;
   };
 }
+
+export const GOOGLE_DOC_TITLE_TYPE = NamedStyleType.HEADING_1;
+export const GOOGLE_DOC_TITLE_FONT_SIZE = 25;
+export const GOOGLE_DOC_TITLE_FONT_FAMILY = "Times New Roman";
+export const GOOGLE_DOC_TITLE_TEXT_COLOR = { red: 231, green: 127, blue: 29 };
+export const GOOGLE_DOC_TITLE_BOLD = true;
+
+export const GOOGLE_DOC_SUBTITLE_TYPE = NamedStyleType.HEADING_2;
+export const GOOGLE_DOC_SUBTITLE_FONT_SIZE = 13;
+export const GOOGLE_DOC_SUBTITLE_BOLD = true;
+export const GOOGLE_DOC_SUBTITLE_FONT_FAMILY = "Arial";
+export const GOOGLE_DOC_SUBTITLE_TEXT_COLOR = { red: 255, green: 0, blue: 0 };
+
+export const GOOGLE_DOC_TEXT_FONT_SIZE = 13;
+
+export const GOOGLE_DOC_LINK_COLOR = { red: 17, green: 85, blue: 204 };

@@ -1,4 +1,4 @@
-import { DEPARTMENT_INFO } from "@/constants/constants";
+import { DEPARTMENT_INFO } from "@/constants/RecruitConstants";
 import mongoose, { Schema } from "mongoose";
 import { PersonalInfoType } from "./PersonalInfoSchema";
 

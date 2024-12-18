@@ -1,4 +1,4 @@
-import { INFO_MAX_CHARACTER } from "@/constants/constants";
+import { INFO_MAX_CHARACTER } from "@/constants/RecruitConstants";
 import { z } from "zod";
 
 export const PersonalInfoSchema = z.object({

@@ -1,4 +1,4 @@
-import { CORE_IMAGE, FULL_CORE_TITLE } from "@/constants/constants";
+import { CORE_IMAGE, FULL_CORE_TITLE } from "@/constants/RecruitConstants";
 import NavigationButton from "../../_components/NavigationButton";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";

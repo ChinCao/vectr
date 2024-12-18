@@ -1,6 +1,6 @@
 "use server";
 
-import { DepartmentsAbbreviation } from "@/constants/constants";
+import { DepartmentsAbbreviation } from "@/constants/RecruitConstants";
 import {
   InsertText,
   UpdateTextStyle,

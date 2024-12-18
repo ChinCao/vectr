@@ -10,11 +10,14 @@ import {
 import Image from "next/image";
 import NavigationButton from "./_components/NavigationButton";
 import Navbar from "@/components/Navbar";
-import { CLICK_SOUND_VOLUME, DEPARTMENT_INFO } from "@/constants/constants";
+import {
+  CLICK_SOUND_VOLUME,
+  DEPARTMENT_INFO,
+} from "@/constants/RecruitConstants";
 import MissionCard from "./_components/MissionCard";
 import ProcessBlock from "./_components/ProcessBlock";
 import ValuesCard from "./_components/ValuesCard";
-import { CLICK_SOUND_URL } from "@/constants/constants";
+import { CLICK_SOUND_URL } from "@/constants/RecruitConstants";
 import useSound from "use-sound";
 
 const RecruitPage = () => {
