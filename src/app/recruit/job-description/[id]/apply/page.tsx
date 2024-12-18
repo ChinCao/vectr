@@ -2,12 +2,14 @@ import { GetSheetData } from "@/lib/GoogleUtils";
 import ApplyForm from "./_components/ApplyForm";
 import { DepartmentsAbbreviation } from "@/constants/RecruitConstants";
 
+type Params = Promise<{ id: string }>;
+
 interface PageProps {
-  params: { id: string };
+  params: Params;
 }
 
 const Applypage = async ({ params }: PageProps) => {
-  const { id } = await params;
+  const id = (await params).id;
   const decodedID = decodeURI(id);
   const department: DepartmentsAbbreviation =
     decodedID as DepartmentsAbbreviation;

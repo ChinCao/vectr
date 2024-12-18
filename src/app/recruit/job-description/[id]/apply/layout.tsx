@@ -3,15 +3,18 @@ import { ReactNode, Suspense } from "react";
 import FormFallBack from "./_components/FormFallBack";
 import { FULL_CORE_TITLE } from "@/constants/RecruitConstants";
 
+type Params = Promise<{ id: string }>;
+
 const JobLayout = async ({
   children,
   params,
 }: {
   children: ReactNode;
-  params: { id: string };
+  params: Params;
 }) => {
-  const { id } = await params;
+  const id = (await params).id;
   const decodedID = decodeURI(id);
+
   return (
     <div className="py-14 container">
       <NavigationButton

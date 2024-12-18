@@ -7,12 +7,14 @@ import { Suspense } from "react";
 import DescriptionFallBack from "./_components/DescriptionFallBack";
 import ApplyButton from "./_components/ApplyButton";
 
+type Params = Promise<{ id: string }>;
+
 interface PageProps {
-  params: { id: string };
+  params: Params;
 }
 
 const JobDescription = async ({ params }: PageProps) => {
-  const { id } = await params;
+  const id = (await params).id;
   const decodedID = decodeURI(id);
 
   return (

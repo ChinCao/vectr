@@ -2,8 +2,10 @@ import { DEPARTMENT_INFO } from "@/constants/RecruitConstants";
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
 
+type Params = Promise<{ id: string }>;
+
 interface PageProps {
-  params: { id: string };
+  params: Params;
   children: ReactNode;
 }
 
@@ -12,7 +14,7 @@ const JobLayout = async ({ children, params }: PageProps) => {
     (department) => department.abbreviation
   );
 
-  const { id } = await params;
+  const id = (await params).id;
   const decodedID = decodeURI(id);
   if (!valid_department.includes(decodedID)) {
     notFound();
