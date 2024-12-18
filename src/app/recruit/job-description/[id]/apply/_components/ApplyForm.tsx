@@ -254,7 +254,6 @@ const ApplyForm = ({
           values[key as keyof PersonalInfoType];
       }
     });
-    console.log(response);
 
     const res = await fetch("/api/recruit/save", {
       method: "POST",
