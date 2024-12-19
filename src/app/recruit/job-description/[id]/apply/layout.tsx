@@ -1,7 +1,10 @@
 import NavigationButton from "@/app/recruit/_components/NavigationButton";
 import { ReactNode, Suspense } from "react";
 import FormFallBack from "./_components/FormFallBack";
-import { FULL_CORE_TITLE } from "@/constants/RecruitConstants";
+import {
+  DepartmentsAbbreviation,
+  FULL_CORE_TITLE,
+} from "@/constants/RecruitConstants";
 
 type Params = Promise<{ id: string }>;
 
@@ -14,7 +17,8 @@ const JobLayout = async ({
 }) => {
   const id = (await params).id;
   const decodedID = decodeURI(id);
-
+  const department: DepartmentsAbbreviation =
+    decodedID as DepartmentsAbbreviation;
   return (
     <div className="py-14 container">
       <NavigationButton
@@ -24,7 +28,7 @@ const JobLayout = async ({
       />
       <h1 className="text-bold text-3xl text-center mt-8">
         Apply Vào{" "}
-        <span className="text-primary"> {FULL_CORE_TITLE(decodedID)}</span>
+        <span className="text-primary"> {FULL_CORE_TITLE(department)}</span>
       </h1>
       <Suspense fallback={<FormFallBack />}>{children}</Suspense>
     </div>

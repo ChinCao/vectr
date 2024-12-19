@@ -55,6 +55,7 @@ import NavigationButton from "@/app/recruit/_components/NavigationButton";
 import { parseData } from "@/lib/GoogleDocParser";
 import { SaveToGoogleDoc } from "../_lib/SaveToGoogleDoc";
 import { lowercaseFirstLetter } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const ApplyForm = ({
   department_questions,
@@ -65,6 +66,9 @@ const ApplyForm = ({
   general_questions: string[][];
   department: DepartmentsAbbreviation;
 }) => {
+  const router = useRouter();
+  useEffect(() => router.refresh(), [router]);
+
   const [activeTab, setActiveTab] = useState("personal-info");
   const { toast } = useToast();
   const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
@@ -292,7 +296,7 @@ const ApplyForm = ({
   const watchedValues = useMemo(() => form.watch(), [form]);
   const debouncedValues = useDebounce(watchedValues, 2000, setIsSavedRef);
   useEffect(() => {
-    async function bruh() {
+    async function save() {
       if (debouncedValues && !isFetching && !hasSubmit && !isSubmitting) {
         await saveToDatabase(watchedValues);
       } else if (hasSubmit) {
@@ -300,7 +304,7 @@ const ApplyForm = ({
       }
     }
     if (user?.id) {
-      bruh();
+      save();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id, debouncedValues, hasSubmit, newUser, isSubmitting]);

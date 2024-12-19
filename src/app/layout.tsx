@@ -35,7 +35,7 @@ export default function RootLayout({
         >
           <NavigationGuardProvider>{children}</NavigationGuardProvider>
 
-          <footer className="pb-5 pt-3 border-t-2 flex items-center justify-evenly flex-wrap gap-10">
+          <footer className="px-4 pb-5 pt-3 border-t-2 flex items-center justify-evenly flex-wrap gap-10">
             VECTR© 2024
             <div className="flex gap-2 items-center justify-center flex-wrap">
               <p>Theo dõi chúng mình trên</p>

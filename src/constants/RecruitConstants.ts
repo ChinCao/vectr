@@ -83,6 +83,21 @@ const DepartmentInfoSchema = z.array(DepartmentSchema);
 
 export type DepartmentInfoType = z.infer<typeof DepartmentInfoSchema>;
 
+export const JOB_DESCRIPTION_TITLES: Record<DepartmentsAbbreviation, string> = {
+  [DepartmentsAbbreviation.COMPUTER_SCIENCE]:
+    "Ban Khoa Học Máy Tính phát triển và thuyết trình các dự án coding như web, AI, ML, và game bằng JavaScript, Python, C#, C++. Chúng mình tổ chức sự kiện và tìm kiếm ý tưởng sáng tạo để nâng cao nhận thức về công nghệ.",
+  [DepartmentsAbbreviation.DESIGN]:
+    "Ban Thiết Kế tập trung vào việc tạo ý tưởng và thiết kế bài post cho mạng xã hội, cùng với standee, poster, và banner cho sự kiện. Chúng mình sử dụng thành thạo Photoshop, Canva, và Illustrator, đảm bảo tính đồng nhất và sáng tạo trong mọi sản phẩm.",
+  [DepartmentsAbbreviation.ROBOTICS]:
+    "Ban Robotics phát triển giải pháp công nghệ mới, tập trung vào thiết kế và chế tạo phần cứng. Chúng mình tổ chức sự kiện để khuyến khích sự sáng tạo và tìm kiếm ý tưởng cho các chủ đề hàng tuần về công nghệ robotics.",
+  [DepartmentsAbbreviation.HC]:
+    "Ban Hậu Cần lập kế hoạch và quản lý ngân sách cho sự kiện, chuẩn bị vật tư và thiết bị, cũng như thiết kế không gian hoạt động. Chúng mình hỗ trợ logistics cho các ban khác, đảm bảo mọi hoạt động diễn ra suôn sẻ.",
+  [DepartmentsAbbreviation.PR_CW]:
+    "Ban Content Writer phụ trách lên ý tưởng và viết bài cho các dự án quảng bá. Chúng mình sáng tạo, diễn đạt tốt, và có hiểu biết về toán học, vật lý, và coding, cùng kỹ năng viết lách cho văn bản hành chính.",
+  [DepartmentsAbbreviation.PR_EXTERNAL]:
+    "Ban Đối Ngoại phụ trách đàm phán và tổ chức sự kiện. Chúng mình là cầu nối giữa VECTR, học sinh, và nhà tài trợ, với khả năng giao tiếp và làm việc nhóm hiệu quả.",
+};
+
 export const DEPARTMENT_INFO: DepartmentInfoType = [
   {
     abbreviation: COMPUTER_SCIENCE_NAME_ABBREV,
@@ -123,7 +138,7 @@ export const DEPARTMENT_INFO: DepartmentInfoType = [
   },
 ];
 
-export const FULL_CORE_TITLE = (id: string) => {
+export const FULL_CORE_TITLE = (id: DepartmentsAbbreviation) => {
   switch (id) {
     case COMPUTER_SCIENCE_NAME_ABBREV:
       return COMPUTER_SCIENCE_NAME_FULL;
