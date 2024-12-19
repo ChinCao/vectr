@@ -3,7 +3,7 @@ import {
   DepartmentsAbbreviation,
   FULL_CORE_TITLE,
   JOB_DESCRIPTION_TITLES,
-} from "@/constants/RecruitConstants";
+} from "@/app/recruit/_constants/constants";
 import NavigationButton from "../../_components/NavigationButton";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";

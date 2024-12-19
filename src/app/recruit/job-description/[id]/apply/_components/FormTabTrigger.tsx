@@ -1,13 +1,14 @@
 import { TabsTrigger } from "@radix-ui/react-tabs";
 import React from "react";
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
+import { FormTabs } from "../_types/FormTypes";
 
 const ApplyTabTrigger = ({
   value,
   text,
   direction,
 }: {
-  value: "general-questions" | "department-questions" | "personal-info";
+  value: FormTabs;
   text: string;
   direction: "left" | "right";
 }) => {

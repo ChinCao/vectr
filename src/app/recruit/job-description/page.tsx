@@ -6,14 +6,14 @@ import NavigationButton from "../_components/NavigationButton";
 import {
   CLICK_SOUND_VOLUME,
   DEPARTMENT_INFO,
-} from "@/constants/RecruitConstants";
+} from "@/app/recruit/_constants/constants";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { CLICK_SOUND_URL } from "@/constants/RecruitConstants";
+import { CLICK_SOUND_URL } from "@/app/recruit/_constants/constants";
 import useSound from "use-sound";
 
 const JobDescriptionPage = () => {

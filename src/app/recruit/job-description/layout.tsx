@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import { DEPARTMENT_INFO } from "@/constants/RecruitConstants";
+import { DEPARTMENT_INFO } from "@/app/recruit/_constants/constants";
 import Link from "next/link";
 import { ReactNode } from "react";
 

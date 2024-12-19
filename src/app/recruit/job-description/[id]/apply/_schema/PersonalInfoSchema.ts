@@ -1,5 +1,6 @@
-import { INFO_MAX_CHARACTER } from "@/constants/RecruitConstants";
+import { INFO_MAX_CHARACTER } from "@/app/recruit/_constants/constants";
 import { z } from "zod";
+import { PersonalInfoType } from "../_types/FormTypes";
 
 export const PersonalInfoSchema = z.object({
   name: z
@@ -65,8 +66,6 @@ export const PersonalInfoSchema = z.object({
     })
     .optional(),
 });
-
-export type PersonalInfoType = z.infer<typeof PersonalInfoSchema>;
 
 export const PersonalInfoSchemaDefault: PersonalInfoType = {
   name: "",

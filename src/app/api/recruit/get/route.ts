@@ -1,4 +1,4 @@
-import RecruitResponse from "@/app/recruit/job-description/[id]/apply/_schema/RecruitSchema";
+import RecruitResponse from "@/app/recruit/_schema/DBRecruitSchema";
 import ConnectDB from "@/db/db";
 import { NextResponse } from "next/server";
 

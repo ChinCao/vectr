@@ -1,9 +1,10 @@
+import { DepartmentsAbbreviation } from "../_constants/constants";
 import {
-  DepartmentQuestionsResponse,
-  GeneralQuestionsResponse,
+  Departmentquestions,
+  FormDataStructure,
+  GeneralQuestions,
   PersonalInfo,
-  Response,
-} from "@/constants/RecruitConstants";
+} from "../_types/RecruitTypes";
 import {
   UpdateParagraphStyle,
   UpdateTextStyle,
@@ -217,11 +218,8 @@ function GoogleDocParser(
   text_request: InsertText[],
   style_request: (UpdateTextStyle | UpdateParagraphStyle)[],
   title: string,
-  questions:
-    | DepartmentQuestionsResponse
-    | GeneralQuestionsResponse
-    | PersonalInfo,
-  answers: DepartmentQuestionsResponse | GeneralQuestionsResponse | PersonalInfo
+  questions: Departmentquestions | GeneralQuestions | PersonalInfo,
+  answers: GeneralQuestions | Departmentquestions | PersonalInfo
 ): number {
   const field_title = addText(title, "title");
   text_request.push(field_title[0]);
@@ -231,7 +229,7 @@ function GoogleDocParser(
   indexTracker = indexTracker + field_title[1];
   Object.entries(questions).forEach(([key, value], index) => {
     const question = addText(
-      title == "Thông tin cá nhân"
+      title == fieldsIndexTable["personal_info"]
         ? `${index + 1}. ` + value
         : `${index + 1}. ` + value["question"],
       "question"
@@ -242,13 +240,13 @@ function GoogleDocParser(
     );
     indexTracker = indexTracker + question[1];
     let answerText: string | undefined;
-    if (title == "Thông tin cá nhân") {
+    if (title == fieldsIndexTable["personal_info"]) {
       const personalInfo = answers as PersonalInfo;
       answerText = personalInfo[key as keyof PersonalInfo];
     } else {
-      const entry = (
-        answers as GeneralQuestionsResponse | DepartmentQuestionsResponse
-      )[key];
+      const entry = (answers as Departmentquestions | GeneralQuestions)[
+        key as keyof (Departmentquestions | GeneralQuestions)
+      ];
       answerText = "answer" in entry ? entry["answer"] : undefined;
     }
 
@@ -270,8 +268,8 @@ function GoogleDocParser(
 }
 
 export const parseData = (
-  data: Response,
-  department: string
+  data: FormDataStructure,
+  department: DepartmentsAbbreviation
 ): [InsertText[], (UpdateTextStyle | UpdateParagraphStyle)[]] => {
   let indexTracker = 1;
   const text_request: InsertText[] = [];

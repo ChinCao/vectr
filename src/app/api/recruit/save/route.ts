@@ -1,6 +1,6 @@
-import RecruitResponse from "@/app/recruit/job-description/[id]/apply/_schema/RecruitSchema";
 import { NextResponse } from "next/server";
 import ConnectDB from "@/db/db";
+import RecruitResponse from "@/app/recruit/_schema/DBRecruitSchema";
 
 export async function POST(req: Request) {
   try {

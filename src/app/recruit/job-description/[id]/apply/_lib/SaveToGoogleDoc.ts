@@ -1,12 +1,12 @@
 "use server";
 
-import { DepartmentsAbbreviation } from "@/constants/RecruitConstants";
+import { DepartmentsAbbreviation } from "@/app/recruit/_constants/constants";
 import {
   InsertText,
   UpdateTextStyle,
   UpdateParagraphStyle,
-} from "@/lib/_types/ParserTypes";
-import { createDocumentInDrive } from "@/lib/GoogleUtils";
+} from "@/app/recruit/_lib/_types/ParserTypes";
+import { createDocumentInDrive } from "@/app/recruit/_lib/GoogleUtils";
 
 export async function SaveToGoogleDoc(
   title: string,

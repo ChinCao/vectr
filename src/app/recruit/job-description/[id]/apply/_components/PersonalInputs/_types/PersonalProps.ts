@@ -1,4 +1,4 @@
-import { UseFormReturn } from "react-hook-form";
+import { Tform } from "../../../_types/FormTypes";
 
 export interface PersonalInfoProps {
   studentID?: string;
@@ -7,7 +7,6 @@ export interface PersonalInfoProps {
   setSchoolEmail?: React.Dispatch<React.SetStateAction<string>>;
   manual?: boolean;
   setManual?: React.Dispatch<React.SetStateAction<boolean>>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  form: UseFormReturn<any>;
+  form: Tform;
   isFetching: boolean;
 }

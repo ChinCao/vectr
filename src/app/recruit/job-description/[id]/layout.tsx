@@ -1,4 +1,4 @@
-import { DEPARTMENT_INFO } from "@/constants/RecruitConstants";
+import { DepartmentsAbbreviation } from "@/app/recruit/_constants/constants";
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
 
@@ -10,13 +10,13 @@ interface PageProps {
 }
 
 const JobLayout = async ({ children, params }: PageProps) => {
-  const valid_department = DEPARTMENT_INFO.map(
-    (department) => department.abbreviation
-  );
+  const valid_department = Object.values(DepartmentsAbbreviation);
 
   const id = (await params).id;
   const decodedID = decodeURI(id);
-  if (!valid_department.includes(decodedID)) {
+  const department: DepartmentsAbbreviation =
+    decodedID as DepartmentsAbbreviation;
+  if (!valid_department.includes(department)) {
     notFound();
   }
 

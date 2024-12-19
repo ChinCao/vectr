@@ -1,4 +1,7 @@
-import { z } from "zod";
+import {
+  DepartmentQuestionEntry,
+  FormDataStructure,
+} from "../_types/RecruitTypes";
 
 export enum DepartmentsAbbreviation {
   COMPUTER_SCIENCE = "computer science",
@@ -71,18 +74,6 @@ export const CORE_IMAGE: Record<CoreImageKeys, string[]> = {
   ],
 };
 
-const DepartmentSchema = z.object({
-  abbreviation: z.string(),
-  full: z.string(),
-  images: z.array(z.string()),
-  url: z.string().url(),
-});
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const DepartmentInfoSchema = z.array(DepartmentSchema);
-
-export type DepartmentInfoType = z.infer<typeof DepartmentInfoSchema>;
-
 export const JOB_DESCRIPTION_TITLES: Record<DepartmentsAbbreviation, string> = {
   [DepartmentsAbbreviation.COMPUTER_SCIENCE]:
     "Ban Khoa Học Máy Tính phát triển và thuyết trình các dự án coding như web, AI, ML, và game bằng JavaScript, Python, C#, C++. Chúng mình tổ chức sự kiện và tìm kiếm ý tưởng sáng tạo để nâng cao nhận thức về công nghệ.",
@@ -98,7 +89,14 @@ export const JOB_DESCRIPTION_TITLES: Record<DepartmentsAbbreviation, string> = {
     "Ban Đối Ngoại phụ trách đàm phán và tổ chức sự kiện. Chúng mình là cầu nối giữa VECTR, học sinh, và nhà tài trợ, với khả năng giao tiếp và làm việc nhóm hiệu quả.",
 };
 
-export const DEPARTMENT_INFO: DepartmentInfoType = [
+interface DepartmentSchema {
+  abbreviation: DepartmentsAbbreviation;
+  full: DepartmentsFull;
+  images: string[];
+  url: string;
+}
+
+export const DEPARTMENT_INFO: DepartmentSchema[] = [
   {
     abbreviation: COMPUTER_SCIENCE_NAME_ABBREV,
     full: COMPUTER_SCIENCE_NAME_FULL,
@@ -158,50 +156,35 @@ export const FULL_CORE_TITLE = (id: DepartmentsAbbreviation) => {
 export const CLICK_SOUND_URL = "/sounds/click.mp3";
 export const CLICK_SOUND_VOLUME = 0.05;
 
-export interface PersonalInfo {
-  name: string | undefined;
-  school_email: string | undefined;
-  student_id: string | undefined;
-  facebook: string | undefined;
-  private_email: string | undefined;
-  class: string | undefined;
-  instagram: string | undefined;
-  _id?: string;
-}
-
-export interface DepartmentQuestionEntry {
-  question: string;
-  answer: string | undefined;
-  _id?: string;
-}
-
-export interface DepartmentQuestionsResponse {
-  [key: string]: {
-    hasSubmitted: boolean;
-    questions: Record<string, DepartmentQuestionEntry>;
-  };
-}
-
-export interface GeneralQuestionEntry {
-  question: string;
-  answer: string | undefined;
-  _id?: string;
-}
-
-export interface GeneralQuestionsResponse {
-  [key: string]: GeneralQuestionEntry;
-}
-
-export interface Response {
-  user_id: string | undefined;
-  personal_info: PersonalInfo;
-  department_questions: {
-    response: DepartmentQuestionsResponse;
-  };
-  general_questions: {
-    response: GeneralQuestionsResponse;
-  };
-  _id?: string;
-}
 export const RESPONSE_MAX_CHARACTER = 3000;
 export const INFO_MAX_CHARACTER = 111;
+
+export const BLANK_FORM_DATA: FormDataStructure = {
+  user_id: undefined,
+  personal_info: {
+    name: undefined,
+    school_email: undefined,
+    student_id: undefined,
+    facebook: undefined,
+    private_email: undefined,
+    class: undefined,
+    instagram: undefined,
+  },
+  department_questions: {
+    response: Object.fromEntries(
+      Object.values(DepartmentsAbbreviation).map((department) => [
+        department,
+        {
+          questions: {} as Record<string, DepartmentQuestionEntry>,
+          hasSubmitted: false,
+        },
+      ])
+    ) as {
+      [key in DepartmentsAbbreviation]: {
+        questions: Record<string, DepartmentQuestionEntry>;
+        hasSubmitted: boolean;
+      };
+    },
+  },
+  general_questions: { response: {} },
+};

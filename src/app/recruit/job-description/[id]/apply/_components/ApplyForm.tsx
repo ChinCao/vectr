@@ -1,44 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { z, ZodOptional, ZodString } from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 import { useEffect, useMemo, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { Toaster } from "@/components/ui/toaster";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+
 import useSound from "use-sound";
 import {
   CLICK_SOUND_URL,
   CLICK_SOUND_VOLUME,
   DepartmentsAbbreviation,
-  FULL_CORE_TITLE,
-  Response,
-  RESPONSE_MAX_CHARACTER,
-} from "@/constants/RecruitConstants";
+} from "@/app/recruit/_constants/constants";
 import { Progress } from "@/components/ui/progress";
-import PersonalInfo from "./PersonalInfo";
-import GeneralQuestions from "./GeneralQuestions";
-import DepartmentQuestions from "./DepartmentQuestion";
-import ApplyTabTrigger from "./ApplyTabTrigger";
+import PersonalInfo from "./PersonalInfoTab";
+import GeneralQuestions from "./GeneralQuestionsTab";
+import DepartmentQuestions from "./DepartmentQuestionTab";
+import ApplyTabTrigger from "./FormTabTrigger";
 import {
   PersonalInfoSchema,
   PersonalInfoSchemaDefault,
-  PersonalInfoType,
 } from "../_schema/PersonalInfoSchema";
 import { useUser } from "@clerk/clerk-react";
 import { NextResponse } from "next/server";
@@ -49,13 +34,18 @@ import {
   MdOutlineCloudDownload,
   MdOutlineCloudUpload,
 } from "react-icons/md";
-import LoadingSpinner from "@/components/LoadingSpinner";
-import { IoMdCheckmarkCircle } from "react-icons/io";
-import NavigationButton from "@/app/recruit/_components/NavigationButton";
-import { parseData } from "@/lib/GoogleDocParser";
-import { SaveToGoogleDoc } from "../_lib/SaveToGoogleDoc";
-import { lowercaseFirstLetter } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import SubmitSuccess from "./SubmitSuccess";
+import {
+  DynamicQuestionsDefaults,
+  DynamicQuestionsSchema,
+} from "../_schema/DynamicQuestionsSchema";
+import { FormTabs, FormType } from "../_types/FormTypes";
+import SubmitComfirmDialog from "./SubmitComfirmDialog";
+import SubmittingDialog from "./SubmittingDialog";
+import { SaveToDatabase } from "../_lib/SaveToDatabase";
+import { FormDataStructure } from "@/app/recruit/_types/RecruitTypes";
+import FormatResponse from "../_lib/FormatResponse";
 
 const ApplyForm = ({
   department_questions,
@@ -69,7 +59,7 @@ const ApplyForm = ({
   const router = useRouter();
   useEffect(() => router.refresh(), [router]);
 
-  const [activeTab, setActiveTab] = useState("personal-info");
+  const [activeTab, setActiveTab] = useState<FormTabs>("personal-info");
   const { toast } = useToast();
   const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
   const [studentID, setStudentID] = useState("VS");
@@ -84,45 +74,20 @@ const ApplyForm = ({
     () => [...department_questions[0], ...general_questions[0]],
     [department_questions, general_questions]
   );
-  const dynamicQuestionSchema = z.object(
-    questions_id.reduce((acc, item) => {
-      acc[item] = item.includes("(optional)")
-        ? z
-            .string()
-            .max(RESPONSE_MAX_CHARACTER, {
-              message: `Không được vượt quá ${RESPONSE_MAX_CHARACTER} ký tự`,
-            })
-            .optional()
-        : z
-            .string()
-            .max(RESPONSE_MAX_CHARACTER, {
-              message: `Không được vượt quá ${RESPONSE_MAX_CHARACTER} ký tự`,
-            })
-            .nonempty({
-              message: "Không được để trống, hãy viết gì đó nhé!",
-            });
-      return acc;
-    }, {} as Record<string, ZodOptional<ZodString> | ZodString>)
-  );
+
+  const DynamicSchema = DynamicQuestionsSchema(questions_id);
+  const DynamicQuestionsDefault = DynamicQuestionsDefaults(questions_id);
 
   const formSchema = z.object({
     ...PersonalInfoSchema.shape,
-    ...dynamicQuestionSchema.shape,
+    ...DynamicSchema.shape,
   });
 
-  const dynamicQuestionsDefault = questions_id.reduce((acc, item) => {
-    acc[item] = "";
-    return acc;
-  }, {} as Record<string, string>);
-
-  type FormSanitizedData = z.infer<typeof formSchema>;
-  type DynamicQuestionType = z.infer<typeof dynamicQuestionSchema>;
-  type CombinedType = FormSanitizedData & DynamicQuestionType;
-  const form = useForm<FormSanitizedData>({
+  const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       ...PersonalInfoSchemaDefault,
-      ...dynamicQuestionsDefault,
+      ...DynamicQuestionsDefault,
     },
     mode: "onChange",
   });
@@ -138,7 +103,7 @@ const ApplyForm = ({
         },
       });
       interface Recruit {
-        recruit: Response;
+        recruit: FormDataStructure;
       }
       const data: Recruit = await res.json();
       if (!res.ok) {
@@ -216,110 +181,62 @@ const ApplyForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id, hasSubmit, isFetching]);
 
-  async function saveToDatabase(values: CombinedType, submit?: boolean) {
-    if (submit) {
-      setIsSubmitting(true);
-    }
-    const response: Response = {
-      user_id: user?.id,
-      personal_info: {
-        name: undefined,
-        school_email: undefined,
-        student_id: undefined,
-        facebook: undefined,
-        private_email: undefined,
-        class: undefined,
-        instagram: undefined,
-      },
-      department_questions: { response: {} },
-      general_questions: { response: {} },
-    };
-    response["department_questions"]["response"][department] = {
-      hasSubmitted: submit ? true : false,
-      questions: {},
-    };
-
-    Object.keys(values).forEach((key: string) => {
-      if (department_questions[0].includes(key)) {
-        response["department_questions"]["response"][department]["questions"][
-          key
-        ] = {
-          question:
-            department_questions[1][department_questions[0].indexOf(key)],
-          answer: values[key],
-        };
-      } else if (general_questions[0].includes(key)) {
-        response["general_questions"]["response"][key] = {
-          question: general_questions[1][general_questions[0].indexOf(key)],
-          answer: values[key],
-        };
-      } else {
-        response["personal_info"][key as keyof PersonalInfoType] =
-          values[key as keyof PersonalInfoType];
-      }
-    });
-
-    const res = await fetch("/api/recruit/save", {
-      method: "POST",
-      body: JSON.stringify(response),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (submit) {
-      console.log(response);
-      const parsedData = parseData(response, department);
-      const documentTitle = `${response["personal_info"]["name"]}_${response["personal_info"]["class"]}_${response["personal_info"]["student_id"]}`;
-      await SaveToGoogleDoc(
-        documentTitle,
-        parsedData[0],
-        parsedData[1],
+  const onSubmit = async (values: FormType) => {
+    if (!isSubmitting) {
+      const sanitized_data = FormatResponse(
+        user!.id,
+        values,
+        department_questions,
+        general_questions,
         department
       );
-      setHasSubmit(true);
-      setIsSubmitting(false);
-    }
-    setIsSavedRef(true);
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.message || "An error occurred");
-    }
-  }
-
-  const onSubmit = async (values: CombinedType) => {
-    if (!isSubmitting) {
-      await saveToDatabase(values, true);
+      await SaveToDatabase(sanitized_data, true, department);
     }
   };
-  const [isSavedRef, setIsSavedRef] = useState(true);
+  const [isSaved, setIsSaved] = useState(true);
   const watchedValues = useMemo(() => form.watch(), [form]);
-  const debouncedValues = useDebounce(watchedValues, 2000, setIsSavedRef);
+  const debouncedValues = useDebounce(watchedValues, 2000, setIsSaved);
   useEffect(() => {
     async function save() {
       if (debouncedValues && !isFetching && !hasSubmit && !isSubmitting) {
-        await saveToDatabase(watchedValues);
+        const sanitized_data = FormatResponse(
+          user!.id,
+          watchedValues,
+          department_questions,
+          general_questions,
+          department
+        );
+        await SaveToDatabase(sanitized_data, false, department);
       } else if (hasSubmit) {
-        setIsSavedRef(true);
+        setIsSaved(true);
       }
     }
     if (user?.id) {
       save();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id, debouncedValues, hasSubmit, newUser, isSubmitting]);
 
   const navGuard = useNavigationGuard({
-    enabled: !isSavedRef && !hasSubmit,
+    enabled: !isSaved && !hasSubmit,
   });
 
   useEffect(() => {
-    if (navGuard.active) {
-      saveToDatabase(watchedValues);
-      navGuard.accept();
+    async function check() {
+      if (navGuard.active) {
+        const sanitized_data = FormatResponse(
+          user!.id,
+          watchedValues,
+          department_questions,
+          general_questions,
+          department
+        );
+        await SaveToDatabase(sanitized_data, false, department);
+        navGuard.accept();
+      }
     }
+    check();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navGuard, isSavedRef]);
+  }, [navGuard, isSaved]);
 
   useEffect(() => {
     const hasPersonalInfoErrors = Object.keys(formState.errors).some((key) =>
@@ -349,7 +266,7 @@ const ApplyForm = ({
         description: `Vui lòng kiểm tra lại ${errorText}.`,
         action: (
           <ToastAction altText="close" onClick={() => playClick()}>
-            Close
+            Đóng
           </ToastAction>
         ),
       });
@@ -392,10 +309,10 @@ const ApplyForm = ({
             <Tabs
               defaultValue="personal-info"
               value={activeTab}
-              onValueChange={setActiveTab}
+              onValueChange={(value) => setActiveTab(value as FormTabs)}
               className="px-2 lg:px-12 py-8 mt-8 w-full lg:w-[80%]"
             >
-              {isSavedRef && !isFetching ? (
+              {isSaved && !isFetching ? (
                 <div className="flex items-center justify-start gap-4 mb-4 text-green-900 flex-col sm:flex-row">
                   <MdOutlineCloudDone /> Mọi dữ liệu đã được lưu
                 </div>
@@ -406,7 +323,7 @@ const ApplyForm = ({
                     Đang lấy thông tin từ cơ sở dữ liệu
                   </p>
                 </div>
-              ) : !isSavedRef ? (
+              ) : !isSaved ? (
                 <div className="flex items-center justify-start gap-4 mb-4 text-red-600 flex-col sm:flex-row">
                   <MdOutlineCloudUpload />
                   Đang lưu câu trả lời của bạn
@@ -493,71 +410,15 @@ const ApplyForm = ({
                     text="Thông tin cá nhân"
                   />
                 </TabsList>
-                <AlertDialog open={isSubmitting}>
-                  <AlertDialogContent className="flex flex-col items-center justify-center">
-                    <AlertDialogTitle>
-                      Đang ghi nhận thông tin của bạn
-                    </AlertDialogTitle>
-                    <LoadingSpinner />
-                  </AlertDialogContent>
-                </AlertDialog>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button
-                      className="w-full mt-5"
-                      type="button"
-                      onClick={() => playClick()}
-                    >
-                      Gửi đơn
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Bạn có chắc chắn chưa?
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Không thể hoàn tác hành động này và thông tin của bạn sẽ
-                        được ghi nhận.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel onClick={() => playClick()}>
-                        Hủy
-                      </AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={() => {
-                          playClick();
-                          form.handleSubmit(onSubmit)();
-                        }}
-                      >
-                        Tiếp tục
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                <SubmittingDialog isSubmitting={isSubmitting} />
+                <SubmitComfirmDialog onSubmit={onSubmit} form={form} />
               </TabsContent>
             </Tabs>
             <Toaster />
           </form>
         </Form>
       ) : (
-        <div className="flex flex-col items-center justify-between mt-3 gap-3">
-          <IoMdCheckmarkCircle fill="green" size={69} />
-          <h1 className="font-semibold text-xl text-green-700 text-center">
-            Xin chúc mừng! Bạn đã gửi đơn thành công đến{" "}
-            {lowercaseFirstLetter(FULL_CORE_TITLE(department)!)}.
-          </h1>
-          <p className="text-green-700 text-center">
-            Hãy kiểm tra email của bạn để biết thêm thông tin chi tiết!
-          </p>
-          <NavigationButton
-            noArrow={true}
-            text="Xem các ban khác"
-            href="/recruit/job-description"
-            button_className="bg-green-700"
-          />
-        </div>
+        <SubmitSuccess department={department} />
       )}
     </>
   );

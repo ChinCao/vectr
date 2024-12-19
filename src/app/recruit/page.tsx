@@ -13,11 +13,11 @@ import Navbar from "@/components/Navbar";
 import {
   CLICK_SOUND_VOLUME,
   DEPARTMENT_INFO,
-} from "@/constants/RecruitConstants";
+} from "@/app/recruit/_constants/constants";
 import MissionCard from "./_components/MissionCard";
 import ProcessBlock from "./_components/ProcessBlock";
 import ValuesCard from "./_components/ValuesCard";
-import { CLICK_SOUND_URL } from "@/constants/RecruitConstants";
+import { CLICK_SOUND_URL } from "@/app/recruit/_constants/constants";
 import useSound from "use-sound";
 
 const RecruitPage = () => {

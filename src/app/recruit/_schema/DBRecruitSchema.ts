@@ -1,6 +1,11 @@
-import { DEPARTMENT_INFO } from "@/constants/RecruitConstants";
+import { DepartmentsAbbreviation } from "@/app/recruit/_constants/constants";
 import mongoose, { Schema } from "mongoose";
-import { PersonalInfoType } from "./PersonalInfoSchema";
+import {
+  DepartmentQuestionsResponse,
+  FormDataStructure,
+  GeneralQuestionsResponse,
+} from "@/app/recruit/_types/RecruitTypes";
+import { PersonalInfoType } from "../job-description/[id]/apply/_types/FormTypes";
 
 const PersonalInfoSchema = new Schema<PersonalInfoType>({
   name: { type: String, required: false },
@@ -12,7 +17,7 @@ const PersonalInfoSchema = new Schema<PersonalInfoType>({
   instagram: { type: String, required: false },
 });
 
-const GeneralQuestionSchema = new Schema({
+const GeneralQuestionSchema = new Schema<GeneralQuestionsResponse>({
   response: {
     type: Map, // Question ID
     of: {
@@ -22,10 +27,9 @@ const GeneralQuestionSchema = new Schema({
   },
 });
 
-const DepartmentQuestionSchema = new Schema({
+const DepartmentQuestionSchema = new Schema<DepartmentQuestionsResponse>({
   response: {
-    type: Map, // Department
-    of: {
+    [typeof DepartmentsAbbreviation]: {
       questions: {
         type: Map, // Question ID
         of: {
@@ -35,36 +39,10 @@ const DepartmentQuestionSchema = new Schema({
       },
       hasSubmitted: { type: Boolean, required: true },
     },
-    default: () => {
-      const map = new Map();
-      DEPARTMENT_INFO.forEach((department) => {
-        map.set(department.abbreviation, {
-          questions: null,
-          hasSubmitted: false,
-        });
-      });
-      return map;
-    },
   },
 });
 
-DepartmentQuestionSchema.pre("save", function (next) {
-  const departmentResponseMap = this.response || new Map();
-
-  DEPARTMENT_INFO.forEach((department) => {
-    if (!departmentResponseMap.has(department.abbreviation)) {
-      departmentResponseMap.set(department.abbreviation, {
-        questions: null,
-        hasSubmitted: false,
-      });
-    }
-  });
-
-  this.response = departmentResponseMap;
-  next();
-});
-
-const RecruitSchema = new Schema({
+const RecruitSchema = new Schema<FormDataStructure>({
   user_id: { type: String, required: true },
   personal_info: PersonalInfoSchema,
   department_questions: DepartmentQuestionSchema,

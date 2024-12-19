@@ -5,7 +5,7 @@ import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
 import {
   CLICK_SOUND_URL,
   CLICK_SOUND_VOLUME,
-} from "@/constants/RecruitConstants";
+} from "@/app/recruit/_constants/constants";
 import useSound from "use-sound";
 
 const NavigationButton = ({

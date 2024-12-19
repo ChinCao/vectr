@@ -1,6 +1,6 @@
-import { GetSheetData } from "@/lib/GoogleUtils";
+import { GetSheetData } from "@/app/recruit/_lib/GoogleUtils";
 import ApplyForm from "./_components/ApplyForm";
-import { DepartmentsAbbreviation } from "@/constants/RecruitConstants";
+import { DepartmentsAbbreviation } from "@/app/recruit/_constants/constants";
 
 type Params = Promise<{ id: string }>;
 

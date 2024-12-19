@@ -16,7 +16,7 @@ import useSound from "use-sound";
 import {
   CLICK_SOUND_URL,
   CLICK_SOUND_VOLUME,
-} from "@/constants/RecruitConstants";
+} from "@/app/recruit/_constants/constants";
 
 const Navbar = ({ children }: { children: ReactNode }) => {
   const [toggle, setToggle] = useState(false);

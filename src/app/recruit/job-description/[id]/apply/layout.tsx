@@ -1,10 +1,10 @@
 import NavigationButton from "@/app/recruit/_components/NavigationButton";
 import { ReactNode, Suspense } from "react";
-import FormFallBack from "./_components/FormFallBack";
+import FormFallBack from "./_components/FallBacks/FormFallBack";
 import {
   DepartmentsAbbreviation,
   FULL_CORE_TITLE,
-} from "@/constants/RecruitConstants";
+} from "@/app/recruit/_constants/constants";
 
 type Params = Promise<{ id: string }>;
 

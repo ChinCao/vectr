@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DepartmentsAbbreviation } from "../constants/RecruitConstants";
+import { DepartmentsAbbreviation } from "../_constants/constants";
 import { google } from "googleapis";
 import { NextResponse } from "next/server";
+import { getDriveId } from "./utils";
 import {
   InsertText,
-  UpdateTextStyle,
   UpdateParagraphStyle,
+  UpdateTextStyle,
 } from "./_types/ParserTypes";
-import { getDriveId } from "./utils";
 
 const auth = new google.auth.GoogleAuth({
   credentials: {

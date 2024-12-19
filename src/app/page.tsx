@@ -8,7 +8,7 @@ import React, { useEffect } from "react";
 import {
   CLICK_SOUND_URL,
   CLICK_SOUND_VOLUME,
-} from "@/constants/RecruitConstants";
+} from "@/app/recruit/_constants/constants";
 
 export default function Home() {
   useEffect(() => {

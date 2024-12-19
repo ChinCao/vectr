@@ -5,9 +5,9 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { INFO_MAX_CHARACTER } from "@/constants/RecruitConstants";
+import { INFO_MAX_CHARACTER } from "@/app/recruit/_constants/constants";
 import { FaFacebook } from "react-icons/fa";
-import QuestionFallBack from "../QuestionFallBack";
+import QuestionFallBack from "../FallBacks/QuestionFallBack";
 import { Input } from "@/components/ui/input";
 import { PersonalInfoProps } from "./_types/PersonalProps";
 
