@@ -7,9 +7,9 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn } from "react-hook-form";
-import QuestionFallBack from "./FallBacks/QuestionFallBack";
 import { useRef, useEffect } from "react";
 import { RESPONSE_MAX_CHARACTER } from "@/app/recruit/_constants/constants";
+import QuestionFallBack from "../../FallBacks/QuestionFallBack";
 
 const GeneralQuestions = ({
   form,

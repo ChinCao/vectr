@@ -69,7 +69,6 @@ export const createDocumentInDrive = async (
     const documentId = docResponse.data.documentId;
 
     if (!documentId) {
-      console.log(documentId);
       throw new Error("Document ID is not available or is invalid.");
     }
 

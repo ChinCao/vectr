@@ -18,7 +18,8 @@ body {
 }
 
 html,
-body {
+body,
+label:hover {
   cursor: url("/arrowhead-rounded-outline.svg"), default;
 }
 

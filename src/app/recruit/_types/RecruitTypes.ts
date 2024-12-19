@@ -47,3 +47,7 @@ export interface FormDataStructure {
   general_questions: GeneralQuestionsResponse;
   _id?: string;
 }
+
+export interface Recruit {
+  recruit: FormDataStructure;
+}

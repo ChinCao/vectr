@@ -96,7 +96,7 @@ export const GOOGLE_DOC_TITLE_BOLD = true;
 export const GOOGLE_DOC_SUBTITLE_TYPE = NamedStyleType.HEADING_2;
 export const GOOGLE_DOC_SUBTITLE_FONT_SIZE = 13;
 export const GOOGLE_DOC_SUBTITLE_BOLD = true;
-export const GOOGLE_DOC_SUBTITLE_FONT_FAMILY = "Arial";
+export const GOOGLE_DOC_SUBTITLE_FONT_FAMILY = "Open Sans";
 export const GOOGLE_DOC_SUBTITLE_TEXT_COLOR: RGB = {
   red: 224,
   green: 102,

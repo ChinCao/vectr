@@ -34,7 +34,7 @@ const SubmitComfirmDialog = ({ form, onSubmit }: DiaglogProps) => {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
-          className="w-full mt-5"
+          className="w-full mt-2"
           type="button"
           onClick={() => playClick()}
         >

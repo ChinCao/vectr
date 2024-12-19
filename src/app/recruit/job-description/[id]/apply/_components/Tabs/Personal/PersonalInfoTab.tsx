@@ -1,11 +1,11 @@
-import Name from "./PersonalInputs/Name";
-import { PersonalInfoProps } from "./PersonalInputs/_types/PersonalProps";
-import StundentID from "./PersonalInputs/StundentID";
-import Class from "./PersonalInputs/Class";
-import SchoolEmail from "./PersonalInputs/SchoolEmail";
-import PrivateEmail from "./PersonalInputs/PrivateEmail";
-import Facebook from "./PersonalInputs/Facebook";
-import Instagram from "./PersonalInputs/Instagram";
+import { PersonalInfoProps } from "./Inputs/_types/PersonalProps";
+import Class from "./Inputs/Class";
+import Facebook from "./Inputs/Facebook";
+import Instagram from "./Inputs/Instagram";
+import Name from "./Inputs/Name";
+import PrivateEmail from "./Inputs/PrivateEmail";
+import SchoolEmail from "./Inputs/SchoolEmail";
+import StundentID from "./Inputs/StundentID";
 
 const PersonalInfo = ({
   form,

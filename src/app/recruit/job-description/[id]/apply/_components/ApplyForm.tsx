@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { useEffect, useMemo, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { Toaster } from "@/components/ui/toaster";
@@ -16,11 +16,6 @@ import {
   CLICK_SOUND_VOLUME,
   DepartmentsAbbreviation,
 } from "@/app/recruit/_constants/constants";
-import { Progress } from "@/components/ui/progress";
-import PersonalInfo from "./PersonalInfoTab";
-import GeneralQuestions from "./GeneralQuestionsTab";
-import DepartmentQuestions from "./DepartmentQuestionTab";
-import ApplyTabTrigger from "./FormTabTrigger";
 import {
   PersonalInfoSchema,
   PersonalInfoSchemaDefault,
@@ -29,11 +24,7 @@ import { useUser } from "@clerk/clerk-react";
 import { NextResponse } from "next/server";
 import { useDebounce } from "../_hook/useDebounce";
 import { useNavigationGuard } from "next-navigation-guard";
-import {
-  MdOutlineCloudDone,
-  MdOutlineCloudDownload,
-  MdOutlineCloudUpload,
-} from "react-icons/md";
+
 import { useRouter } from "next/navigation";
 import SubmitSuccess from "./SubmitSuccess";
 import {
@@ -44,8 +35,13 @@ import { FormTabs, FormType } from "../_types/FormTypes";
 import SubmitComfirmDialog from "./SubmitComfirmDialog";
 import SubmittingDialog from "./SubmittingDialog";
 import { SaveToDatabase } from "../_lib/SaveToDatabase";
-import { FormDataStructure } from "@/app/recruit/_types/RecruitTypes";
-import FormatResponse from "../_lib/FormatResponse";
+import { Recruit } from "@/app/recruit/_types/RecruitTypes";
+import CreateFormatResponse from "../_lib/FormatResponse";
+import DataState from "./DataState";
+import ProgressBar from "./ProgressBar";
+import PersonalInfoTabContent from "./Tabs/Personal/PersonalInfoTabContent";
+import GeneralQuestionsTabContent from "./Tabs/General/GeneralQuestionsTabContent";
+import DepartmentQuestionsTabContent from "./Tabs/Department/DepartmentQuestionsTabContent";
 
 const ApplyForm = ({
   department_questions,
@@ -58,7 +54,6 @@ const ApplyForm = ({
 }) => {
   const router = useRouter();
   useEffect(() => router.refresh(), [router]);
-
   const [activeTab, setActiveTab] = useState<FormTabs>("personal-info");
   const { toast } = useToast();
   const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
@@ -73,6 +68,12 @@ const ApplyForm = ({
   const questions_id = useMemo(
     () => [...department_questions[0], ...general_questions[0]],
     [department_questions, general_questions]
+  );
+
+  const createSanitizedData = CreateFormatResponse(
+    department_questions,
+    general_questions,
+    department
   );
 
   const DynamicSchema = DynamicQuestionsSchema(questions_id);
@@ -102,9 +103,7 @@ const ApplyForm = ({
           "Content-Type": "application/json",
         },
       });
-      interface Recruit {
-        recruit: FormDataStructure;
-      }
+
       const data: Recruit = await res.json();
       if (!res.ok) {
         const errorMessage = await res.text();
@@ -183,29 +182,19 @@ const ApplyForm = ({
 
   const onSubmit = async (values: FormType) => {
     if (!isSubmitting) {
-      const sanitized_data = FormatResponse(
-        user!.id,
-        values,
-        department_questions,
-        general_questions,
-        department
-      );
+      const sanitized_data = createSanitizedData(user!.id, values);
       await SaveToDatabase(sanitized_data, true, department);
     }
   };
+
   const [isSaved, setIsSaved] = useState(true);
   const watchedValues = useMemo(() => form.watch(), [form]);
   const debouncedValues = useDebounce(watchedValues, 2000, setIsSaved);
+
   useEffect(() => {
     async function save() {
       if (debouncedValues && !isFetching && !hasSubmit && !isSubmitting) {
-        const sanitized_data = FormatResponse(
-          user!.id,
-          watchedValues,
-          department_questions,
-          general_questions,
-          department
-        );
+        const sanitized_data = createSanitizedData(user!.id, watchedValues);
         await SaveToDatabase(sanitized_data, false, department);
       } else if (hasSubmit) {
         setIsSaved(true);
@@ -223,13 +212,7 @@ const ApplyForm = ({
   useEffect(() => {
     async function check() {
       if (navGuard.active) {
-        const sanitized_data = FormatResponse(
-          user!.id,
-          watchedValues,
-          department_questions,
-          general_questions,
-          department
-        );
+        const sanitized_data = createSanitizedData(user!.id, watchedValues);
         await SaveToDatabase(sanitized_data, false, department);
         navGuard.accept();
       }
@@ -289,46 +272,18 @@ const ApplyForm = ({
     <>
       {!hasSubmit ? (
         <Form {...form}>
-          <Progress
-            value={
-              activeTab === "personal-info"
-                ? (100 / 3) * 1
-                : activeTab === "general-questions"
-                ? (100 / 3) * 2
-                : activeTab === "department-questions"
-                ? (100 / 3) * 3
-                : 0
-            }
-            className="w-full top-[0] z-[1000] h-[3px] fixed"
-          />
-
+          <ProgressBar activeTab={activeTab} />
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 w-full flex items-center justify-center"
+            className="space-y-8 w-full flex items-center justify-center flex-col"
           >
             <Tabs
               defaultValue="personal-info"
               value={activeTab}
               onValueChange={(value) => setActiveTab(value as FormTabs)}
-              className="px-2 lg:px-12 py-8 mt-8 w-full lg:w-[80%]"
+              className="px-2 py-8 pb-0 mt-8 w-full lg:w-[80%]"
             >
-              {isSaved && !isFetching ? (
-                <div className="flex items-center justify-start gap-4 mb-4 text-green-900 flex-col sm:flex-row">
-                  <MdOutlineCloudDone /> Mọi dữ liệu đã được lưu
-                </div>
-              ) : isFetching ? (
-                <div className="flex items-center justify-start gap-4 mb-4 text-primary flex-col sm:flex-row">
-                  <MdOutlineCloudDownload />
-                  <p className="text-center">
-                    Đang lấy thông tin từ cơ sở dữ liệu
-                  </p>
-                </div>
-              ) : !isSaved ? (
-                <div className="flex items-center justify-start gap-4 mb-4 text-red-600 flex-col sm:flex-row">
-                  <MdOutlineCloudUpload />
-                  Đang lưu câu trả lời của bạn
-                </div>
-              ) : null}
+              <DataState isSaved={isSaved} isFetching={isFetching} />
               <TabsList className="flex items-center h-[max-content] justify-center flex-wrap flex-row p-2 mb-8">
                 <TabsTrigger value="personal-info" className="flex-1 py-2">
                   Thông tin cá nhân
@@ -344,76 +299,30 @@ const ApplyForm = ({
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent
-                value="personal-info"
-                className="flex flex-col gap-4 rounded"
-              >
-                <PersonalInfo
-                  form={form}
-                  isFetching={isFetching}
-                  studentID={studentID}
-                  schoolEmail={schoolEmail}
-                  setSchoolEmail={setSchoolEmail}
-                  manual={manual}
-                  setManual={setManual}
-                  setStudentID={setStudentID}
-                />
-
-                <TabsList className="w-full bg-[transparent]">
-                  <ApplyTabTrigger
-                    direction="right"
-                    value="general-questions"
-                    text="Câu hỏi chung"
-                  />
-                </TabsList>
-              </TabsContent>
-              <TabsContent
-                value="general-questions"
-                className="flex flex-col gap-8"
-              >
-                <GeneralQuestions
-                  form={form}
-                  general_questions={general_questions}
-                  isFetching={isFetching}
-                />
-                <TabsList className="w-full flex flex-col gap-5 mt-4 bg-[transparent]">
-                  <ApplyTabTrigger
-                    direction="right"
-                    value="department-questions"
-                    text="Câu hỏi chuyên môn"
-                  />
-                  <ApplyTabTrigger
-                    direction="left"
-                    value="personal-info"
-                    text="Thông tin cá nhân"
-                  />
-                </TabsList>
-              </TabsContent>
-              <TabsContent
-                value="department-questions"
-                className="flex flex-col gap-4"
-              >
-                <DepartmentQuestions
-                  form={form}
-                  isFetching={isFetching}
-                  department_questions={department_questions}
-                />
-                <TabsList className="w-full flex flex-col gap-5 my-4 bg-[transparent]">
-                  <ApplyTabTrigger
-                    direction="left"
-                    value="general-questions"
-                    text="Câu hỏi chung"
-                  />
-                  <ApplyTabTrigger
-                    direction="left"
-                    value="personal-info"
-                    text="Thông tin cá nhân"
-                  />
-                </TabsList>
-                <SubmittingDialog isSubmitting={isSubmitting} />
-                <SubmitComfirmDialog onSubmit={onSubmit} form={form} />
-              </TabsContent>
+              <PersonalInfoTabContent
+                form={form}
+                isFetching={isFetching}
+                studentID={studentID}
+                schoolEmail={schoolEmail}
+                setSchoolEmail={setSchoolEmail}
+                manual={manual}
+                setManual={setManual}
+                setStudentID={setStudentID}
+              />
+              <GeneralQuestionsTabContent
+                form={form}
+                general_questions={general_questions}
+                isFetching={isFetching}
+              />
+              <DepartmentQuestionsTabContent
+                form={form}
+                isFetching={isFetching}
+                department_questions={department_questions}
+              />
+              <SubmittingDialog isSubmitting={isSubmitting} />
+              <SubmitComfirmDialog onSubmit={onSubmit} form={form} />
             </Tabs>
+
             <Toaster />
           </form>
         </Form>
