@@ -113,6 +113,8 @@ const ApplyForm = ({
           return;
         }
         setInitialData(data);
+      } else {
+        setIsFetching(false);
       }
     }
     if (isFetching && user?.id) {
