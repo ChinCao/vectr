@@ -11,6 +11,7 @@ export default function CreateFormatResponse(
   return function (raw_data: FormType, submit: boolean): FormDataStructure {
     const blank_form_data: FormDataStructure = BLANK_FORM_DATA;
     blank_form_data.user_id = user_id;
+
     blank_form_data.department_questions.response[department].hasSubmitted = submit;
     Object.keys(raw_data).forEach((key) => {
       if (department_questions[0].includes(key)) {

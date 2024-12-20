@@ -1,7 +1,6 @@
 import mongoose, {Schema} from "mongoose";
-import {DepartmentQuestionEntry, DepartmentQuestionsResponse, FormDataStructure, GeneralQuestionsResponse} from "@/app/recruit/_types/RecruitTypes";
+import {DepartmentQuestionsResponse, FormDataStructure, GeneralQuestionsResponse} from "@/app/recruit/_types/RecruitTypes";
 import {PersonalInfoType} from "../job-description/[id]/apply/_types/FormTypes";
-import {DepartmentsAbbreviation} from "../_constants/constants";
 
 const PersonalInfoSchema = new Schema<PersonalInfoType>({
   name: {type: String, required: false},
@@ -37,25 +36,6 @@ const DepartmentQuestionSchema = new Schema<DepartmentQuestionsResponse>({
       hasSubmitted: {type: Boolean, required: true},
     }),
   },
-});
-
-interface DepartmentQuestionDocument extends Document {
-  response: Map<DepartmentsAbbreviation, {hasSubmitted: boolean; questions: Map<string, DepartmentQuestionEntry>}>;
-}
-
-DepartmentQuestionSchema.pre<DepartmentQuestionDocument>("save", function (next) {
-  const departmentResponseMap = this.response || new Map();
-  Object.values(DepartmentsAbbreviation).forEach((department) => {
-    if (!departmentResponseMap.has(department)) {
-      departmentResponseMap.set(department, {
-        hasSubmitted: false,
-        questions: new Map(),
-      });
-    }
-  });
-
-  this.response = departmentResponseMap;
-  next();
 });
 
 const RecruitSchema = new Schema<FormDataStructure>({

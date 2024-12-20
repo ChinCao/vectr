@@ -17,7 +17,7 @@ export async function SaveToDatabase(
   }
   const res = await fetch("/api/recruit/save", {
     method: "POST",
-    body: JSON.stringify(sanitized_data),
+    body: JSON.stringify({data: sanitized_data, department: department}),
     headers: {
       "Content-Type": "application/json",
     },
