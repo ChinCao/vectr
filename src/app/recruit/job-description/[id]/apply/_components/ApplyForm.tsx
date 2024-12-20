@@ -114,7 +114,6 @@ const ApplyForm = ({
         }
         setInitialData(data);
       }
-      setIsFetching(false);
     }
     if (isFetching && user?.id) {
       fetchData();
@@ -122,7 +121,7 @@ const ApplyForm = ({
   }, [department, isFetching, user?.id]);
 
   useEffect(() => {
-    if (initialData) {
+    if (initialData && isFetching) {
       const personalInfo = initialData.recruit.personal_info;
 
       Object.keys(PersonalInfoSchemaDefault).forEach((field) => {
@@ -145,8 +144,9 @@ const ApplyForm = ({
           }
         }
       }
+      setIsFetching(false);
     }
-  }, [department, department_questions, general_questions, initialData, questions_id, setValue]);
+  }, [department, department_questions, general_questions, initialData, isFetching, questions_id, setValue]);
 
   const watchedValues = useMemo(() => form.watch(), [form]);
   const debouncedValues = useDebounce(watchedValues, 2000, setIsSaving, hasInteracted);
@@ -166,7 +166,7 @@ const ApplyForm = ({
   }, [isSubmitted, isSubmitting, formattedFormData, department, debouncedValues, hasInteracted]);
 
   const navGuard = useNavigationGuard({
-    enabled: isSaving && !isSubmitting,
+    enabled: isSaving || isSubmitting,
   });
 
   useEffect(() => {
@@ -222,7 +222,7 @@ const ApplyForm = ({
               defaultValue="personal-info"
               value={activeTab}
               onValueChange={(value) => setActiveTab(value as FormTabs)}
-              className="px-2 py-8 pb-0 mt-8 w-full lg:w-[80%]"
+              className="p-0 lg:py-8 pb-0 mt-8 w-full lg:w-[80%]"
             >
               <DataState
                 isSaving={isSaving}
