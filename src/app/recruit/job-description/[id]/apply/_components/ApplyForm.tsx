@@ -22,7 +22,7 @@ import {FormTabs, FormType} from "../_types/FormTypes";
 import SubmitComfirmDialog from "./SubmitComfirmDialog";
 import SubmittingDialog from "./SubmittingDialog";
 import {SaveToDatabase} from "../_lib/SaveToDatabase";
-import {Recruit} from "@/app/recruit/_types/RecruitTypes";
+import {PersonalInfo, Recruit} from "@/app/recruit/_types/RecruitTypes";
 import DataState from "./DataState";
 import ProgressBar from "./ProgressBar";
 import PersonalInfoTabContent from "./Tabs/Personal/PersonalInfoTabContent";
@@ -48,11 +48,14 @@ const ApplyForm = ({
   const {user} = useUser();
 
   const [isFetching, setIsFetching] = useState(true);
-  const [isFetched, setIsFetched] = useState(false);
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setisSubmitted] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [initialData, setInitialData] = useState<Recruit | undefined>(undefined);
+  const [studentID, setStudentID] = useState("VS");
+  const [schoolEmail, setSchoolEmail] = useState("@stu.vinschool.edu.vn");
+  const [manual, setManual] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   // const [error, setError] = useState(false);
 
@@ -79,7 +82,13 @@ const ApplyForm = ({
     },
     mode: "onChange",
   });
-  const {formState} = form;
+  const {formState, setValue} = form;
+
+  useEffect(() => {
+    if (!hasInteracted && form.formState.isDirty) {
+      setHasInteracted(true);
+    }
+  }, [form.formState.isDirty, hasInteracted]);
 
   useEffect(() => {
     async function fetchData() {
@@ -103,81 +112,67 @@ const ApplyForm = ({
           setIsFetching(false);
           return;
         }
-        const personalInfo = data.recruit.personal_info;
-
-        if (personalInfo) {
-          if (personalInfo.name) {
-            form.setValue("name", personalInfo.name);
-          }
-          if (personalInfo.school_email) {
-            form.setValue("school_email", personalInfo.school_email);
-            // setSchoolEmail(personalInfo.school_email);
-            // setManual(true);
-          }
-          if (personalInfo.student_id) {
-            form.setValue("student_id", personalInfo.student_id);
-            // setStudentID(personalInfo.student_id);
-          }
-          if (personalInfo.facebook) {
-            form.setValue("facebook", personalInfo.facebook);
-          }
-          if (personalInfo.private_email) {
-            form.setValue("private_email", personalInfo.private_email);
-          }
-          if (personalInfo.class) {
-            form.setValue("class", personalInfo.class);
-          }
-        }
-
-        for (const question of questions_id) {
-          if (department_questions[0].includes(question)) {
-            if (data.recruit.department_questions.response[department]["questions"]) {
-              form.setValue(question, data.recruit.department_questions.response[department]["questions"][question]["answer"]);
-            }
-          } else if (general_questions[0].includes(question)) {
-            if (data.recruit.general_questions.response) {
-              form.setValue(question, data.recruit.general_questions.response[question]["answer"]);
-            }
-          }
-        }
+        setInitialData(data);
       }
       setIsFetching(false);
     }
-    if (user?.id && isFetching) {
+    if (isFetching && user?.id) {
       fetchData();
     }
-  }, [user?.id, isSubmitted, isFetching, department, form, questions_id, department_questions, general_questions]);
+  }, [department, isFetching, user?.id]);
 
-  const onSubmit = async (values: FormType) => {
-    if (!isSubmitting) {
-      const sanitized_data = formattedFormData(values);
-      await SaveToDatabase(sanitized_data, true, department, setIsSubmitting, setIsSaving, setisSubmitted);
+  useEffect(() => {
+    if (initialData) {
+      const personalInfo = initialData.recruit.personal_info;
+
+      Object.keys(PersonalInfoSchemaDefault).forEach((field) => {
+        if (personalInfo[field as keyof PersonalInfo]) {
+          setValue(field, personalInfo[field as keyof PersonalInfo]);
+        }
+      });
+      setManual(personalInfo.school_email == "@stu.vinschool.edu.vn" && personalInfo.student_id == "VS" ? false : true);
+      setSchoolEmail(personalInfo.school_email);
+      setStudentID(personalInfo.student_id);
+
+      for (const question of questions_id) {
+        if (department_questions[0].includes(question)) {
+          if (initialData.recruit.department_questions.response[department]["questions"][question]) {
+            setValue(question, initialData.recruit.department_questions.response[department]["questions"][question]["answer"]);
+          }
+        } else if (general_questions[0].includes(question)) {
+          if (initialData.recruit.general_questions.response[question]) {
+            setValue(question, initialData.recruit.general_questions.response[question]["answer"]);
+          }
+        }
+      }
     }
-  };
+  }, [department, department_questions, general_questions, initialData, questions_id, setValue]);
 
   const watchedValues = useMemo(() => form.watch(), [form]);
-  const debouncedValues = useDebounce(watchedValues, 2000, setIsSaving);
-  const navGuard = useNavigationGuard({
-    enabled: !isSaving && !isSubmitted,
-  });
+  const debouncedValues = useDebounce(watchedValues, 2000, setIsSaving, hasInteracted);
 
   useEffect(() => {
     async function save() {
-      if (debouncedValues && !isFetching && !isSubmitted && !isSubmitting && !isSaving && isFetched) {
-        console.log("skibidi");
-        // const sanitized_data = formattedFormData(watchedValues);
-        // await SaveToDatabase(sanitized_data, false, department, setIsSubmitting, setIsSaving, setisSubmitted);
+      if (!isSubmitted && !isSubmitting) {
+        const sanitized_data = formattedFormData(debouncedValues, false);
+        await SaveToDatabase(sanitized_data, false, department, setIsSubmitting, setIsSaving, setisSubmitted);
       } else if (isSubmitted) {
         setIsSaving(false);
       }
     }
-    save();
-  }, [debouncedValues, isSubmitted, isSubmitting, isFetching, formattedFormData, watchedValues, department, isSaving, isFetched]);
+    if (hasInteracted && debouncedValues) {
+      save();
+    }
+  }, [isSubmitted, isSubmitting, formattedFormData, department, debouncedValues, hasInteracted]);
+
+  const navGuard = useNavigationGuard({
+    enabled: isSaving && !isSubmitting,
+  });
 
   useEffect(() => {
     async function check() {
       if (navGuard.active) {
-        const sanitized_data = formattedFormData(watchedValues);
+        const sanitized_data = formattedFormData(watchedValues, false);
         await SaveToDatabase(sanitized_data, false, department, setIsSubmitting, setIsSaving, setisSubmitted);
         navGuard.accept();
       }
@@ -186,7 +181,7 @@ const ApplyForm = ({
   }, [navGuard, isSaving, formattedFormData, watchedValues, department]);
 
   useEffect(() => {
-    const error_check = CheckError(formState, department_questions, general_questions, setActiveTab, activeTab);
+    const error_check = CheckError(formState.errors, department_questions, general_questions, setActiveTab, activeTab);
     if (error_check) {
       toast({
         title: "Lưu ý!",
@@ -205,7 +200,14 @@ const ApplyForm = ({
         top: 0,
       });
     }
-  }, [activeTab, questions_id, formState, playClick, toast, department_questions, general_questions]);
+  }, [activeTab, questions_id, formState.errors, playClick, toast, department_questions, general_questions]);
+
+  const onSubmit = async (values: FormType) => {
+    if (!isSubmitting) {
+      const sanitized_data = formattedFormData(values, true);
+      await SaveToDatabase(sanitized_data, true, department, setIsSubmitting, setIsSaving, setisSubmitted);
+    }
+  };
 
   return (
     <>
@@ -250,6 +252,12 @@ const ApplyForm = ({
               <PersonalInfoTabContent
                 form={form}
                 isFetching={isFetching}
+                studentID={studentID}
+                schoolEmail={schoolEmail}
+                setSchoolEmail={setSchoolEmail}
+                manual={manual}
+                setManual={setManual}
+                setStudentID={setStudentID}
               />
               <GeneralQuestionsTabContent
                 form={form}

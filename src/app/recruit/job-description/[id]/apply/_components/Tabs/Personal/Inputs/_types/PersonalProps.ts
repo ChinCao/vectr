@@ -1,4 +1,4 @@
-import { Tform } from "../../../_types/FormTypes";
+import {Tform} from "../../../../../_types/FormTypes";
 
 export interface PersonalInfoProps {
   studentID?: string;

@@ -15,7 +15,6 @@ export async function SaveToDatabase(
   if (submit) {
     setIsSubmitting(true);
   }
-  setIsSaving(true);
   const res = await fetch("/api/recruit/save", {
     method: "POST",
     body: JSON.stringify(sanitized_data),
@@ -23,7 +22,6 @@ export async function SaveToDatabase(
       "Content-Type": "application/json",
     },
   });
-  setIsSaving(false);
   if (submit) {
     const parsedData = parseData(sanitized_data, department);
     const documentTitle = `${sanitized_data["personal_info"]["name"]}_${sanitized_data["personal_info"]["class"]}_${sanitized_data["personal_info"]["student_id"]}`;
@@ -31,13 +29,20 @@ export async function SaveToDatabase(
       await SaveToGoogleDoc(documentTitle, parsedData[0], parsedData[1], department);
       setisSubmitted(true);
       setIsSubmitting(false);
-    } catch {
+    } catch (error) {
+      setisSubmitted(true);
+      setIsSubmitting(false);
+      console.log(error);
       throw new Error("skibidi");
     }
   }
+  setIsSaving(false);
+
   if (!res.ok) {
     const errorData = await res.json();
     console.log(errorData.message);
+    setIsSaving(false);
+    setIsSubmitting(false);
     throw new Error(errorData.message || "An error occurred");
   }
 }

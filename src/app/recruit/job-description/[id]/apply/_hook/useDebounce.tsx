@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import {FormType} from "../_types/FormTypes";
 
-export const useDebounce = (value: FormType, delay: number, setIsSaving: React.Dispatch<React.SetStateAction<boolean>>) => {
+export const useDebounce = (value: FormType, delay: number, setIsSaving: React.Dispatch<React.SetStateAction<boolean>>, hasInteracted: boolean) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
   useEffect(() => {
-    setIsSaving(true);
+    setIsSaving(hasInteracted ? true : false);
     const handler = setTimeout(() => {
       setDebouncedValue(value);
     }, delay);
@@ -12,7 +12,7 @@ export const useDebounce = (value: FormType, delay: number, setIsSaving: React.D
     return () => {
       clearTimeout(handler);
     };
-  }, [value, delay, setIsSaving]);
+  }, [value, delay, setIsSaving, hasInteracted]);
 
   return debouncedValue;
 };
