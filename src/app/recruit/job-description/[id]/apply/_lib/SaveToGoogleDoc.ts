@@ -14,5 +14,10 @@ export async function SaveToGoogleDoc(
   styleRequest: (UpdateTextStyle | UpdateParagraphStyle)[],
   department: DepartmentsAbbreviation
 ) {
-  await createDocumentInDrive(title, textRequest, styleRequest, department);
+  return await createDocumentInDrive(
+    title,
+    textRequest,
+    styleRequest,
+    department
+  );
 }

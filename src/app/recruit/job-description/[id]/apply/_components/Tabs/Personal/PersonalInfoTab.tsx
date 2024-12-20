@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import { PersonalInfoProps } from "./Inputs/_types/PersonalProps";
 import Class from "./Inputs/Class";
 import Facebook from "./Inputs/Facebook";
@@ -7,16 +9,10 @@ import PrivateEmail from "./Inputs/PrivateEmail";
 import SchoolEmail from "./Inputs/SchoolEmail";
 import StundentID from "./Inputs/StundentID";
 
-const PersonalInfo = ({
-  form,
-  studentID,
-  isFetching,
-  setStudentID,
-  schoolEmail,
-  setSchoolEmail,
-  manual,
-  setManual,
-}: PersonalInfoProps) => {
+const PersonalInfo = ({ form, isFetching }: PersonalInfoProps) => {
+  const [studentID, setStudentID] = useState("VS");
+  const [schoolEmail, setSchoolEmail] = useState("@stu.vinschool.edu.vn");
+  const [manual, setManual] = useState(false);
   return (
     <>
       <h1 className="font-bold text-2xl text-primary">Thông tin cá nhân</h1>

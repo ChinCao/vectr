@@ -1,7 +1,4 @@
-import {
-  DepartmentQuestionEntry,
-  FormDataStructure,
-} from "../_types/RecruitTypes";
+import {DepartmentQuestionEntry, FormDataStructure} from "../_types/RecruitTypes";
 
 export enum DepartmentsAbbreviation {
   COMPUTER_SCIENCE = "computer science",
@@ -27,8 +24,7 @@ export const DESIGN_NAME_FULL = DepartmentsFull.DESIGN;
 export const HC_NAME_FULL = DepartmentsFull.HC;
 export const PR_CW_NAME_FULL = DepartmentsFull.PR_CW;
 export const PR_EXTERNAL_NAME_FULL = DepartmentsFull.PR_EXTERNAL;
-export const COMPUTER_SCIENCE_NAME_ABBREV =
-  DepartmentsAbbreviation.COMPUTER_SCIENCE;
+export const COMPUTER_SCIENCE_NAME_ABBREV = DepartmentsAbbreviation.COMPUTER_SCIENCE;
 export const ROBOTICS_NAME_ABBREV = DepartmentsAbbreviation.ROBOTICS;
 export const HC_NAME_ABBREV = DepartmentsAbbreviation.HC;
 export const DESIGN_NAME_ABBREV = DepartmentsAbbreviation.DESIGN;
@@ -48,30 +44,12 @@ type CoreImageKeys =
   | typeof PR_EXTERNAL_NAME_ABBREV;
 
 export const CORE_IMAGE: Record<CoreImageKeys, string[]> = {
-  [COMPUTER_SCIENCE_NAME_ABBREV]: [
-    "/special-relativity-ZZpyj9.png",
-    "/programming-python-dmduOj.png",
-  ],
-  [ROBOTICS_NAME_ABBREV]: [
-    "/electromagnetism-AzFMTl.png",
-    "/quantum-computing-UHpCJ1.png",
-  ],
-  [DESIGN_NAME_ABBREV]: [
-    "/creative-coding-XgYZa1.png",
-    "/calculus-nutshell-1DhUxj.png",
-  ],
-  [HC_NAME_ABBREV]: [
-    "/puzzle-science-Te3zoj.png",
-    "/computer-science-algorithms-nwHk4m.png",
-  ],
-  [PR_CW_NAME_ABBREV]: [
-    "/Text_Analysis_in_Python-rcga5J.png",
-    "/python-next-steps-E549hB.png",
-  ],
-  [PR_EXTERNAL_NAME_ABBREV]: [
-    "/how-computers-work-MYnrqg.png",
-    "/how-llms-work-z7ovbF.png",
-  ],
+  [COMPUTER_SCIENCE_NAME_ABBREV]: ["/special-relativity-ZZpyj9.png", "/programming-python-dmduOj.png"],
+  [ROBOTICS_NAME_ABBREV]: ["/electromagnetism-AzFMTl.png", "/quantum-computing-UHpCJ1.png"],
+  [DESIGN_NAME_ABBREV]: ["/creative-coding-XgYZa1.png", "/calculus-nutshell-1DhUxj.png"],
+  [HC_NAME_ABBREV]: ["/puzzle-science-Te3zoj.png", "/computer-science-algorithms-nwHk4m.png"],
+  [PR_CW_NAME_ABBREV]: ["/Text_Analysis_in_Python-rcga5J.png", "/python-next-steps-E549hB.png"],
+  [PR_EXTERNAL_NAME_ABBREV]: ["/how-computers-work-MYnrqg.png", "/how-llms-work-z7ovbF.png"],
 };
 
 export const JOB_DESCRIPTION_TITLES: Record<DepartmentsAbbreviation, string> = {
@@ -162,13 +140,13 @@ export const INFO_MAX_CHARACTER = 111;
 export const BLANK_FORM_DATA: FormDataStructure = {
   user_id: undefined,
   personal_info: {
-    name: undefined,
-    school_email: undefined,
-    student_id: undefined,
-    facebook: undefined,
-    private_email: undefined,
-    class: undefined,
-    instagram: undefined,
+    name: "",
+    school_email: "",
+    student_id: "",
+    facebook: "",
+    private_email: "",
+    class: "",
+    instagram: "",
   },
   department_questions: {
     response: Object.fromEntries(
@@ -186,5 +164,5 @@ export const BLANK_FORM_DATA: FormDataStructure = {
       };
     },
   },
-  general_questions: { response: {} },
+  general_questions: {response: {}},
 };

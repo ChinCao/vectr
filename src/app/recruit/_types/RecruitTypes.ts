@@ -1,4 +1,5 @@
-import { DepartmentsAbbreviation } from "../_constants/constants";
+import {DepartmentsAbbreviation} from "../_constants/constants";
+import {PersonalInfoType} from "../job-description/[id]/apply/_types/FormTypes";
 
 export interface DepartmentQuestionEntry {
   question: string;
@@ -12,14 +13,7 @@ export interface GeneralQuestionEntry {
   _id?: string;
 }
 
-export interface PersonalInfo {
-  name: string | undefined;
-  school_email: string | undefined;
-  student_id: string | undefined;
-  facebook: string | undefined;
-  private_email: string | undefined;
-  class: string | undefined;
-  instagram: string | undefined;
+export interface PersonalInfo extends PersonalInfoType {
   _id?: string;
 }
 
@@ -34,7 +28,7 @@ export interface DepartmentQuestionsResponse {
   response: Departmentquestions;
 }
 
-export type GeneralQuestions = { [key: string]: GeneralQuestionEntry };
+export type GeneralQuestions = {[key: string]: GeneralQuestionEntry};
 
 export interface GeneralQuestionsResponse {
   response: GeneralQuestions;

@@ -10,11 +10,12 @@ import {
 } from "@/app/recruit/_constants/constants";
 
 export default function CreateFormatResponse(
+  user_id: string | undefined,
   department_questions: string[][],
   general_questions: string[][],
   department: DepartmentsAbbreviation
 ) {
-  return function (user_id: string, raw_data: FormType): FormDataStructure {
+  return function (raw_data: FormType): FormDataStructure {
     const blank_form_data: FormDataStructure = BLANK_FORM_DATA;
     blank_form_data.user_id = user_id;
 
