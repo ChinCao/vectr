@@ -30,6 +30,7 @@ import GeneralQuestionsTabContent from "./Tabs/General/GeneralQuestionsTabConten
 import DepartmentQuestionsTabContent from "./Tabs/Department/DepartmentQuestionsTabContent";
 import CreateFormatResponse from "../_lib/FormatFormData";
 import CheckError from "../_lib/CheckError";
+import Image from "next/image";
 
 const ApplyForm = ({
   department_questions,
@@ -218,7 +219,7 @@ const ApplyForm = ({
           <ProgressBar activeTab={activeTab} />
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 w-full flex items-center justify-center flex-col"
+            className="space-y-8 w-full flex items-center justify-center flex-col max-w-[950px]"
           >
             <Tabs
               defaultValue="personal-info"
@@ -230,7 +231,15 @@ const ApplyForm = ({
                 isSaving={isSaving}
                 isFetching={isFetching}
               />
-              <TabsList className="flex items-center h-[max-content] justify-center flex-wrap flex-row p-2 mb-8">
+
+              <TabsList className="flex items-center h-[max-content] justify-center flex-wrap flex-row  mb-8">
+                <Image
+                  src="/banner.png"
+                  width={800}
+                  height={200}
+                  alt="banner"
+                  className="w-full mb-4"
+                />
                 <TabsTrigger
                   value="personal-info"
                   className="flex-1 py-2"

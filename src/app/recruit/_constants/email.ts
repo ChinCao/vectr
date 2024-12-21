@@ -1,4 +1,4 @@
-export default function EMAIL_TEMPLATE(name: string, department: string) {
+export default function EMAIL_TEMPLATE(name: string, department: string, content: string) {
   const EMAIL = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="vi">
  <head>
@@ -122,7 +122,7 @@ a[x-apple-data-detectors],
                   <td valign="top" align="center" style="padding:0;Margin:0;width:480px">
                    <table cellspacing="0" cellpadding="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                      <tr>
-                      <td align="center" style="padding:0;Margin:0;padding-top:30px"><h2 class="es-m-txt-c" style="Margin:0;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';mso-line-height-rule:exactly;letter-spacing:0;font-size:22px;font-style:normal;font-weight:normal;line-height:28.8px;color:#333333">KÍNH GỬI BẠN ${name}</h2></td>
+                      <td align="center" style="padding:0;Margin:0;padding-top:30px"><h2 class="es-m-txt-c" style="Margin:0;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';mso-line-height-rule:exactly;letter-spacing:0;font-size:22px;font-style:normal;font-weight:normal;line-height:28.8px;color:#333333">THÂN GỬI BẠN ${name}</h2></td>
                      </tr>
                      <tr>
                       <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-right:20px;padding-left:20px;font-size:0">
@@ -153,16 +153,20 @@ a[x-apple-data-detectors],
                       <td align="left" class="es-text-1682" style="padding:0;Margin:0;padding-right:25px;padding-top:15px"><h3 class="es-text-mobile-size-16" style="Margin:0;font-family:arial, 'helvetica neue', helvetica, sans-serif;mso-line-height-rule:exactly;letter-spacing:0;font-size:16px;font-style:normal;font-weight:normal;line-height:21.6px;color:#333333">Cảm ơn bạn vì đã apply vào <span style="color: #E77F1E;">${department},</span></h3></td>
                      </tr>
                      <tr>
-                      <td align="justify" style="padding:0;Margin:0;padding-right:25px;padding-bottom:10px;padding-top:10px"><p style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;letter-spacing:0;color:#333333;font-size:14px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vitae interdum ligula. Pellentesque feugiat ligula ligula, in interdum dolor aliquet et. Aliquam vitae sem eget erat viverra malesuada. 
-                        Aliquam volutpat vel est quis euismod. Faucibus varius ex eget aliquam.</p></td>
+                      <td align="justify" style="padding:0;Margin:0;padding-right:25px;padding-bottom:10px;padding-top:10px"><p style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;letter-spacing:0;color:#333333;font-size:14px">${content}</p></td>
                         
                      </tr>
                      <tr>
+                      <td align="justify" style="padding:0;Margin:0;padding-right:25px;padding-bottom:10px;padding-top:10px"><p style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;letter-spacing:0;color:#333333;font-size:14px">Giờ thì hãy dành một ít thời gian để tự tán thưởng những nỗ lực của bản thân bạn, và chờ đợi kết quả phỏng vấn từ VECTR. Chúc bạn có một ngày tốt lành!</p></td>
+                        
+                     </tr>
+                     
+                      <tr>
                       <td align="justify" style="padding:0;Margin:0;padding-right:25px;padding-bottom:10px;padding-top:10px"><p style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;letter-spacing:0;color:#333333;font-size:14px">Trân trọng,</p></td>
                         
                      </tr>
                      <tr>
-                      <td align="justify" style="padding:0;Margin:0;padding-right:25px;padding-bottom:10px;padding-top:10px;color:#E77F1E !important;"><p style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;letter-spacing:0;color:#333333;font-size:14px">CLB VECTR</p></td>
+                      <td align="justify" style="padding:0;Margin:0;padding-right:25px;padding-bottom:10px;padding-top:10px;color:#E77F1E !important;"><p style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;letter-spacing:0;color:#333333;font-size:14px" <span style="color: #E77F1E;">Toàn thể phi hành đoàn VECTR</span></p></td>
                         
                      </tr>
                    </table></td>

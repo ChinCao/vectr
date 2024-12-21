@@ -19,6 +19,10 @@ const RecruitPage = () => {
           text="Gen1"
         />
         <Anchor
+          href="#benefits"
+          text="Quyền lợi"
+        />
+        <Anchor
           href="#about"
           text="Về VECTR"
         />
@@ -30,10 +34,7 @@ const RecruitPage = () => {
           href="#departments"
           text="Các Ban"
         />
-        <Anchor
-          href="#benefits"
-          text="Quyền lợi"
-        />
+
         <Anchor
           href="#mission"
           text="Sứ Mệnh"

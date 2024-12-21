@@ -31,10 +31,6 @@ export const DESIGN_NAME_ABBREV = DepartmentsAbbreviation.DESIGN;
 export const PR_CW_NAME_ABBREV = DepartmentsAbbreviation.PR_CW;
 export const PR_EXTERNAL_NAME_ABBREV = DepartmentsAbbreviation.PR_EXTERNAL;
 
-export function capitalizeFirstLetter(val: string) {
-  return String(val).charAt(0).toUpperCase() + String(val).slice(1);
-}
-
 type DepartmentImageKeys =
   | typeof COMPUTER_SCIENCE_NAME_ABBREV
   | typeof ROBOTICS_NAME_ABBREV
@@ -219,4 +215,41 @@ export const MISSION_SECTION_INFORMATION: {
   },
 ];
 
-export const EMAIL_SUBJECT = "huhh";
+const PR_MAIL_CONTENT =
+  "Toàn thể phi hành đoàn VECTR rất ghi nhận sự xung phong của bạn vào vị trí Nhà Giao Tiếp Vũ Trụ - ban PR. Có một chân lý không thể nào phủ nhận, một dự án thành công không chỉ đến từ chất lượng nội tại của nó, mà còn phụ thuộc (hầu hết trường hợp phần lớn) vào cách nó được quảng bá. Đó chính là cách chúng tôi ví von, rằng bạn - sẽ là người có khả năng quyết định số mệnh của không chỉ DECODE_01, mà cả một chuỗi những nhiệm vụ cao cả trong tương lai của tất cả chúng ta. Liệu bạn có đủ can đảm và sắc sảo để thuyết phục những nhà đầu tư - những người sẽ thắp lên niềm hy vọng về một dự án khả thi, hay không? VECTR rất mong muốn được chào mừng bạn gia nhập với chúng tôi, nhưng trước hết, hãy cho chúng tôi một ít thời gian để đưa ra lựa chọn sáng suốt và đúng đắn nhất! ";
+
+export const CUSTOMIZED_DEPARTMENT_EMAIL: Record<DepartmentsAbbreviation, string> = {
+  [DepartmentsAbbreviation.COMPUTER_SCIENCE]:
+    "Toàn thể phi hành đoàn VECTR rất ghi nhận sự xung phong của bạn vào vị trí Điều Khiển Viên Buồng Lái - ban Computer Science. Sự đóng góp của bạn cho công cuộc thám hiểm DECODE_01 sẽ là rất đáng kể, vì dĩ nhiên, không chuyến tàu nào có thể diễn ra hoàn hảo nếu thiếu vắng bóng dáng của những chuyên viên điều khiển như bạn! VECTR rất mong muốn được chào mừng bạn gia nhập với chúng tôi, nhưng trước hết, hãy cho chúng tôi một ít thời gian để đưa ra lựa chọn sáng suốt và đúng đắn nhất!",
+  [DepartmentsAbbreviation.ROBOTICS]:
+    "Toàn thể phi hành đoàn VECTR rất ghi nhận sự xung phong của bạn vào vị trí Kỹ Thuật Viên - ban Robotics. Không thể phủ nhận tầm quan trọng của bất cứ vị trí nào, nhưng nói không ngoa, chúng ta còn chẳng thể nghĩ đến DECODE_01 nếu không có bạn - những Kỹ Thuật Viên xuất chúng nhất! Ai cũng có vô vàn ý tưởng và khát vọng, không đồng nghĩa với việc ai cũng có thể biến chúng thành hiện thực. Giờ thì bạn có thể cảm nhận được tầm quan trọng của bản thân rồi chứ..? VECTR rất mong muốn được chào mừng bạn gia nhập với chúng tôi, nhưng trước hết, hãy cho chúng tôi một ít thời gian để đưa ra lựa chọn sáng suốt và đúng đắn nhất!",
+  [DepartmentsAbbreviation.PR_CW]: PR_MAIL_CONTENT,
+  [DepartmentsAbbreviation.PR_EXTERNAL]: PR_MAIL_CONTENT,
+  [DepartmentsAbbreviation.HC]:
+    "Toàn thể phi hành đoàn VECTR rất ghi nhận sự xung phong của bạn vào vị trí của Đội Ngũ Tìm Kiếm Tài Nguyên - ban Logistics (Hậu cần). Không tổ chức và dự án nào có thể hoạt động trơn tru nếu thiếu đi những nỗ lực tuy nhỏ bé nhưng phi thường - đến từ những cá nhân tuyệt vời như chính bạn, và DECODE_01 cũng vậy. VECTR rất mong muốn được chào mừng bạn gia nhập với chúng tôi, nhưng trước hết, hãy cho chúng tôi một ít thời gian để đưa ra lựa chọn sáng suốt và đúng đắn nhất!",
+  [DepartmentsAbbreviation.DESIGN]:
+    "Toàn thể phi hành đoàn VECTR rất ghi nhận sự xung phong của bạn vào vị trí Nhà Thiết Kế - ban Design. Sự sáng tạo của bạn chính là động lực đưa những dự án tưởng chừng vĩ mô như DECODE_01 đến gần hơn với công chúng. VECTR rất mong muốn được chào mừng bạn gia nhập với chúng tôi, nhưng trước hết, hãy cho chúng tôi một ít thời gian để đưa ra lựa chọn sáng suốt và đúng đắn nhất! ",
+};
+
+export const BENEFITS_LOOKUP: {
+  title: string;
+  content: string;
+}[] = [
+  {title: "Giấy chứng nhận tham gia", content: "Nhận giấy chứng nhận chính thức, khẳng định sự tham gia và nỗ lực của bạn trong CLB."},
+  {title: "Tài liệu học tập phong phú", content: "Tiếp cận các tài liệu về STEM từ những nguồn cốt lõi, giúp nâng cao kiến thức chuyên môn."},
+  {title: "Quỹ tài trợ cho dự án cá nhân", content: "Được cấp kinh phí từ quỹ CLB để hiện thực hóa các dự án cá nhân và ý tưởng sáng tạo."},
+  {
+    title: "Hỗ trợ từ các thành viên",
+    content: "Nhận sự hỗ trợ nhiệt tình từ các thành viên khác trong việc triển khai các dự án cá nhân và cộng đồng.",
+  },
+  {title: "Giá trị cho hồ sơ học bổng", content: "Tham gia CLB là một điểm cộng quý giá trong hồ sơ xin học bổng của bạn."},
+  {title: "Cải thiện kiến thức và kỹ năng STEM", content: "Nâng cao kiến thức và kỹ năng trong các lĩnh vực STEM thông qua các hoạt động và dự án."},
+  {title: "Phát triển kỹ năng mềm", content: "Cải thiện kỹ năng giao tiếp, làm việc nhóm và lãnh đạo thông qua các hoạt động nhóm."},
+  {title: "Xây dựng mạng lưới quan hệ", content: "Kết nối với những người có cùng đam mê, mở rộng mạng lưới quan hệ cho tương lai."},
+  {title: "Chia sẻ kiến thức qua workshops", content: "Cơ hội tổ chức và tham gia các buổi workshop, chia sẻ đam mê và kiến thức với cộng đồng."},
+  {title: "Tham gia cuộc thi và sự kiện", content: "Cơ hội tham gia các cuộc thi STEM trong và ngoài nước, nâng cao kỹ năng và tạo dựng danh tiếng."},
+  {title: "Đào tạo chuyên sâu", content: "Tham gia các khóa đào tạo và hội thảo chuyên sâu về các chủ đề mới nhất trong lĩnh vực STEM."},
+  {title: "Khuyến khích sáng tạo", content: "Môi trường khuyến khích sự sáng tạo và đổi mới trong các dự án và ý tưởng của thành viên."},
+];
+
+export const EMAIL_SUBJECT = "01010100 01011001 00100001 - DECODE 01";

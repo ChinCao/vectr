@@ -1,4 +1,3 @@
-// import Image from "next/image";
 import Image from "next/image";
 import {FaArrowDown} from "react-icons/fa6";
 
