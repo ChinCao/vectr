@@ -1,45 +1,51 @@
 "use client";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import {Card, CardContent} from "@/components/ui/card";
+import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/components/ui/carousel";
 import Image from "next/image";
 import NavigationButton from "./_components/NavigationButton";
 import Navbar from "@/components/Navbar";
-import {
-  CLICK_SOUND_VOLUME,
-  DEPARTMENT_INFO,
-} from "@/app/recruit/_constants/constants";
+import {CLICK_SOUND_VOLUME, DEPARTMENT_INFO} from "@/app/recruit/_constants/constants";
 import MissionCard from "./_components/MissionCard";
 import ProcessBlock from "./_components/ProcessBlock";
 import ValuesCard from "./_components/ValuesCard";
-import { CLICK_SOUND_URL } from "@/app/recruit/_constants/constants";
+import {CLICK_SOUND_URL} from "@/app/recruit/_constants/constants";
 import useSound from "use-sound";
 
 const RecruitPage = () => {
-  const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
+  const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
 
   return (
     <>
       <title>Recruit Gen1</title>
       <Navbar>
-        <a href="#" className="w-full block py-3 px-3 ">
+        <a
+          href="#"
+          className="w-full block py-3 px-3 "
+        >
           Gen1
         </a>
-        <a href="#value" className="w-full block py-3 px-3 ">
+        <a
+          href="#value"
+          className="w-full block py-3 px-3 "
+        >
           Giá Trị
         </a>
-        <a href="#core" className="w-full block py-3 px-3 ">
+        <a
+          href="#core"
+          className="w-full block py-3 px-3 "
+        >
           Các Ban
         </a>
-        <a href="#mission" className="w-full block py-3 px-3 ">
+        <a
+          href="#mission"
+          className="w-full block py-3 px-3 "
+        >
           Sứ Mệnh
         </a>
-        <a href="#process" className="w-full block py-3 px-3 ">
+        <a
+          href="#process"
+          className="w-full block py-3 px-3 "
+        >
           Quy Trình
         </a>
       </Navbar>
@@ -51,9 +57,8 @@ const RecruitPage = () => {
                 Công việc tại <span className="text-primary">VECTR</span>
               </h1>
               <p className="text-gray-500 text-xl w-full text-balance text-justify sm:text-left sm:w-[80%]">
-                Ở VECTR, chúng mình học tập và rèn luyện để trở thành những
-                người tiên phong toàn cầu, chúng ta sẽ cùng thiết kế thế giới và
-                công nghệ hóa tương lai
+                Ở VECTR, chúng mình học tập và rèn luyện để trở thành những người tiên phong toàn cầu, chúng ta sẽ cùng thiết kế thế giới và công nghệ
+                hóa tương lai
               </p>
               <NavigationButton
                 text="Xem Job Description"
@@ -73,24 +78,18 @@ const RecruitPage = () => {
 
         <section id="value">
           <div className="container flex flex-col pt-40 gap-7">
-            <h1 className="text-5xl font-bold text-center sm:text-left">
-              Giá trị của chúng mình
-            </h1>
+            <h1 className="text-5xl font-bold text-center sm:text-left">Giá trị của chúng mình</h1>
             <p className="text-gray-500 text-[15px] text-center sm:text-left">
-              Các giá trị cốt lõi của VECTR định hướng hành vi, quyết định và
-              hành động của chúng mình, cho phép hợp tác thống nhất giữa các ban
-              đa dạng trong tổ chức.
+              Các giá trị cốt lõi của VECTR định hướng hành vi, quyết định và hành động của chúng mình, cho phép hợp tác thống nhất giữa các ban đa
+              dạng trong tổ chức.
             </p>
 
             <div className="grid grid-cols-1 gap-7 lg:grid-cols-2">
               <div className="border rounded col-span-2 lg:col-span-1 lg:row-span-2 flex flex-col lg:flex-col items-center sm:flex-row">
                 <div className="flex flex-col items-start justify-center p-10 pt-0 sm:pt-10 gap-4 order-[1] sm:order-0 ">
-                  <h3 className="font-semibold text-2xl">
-                    Tập trung vào cộng đồng
-                  </h3>
+                  <h3 className="font-semibold text-2xl">Tập trung vào cộng đồng</h3>
                   <p className="text-gray-500 ">
-                    Chúng mình đặt nhu cầu của cộng đồng lên hàng đầu và cung
-                    cấp dịch vụ chất lượng để giải quyết các vấn đề thực tế.
+                    Chúng mình đặt nhu cầu của cộng đồng lên hàng đầu và cung cấp dịch vụ chất lượng để giải quyết các vấn đề thực tế.
                   </p>
                 </div>
                 <Image
@@ -162,9 +161,7 @@ const RecruitPage = () => {
                         />
                       </CardContent>
                     </Card>
-                    <h4 className="font-semibold text-3xl text-center">
-                      {info["full"]}
-                    </h4>
+                    <h4 className="font-semibold text-3xl text-center">{info["full"]}</h4>
                   </CarouselItem>
                 ))}
               </CarouselContent>
@@ -176,12 +173,9 @@ const RecruitPage = () => {
               </div>
             </Carousel>
             <div className="flex flex-col items-center gap-5 sm:gap-10 justify-center w-[80%] sm:w-[50%] order-[0] sm:order-1">
-              <h1 className="text-5xl font-bold text-center">
-                Các ban ở VECTR
-              </h1>
+              <h1 className="text-5xl font-bold text-center">Các ban ở VECTR</h1>
               <p className="text-gray-500 text-xl w-full text-balance text-center sm:w-[85%]">
-                Chọn ban phù hợp nhất với sở thích và kinh nghiệm của bạn để xem
-                các vị trí việc làm.
+                Chọn ban phù hợp nhất với sở thích và kinh nghiệm của bạn để xem các vị trí việc làm.
               </p>
               <NavigationButton
                 text={"Xem Job Description"}
@@ -194,30 +188,25 @@ const RecruitPage = () => {
 
         <section id="mission">
           <div className="container pt-20">
-            <h1 className="text-5xl font-bold text-center ">
-              Sứ mệnh của VECTR
-            </h1>
+            <h1 className="text-5xl font-bold text-center ">Sứ mệnh của VECTR</h1>
             <div className="flex flex-col md:flex-row gap-10 mt-10">
               <MissionCard
                 image_url="/innovation.svg"
                 image_alt="innovation"
-                title="Lorem ipsum dolor sit amet."
-                content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Facere, neque?"
+                title="Khơi dậy và nuôi dưỡng niềm đam mê robotics và coding"
+                content="Khuyến khích niềm đam mê robotics (bất cứ dự án nào là sự giao thoa của cả 3 lĩnh vực coding-electronics-engineering) bên trong mỗi học sinh Vinschool. Và Tạo dựng một sân chơi - cộng đồng những người yêu thích robotics và coding để giao lưu và chia sẻ kiến thức."
               />
               <MissionCard
                 image_url="/grow.svg"
                 image_alt="grow"
-                title="Lorem ipsum dolor sit amet."
-                content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Facere, neque?"
+                title="Tạo ra những sản phẩm thiết thực để phục vụ cho cộng đồng"
+                content="Mang lại nhiều cơ hội quý giá giúp mọi người cùng nhau hiểu ra giá trị thật sự của tri thức, bằng cách áp dụng vào thực tiễn để tạo ra vô vàn những phát minh khác nhau, và là nơi chia sẻ những ý tưởng độc đáo, khuyến khích thảo luận cởi mở, từ đó giúp thỏa mãn đam mê và đóng góp cho cộng đồng"
               />
               <MissionCard
                 image_url="/thrive.png"
                 image_alt="thrive"
-                title="Lorem ipsum dolor sit amet."
-                content="Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Facere, neque?"
+                title="Kết nối những người đam mê chế tạo với giáo viên và các công cụ cần thiết "
+                content="Câu lạc bộ VECTR tại Vinschool Central Park sẽ cung cấp tài liệu học tập và các hoạt động bổ ích với sự hỗ trợ của nhà trường, bao gồm phần cứng và các tài liệu học tập. Sự kết hợp này sẽ giúp học sinh phát triển kỹ năng và kiến thức trong lĩnh vực robotics và computer science."
               />
             </div>
           </div>
@@ -225,18 +214,28 @@ const RecruitPage = () => {
 
         <section id="process">
           <div className="container flex flex-col py-24 gap-3">
-            <h1 className="text-5xl font-bold text-left ">
-              Quy trình ứng tuyển
-            </h1>
+            <h1 className="text-5xl font-bold text-left ">Quy trình ứng tuyển</h1>
             <p className="text-gray-500 text-xl w-full  text-justify sm:text-left sm:w-[100%]">
               {` VECTR sẽ sàng lọc hồ sơ, phỏng vấn, đánh giá ứng viên tiềm năng, và gửi xác
             nhận đậu vào CLB (update sẽ được gửi qua email).`}
             </p>
             <div className="flex flex-col sm:flex-row gap-8 mt-4">
-              <ProcessBlock title="01" text="Đánh giá đơn tuyển" />
-              <ProcessBlock title="02" text="Phỏng vấn" />
-              <ProcessBlock title="03" text="Cam kết" />
-              <ProcessBlock title="04" text="Gia nhập" />
+              <ProcessBlock
+                title="01"
+                text="Đánh giá đơn tuyển"
+              />
+              <ProcessBlock
+                title="02"
+                text="Phỏng vấn"
+              />
+              <ProcessBlock
+                title="03"
+                text="Cam kết"
+              />
+              <ProcessBlock
+                title="04"
+                text="Gia nhập"
+              />
             </div>
             <NavigationButton
               text={"Xem Job Description"}

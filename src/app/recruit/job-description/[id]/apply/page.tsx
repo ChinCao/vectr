@@ -1,26 +1,19 @@
-import { GetSheetData } from "@/app/recruit/_lib/GoogleUtils";
+import {GetSheetData} from "@/app/recruit/_lib/GoogleUtils";
 import ApplyForm from "./_components/ApplyForm";
-import { DepartmentsAbbreviation } from "@/app/recruit/_constants/constants";
+import {DepartmentsAbbreviation} from "@/app/recruit/_constants/constants";
 
-type Params = Promise<{ id: string }>;
+type Params = Promise<{id: string}>;
 
 interface PageProps {
   params: Params;
 }
 
-const Applypage = async ({ params }: PageProps) => {
+const Applypage = async ({params}: PageProps) => {
   const id = (await params).id;
   const decodedID = decodeURI(id);
-  const department: DepartmentsAbbreviation =
-    decodedID as DepartmentsAbbreviation;
-  const department_questions: string[][] = (await GetSheetData(
-    department,
-    "qs"
-  )) as string[][];
-  const general_questions: string[][] = (await GetSheetData(
-    "chung",
-    "qs"
-  )) as string[][];
+  const department: DepartmentsAbbreviation = decodedID as DepartmentsAbbreviation;
+  const department_questions: string[][] = (await GetSheetData(department, "qs")) as string[][];
+  const general_questions: string[][] = (await GetSheetData("chung", "qs")) as string[][];
 
   return (
     <div className="flex items-center justify-center">

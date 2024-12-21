@@ -166,3 +166,5 @@ export const BLANK_FORM_DATA: FormDataStructure = {
   },
   general_questions: {response: {}},
 };
+
+export const EMAIL_SUBJECT = "huhh";

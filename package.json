@@ -29,6 +29,7 @@
     "mongoose": "^8.8.4",
     "next": "15.0.4",
     "next-navigation-guard": "^0.1.2",
+    "nodemailer": "^6.9.16",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.0",
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.17",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^8",

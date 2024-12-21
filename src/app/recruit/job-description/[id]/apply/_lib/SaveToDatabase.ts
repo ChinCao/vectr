@@ -27,14 +27,27 @@ export async function SaveToDatabase(
     const documentTitle = `${sanitized_data["personal_info"]["name"]}_${sanitized_data["personal_info"]["class"]}_${sanitized_data["personal_info"]["student_id"]}`;
     try {
       await SaveToGoogleDoc(documentTitle, parsedData[0], parsedData[1], department);
-      setisSubmitted(true);
-      setIsSubmitting(false);
     } catch (error) {
-      setisSubmitted(true);
-      setIsSubmitting(false);
+      // setisSubmitted(true);
+      // setIsSubmitting(false);
       console.log(error);
-      throw new Error("skibidi");
     }
+
+    try {
+      await fetch("/api/recruit/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({data: sanitized_data, department: department}),
+      });
+    } catch (error) {
+      // setisSubmitted(true);
+      // setIsSubmitting(false);
+      console.log(error);
+    }
+    setisSubmitted(true);
+    setIsSubmitting(false);
   }
   setIsSaving(false);
 

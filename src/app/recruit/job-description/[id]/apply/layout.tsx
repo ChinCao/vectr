@@ -10,17 +10,20 @@ const JobLayout = async ({children, params}: {children: ReactNode; params: Param
   const decodedID = decodeURI(id);
   const department: DepartmentsAbbreviation = decodedID as DepartmentsAbbreviation;
   return (
-    <div className="py-14 container !px-0">
-      <NavigationButton
-        href={`/recruit/job-description/${decodedID}`}
-        text="Quay lại job description"
-        direction="left"
-      />
-      <h1 className="text-bold text-3xl text-center mt-8">
-        Apply Vào <span className="text-primary"> {FULL_CORE_TITLE(department)}</span>
-      </h1>
-      <Suspense fallback={<FormFallBack />}>{children}</Suspense>
-    </div>
+    <>
+      <title>{FULL_CORE_TITLE(department)}</title>
+      <div className="py-14 container !px-0">
+        <NavigationButton
+          href={`/recruit/job-description/${decodedID}`}
+          text="Quay lại job description"
+          direction="left"
+        />
+        <h1 className="text-bold text-3xl text-center mt-8">
+          Apply Vào <span className="text-primary"> {FULL_CORE_TITLE(department)}</span>
+        </h1>
+        <Suspense fallback={<FormFallBack />}>{children}</Suspense>
+      </div>
+    </>
   );
 };
 
