@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import {DEPARTMENT_INFO} from "@/app/recruit/_constants/constants";
 import Link from "next/link";
 import {ReactNode} from "react";
+import RecruitButton from "../_components/RecruitButton";
 
 const JobDescriptionLayout = ({children}: {children: ReactNode}) => {
   return (
@@ -16,12 +17,7 @@ const JobDescriptionLayout = ({children}: {children: ReactNode}) => {
             {info["abbreviation"].toUpperCase()}
           </Link>
         ))}
-        <Link
-          href="/recruit"
-          className="w-full block py-2 bg-primary text-white hover:bg-transparent border border-primary hover:text-primary rounded ml-1  mr-3 text-center "
-        >
-          Recruit
-        </Link>
+        <RecruitButton />
       </Navbar>
       {children}
     </div>

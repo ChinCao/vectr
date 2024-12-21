@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+import type {Metadata} from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
-import { FaFacebook } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
-import { NavigationGuardProvider } from "next-navigation-guard";
+import {ClerkProvider} from "@clerk/nextjs";
+import {FaFacebook} from "react-icons/fa";
+import {FaInstagram} from "react-icons/fa";
+import {NavigationGuardProvider} from "next-navigation-guard";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,12 +30,10 @@ export default function RootLayout({
   return (
     <ClerkProvider telemetry={false}>
       <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
-        >
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}>
           <NavigationGuardProvider>{children}</NavigationGuardProvider>
 
-          <footer className="px-4 pb-5 pt-3 border-t-2 flex items-center justify-evenly flex-wrap gap-10">
+          <footer className="px-4 pb-5 pt-3 border-t-2 flex items-center justify-evenly flex-wrap gap-10 bg-[#000] text-white">
             VECTR© 2024
             <div className="flex gap-2 items-center justify-center flex-wrap">
               <p>Theo dõi chúng mình trên</p>

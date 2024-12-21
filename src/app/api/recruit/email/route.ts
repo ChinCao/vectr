@@ -1,6 +1,7 @@
-import {DepartmentsAbbreviation, EMAIL_SUBJECT, FULL_CORE_TITLE} from "@/app/recruit/_constants/constants";
+import {DepartmentsAbbreviation, EMAIL_SUBJECT, FULL_DEPARTMENT_TITLE} from "@/app/recruit/_constants/constants";
 import EMAIL_TEMPLATE from "@/app/recruit/_constants/email";
 import {FormDataStructure} from "@/app/recruit/_types/RecruitTypes";
+import {lowercaseFirstLetter} from "@/lib/utils";
 import {NextResponse} from "next/server";
 import nodemailer from "nodemailer";
 
@@ -23,7 +24,7 @@ export async function POST(req: Request) {
     },
   });
 
-  const htmlContent = EMAIL_TEMPLATE(body.data.personal_info.name.toUpperCase(), FULL_CORE_TITLE(department).toLowerCase());
+  const htmlContent = EMAIL_TEMPLATE(body.data.personal_info.name.toUpperCase(), lowercaseFirstLetter(FULL_DEPARTMENT_TITLE(department)));
 
   const mailOptionsPrivate = {
     from: process.env.GMAIL_USER,

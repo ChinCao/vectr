@@ -4,7 +4,7 @@ import ProcessBlock from "./ProcessBlock";
 const ProcessSection = () => {
   return (
     <section id="process">
-      <div className="container flex flex-col py-24 gap-3">
+      <div className="container flex flex-col py-28 gap-3">
         <h1 className="text-5xl font-bold text-left ">Quy trình ứng tuyển</h1>
         <p className="text-gray-500 text-xl w-full  text-justify sm:text-left sm:w-[100%]">
           {` VECTR sẽ sàng lọc hồ sơ, phỏng vấn, đánh giá ứng viên tiềm năng, và gửi xác

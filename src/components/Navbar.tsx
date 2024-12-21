@@ -1,38 +1,34 @@
 "use client";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-  UserButton,
-} from "@clerk/nextjs";
+import {SignedIn, SignedOut, SignInButton, SignUpButton, UserButton} from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
-import React, { ReactNode, useState } from "react";
-import { Button } from "./ui/button";
-import { FaBars } from "react-icons/fa";
-import { ImCross } from "react-icons/im";
+import React, {ReactNode, useState} from "react";
+import {Button} from "./ui/button";
+import {FaBars} from "react-icons/fa";
+import {ImCross} from "react-icons/im";
 import useSound from "use-sound";
-import {
-  CLICK_SOUND_URL,
-  CLICK_SOUND_VOLUME,
-} from "@/app/recruit/_constants/constants";
+import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME} from "@/app/recruit/_constants/constants";
 
-const Navbar = ({ children }: { children: ReactNode }) => {
+const Navbar = ({children}: {children: ReactNode}) => {
   const [toggle, setToggle] = useState(false);
-  const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
+  const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
 
   return (
     <header className="fixed top-0 w-full z-[100] bg-background/95 shadow-lg">
       <nav className="flex flex-row items-center container justify-between py-2 gap-3 relative">
         <Link href="/">
-          <Image src="/logo.png" height={44} width={111} alt="Logo Vectr" />
+          <Image
+            src="/logo.png"
+            height={44}
+            width={111}
+            alt="Logo Vectr"
+          />
         </Link>
         <div className="flex flex-row gap-4 items-center justify-center font-semibold ">
           <div
             className={`flex flex-col ${
               toggle ? null : "hidden"
-            } w-full lg:flex-row absolute lg:flex lg:static left-0 top-[100%] hover:cursor-pointer py-0 lg:py-1`}
+            } w-full items-center lg:flex-row absolute lg:flex lg:static left-0 top-[100%] hover:cursor-pointer py-0 lg:py-1`}
           >
             {React.Children.map(children, (child) => (
               <div
@@ -62,7 +58,10 @@ const Navbar = ({ children }: { children: ReactNode }) => {
             onClick={() => setToggle(!toggle)}
           >
             {toggle ? (
-              <ImCross size={12} onClick={() => playClick()} />
+              <ImCross
+                size={12}
+                onClick={() => playClick()}
+              />
             ) : (
               <FaBars onClick={() => playClick()} />
             )}
