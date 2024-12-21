@@ -1,7 +1,7 @@
 import NavigationButton from "@/app/recruit/_components/NavigationButton";
 import {ReactNode, Suspense} from "react";
 import FormFallBack from "./_components/FallBacks/FormFallBack";
-import {DepartmentsAbbreviation, FULL_CORE_TITLE} from "@/app/recruit/_constants/constants";
+import {DepartmentsAbbreviation, FULL_DEPARTMENT_TITLE} from "@/app/recruit/_constants/constants";
 
 type Params = Promise<{id: string}>;
 
@@ -11,7 +11,7 @@ const JobLayout = async ({children, params}: {children: ReactNode; params: Param
   const department: DepartmentsAbbreviation = decodedID as DepartmentsAbbreviation;
   return (
     <>
-      <title>{FULL_CORE_TITLE(department)}</title>
+      <title>{FULL_DEPARTMENT_TITLE(department)}</title>
       <div className="py-14 container !px-0">
         <NavigationButton
           href={`/recruit/job-description/${decodedID}`}
@@ -19,7 +19,7 @@ const JobLayout = async ({children, params}: {children: ReactNode; params: Param
           direction="left"
         />
         <h1 className="text-bold text-3xl text-center mt-8">
-          Apply Vào <span className="text-primary"> {FULL_CORE_TITLE(department)}</span>
+          Apply Vào <span className="text-primary"> {FULL_DEPARTMENT_TITLE(department)}</span>
         </h1>
         <Suspense fallback={<FormFallBack />}>{children}</Suspense>
       </div>

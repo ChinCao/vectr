@@ -6,7 +6,7 @@ const SubmittingDialog = ({isSubmitting, navGuard}: {isSubmitting: boolean; navG
     <AlertDialog open={isSubmitting || navGuard}>
       <AlertDialogContent className="flex flex-col items-center justify-center">
         <AlertDialogTitle>Đang {isSubmitting ? "ghi nhận" : navGuard ? "lưu" : null} thông tin của bạn</AlertDialogTitle>
-        <AlertDialogDescription>Hãy đợi một chút nhé!</AlertDialogDescription>
+        <AlertDialogDescription>Hãy đợi một chút và đừng thoát khỏi website nhé!</AlertDialogDescription>
         <LoadingSpinner />
       </AlertDialogContent>
     </AlertDialog>

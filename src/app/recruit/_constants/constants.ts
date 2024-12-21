@@ -35,7 +35,7 @@ export function capitalizeFirstLetter(val: string) {
   return String(val).charAt(0).toUpperCase() + String(val).slice(1);
 }
 
-type CoreImageKeys =
+type DepartmentImageKeys =
   | typeof COMPUTER_SCIENCE_NAME_ABBREV
   | typeof ROBOTICS_NAME_ABBREV
   | typeof DESIGN_NAME_ABBREV
@@ -43,7 +43,7 @@ type CoreImageKeys =
   | typeof PR_CW_NAME_ABBREV
   | typeof PR_EXTERNAL_NAME_ABBREV;
 
-export const CORE_IMAGE: Record<CoreImageKeys, string[]> = {
+export const CORE_IMAGE: Record<DepartmentImageKeys, string[]> = {
   [COMPUTER_SCIENCE_NAME_ABBREV]: ["/special-relativity-ZZpyj9.png", "/programming-python-dmduOj.png"],
   [ROBOTICS_NAME_ABBREV]: ["/electromagnetism-AzFMTl.png", "/quantum-computing-UHpCJ1.png"],
   [DESIGN_NAME_ABBREV]: ["/creative-coding-XgYZa1.png", "/calculus-nutshell-1DhUxj.png"],
@@ -114,7 +114,7 @@ export const DEPARTMENT_INFO: DepartmentSchema[] = [
   },
 ];
 
-export const FULL_CORE_TITLE = (id: DepartmentsAbbreviation) => {
+export const FULL_DEPARTMENT_TITLE = (id: DepartmentsAbbreviation) => {
   switch (id) {
     case COMPUTER_SCIENCE_NAME_ABBREV:
       return COMPUTER_SCIENCE_NAME_FULL;
@@ -166,5 +166,57 @@ export const BLANK_FORM_DATA: FormDataStructure = {
   },
   general_questions: {response: {}},
 };
+
+export const FQA: {
+  question: string;
+  answer: string;
+}[] = [
+  {
+    question: "Tôi có thể apply nhiều ban khác nhau được không?",
+    answer:
+      "Có, bạn có thể apply được nhiều ban và tất cả câu trả lời của bạn sẽ được ghi nhận. Nhưng sau quá trình tuyển thành viên bạn chỉ có thể làm được 1 ban duy nhất mà chúng mình nghĩ là phù hợp với bạn nhất.",
+  },
+  {
+    question: "Làm sao tôi có thể biết được trạng thái ứng tuyển của mình?",
+    answer: "Mọi thông tin sẽ được cập nhật qua email riêng và email trường.",
+  },
+  {
+    question: "Thông tin trên website có được bảo mật không?",
+    answer: "Mọi thông tin trên website được bảo mật chặt chẽ và chỉ có thành viên CORE của VECTR mới có quyền truy cập.",
+  },
+  {
+    question: "Những thông tin tôi điền trên form của website có được lưu không?",
+    answer: "Có, mọi thông tin bạn ghi trên form sẽ được lưu tự động và bạn có thể quay trở lại để tiếp tục với câu trả lời của mình.",
+  },
+];
+
+export const MISSION_SECTION_INFORMATION: {
+  image_url: string;
+  image_alt: string;
+  title: string;
+  content: string;
+}[] = [
+  {
+    image_url: "/innovation.svg",
+    image_alt: "innovation",
+    title: "Khơi dậy và nuôi dưỡng niềm đam mê robotics và coding",
+    content:
+      "Khuyến khích niềm đam mê robotics (bất cứ dự án nào là sự giao thoa của cả 3 lĩnh vực coding-electronics-engineering) bên trong mỗi học sinh Vinschool. Và Tạo dựng một sân chơi - cộng đồng những người yêu thích robotics và coding để giao lưu và chia sẻ kiến thức.",
+  },
+  {
+    image_url: "/grow.svg",
+    image_alt: "grow",
+    title: "Tạo ra những sản phẩm thiết thực để phục vụ cho cộng đồng",
+    content:
+      "Mang lại cơ hội giúp mọi người nhận ra giá trị của tri thức qua việc áp dụng vào thực tiễn, tạo ra nhiều phát minh và chia sẻ ý tưởng độc đáo. Khuyến khích thảo luận cởi mở để thỏa mãn đam mê và đóng góp cho cộng đồng.",
+  },
+  {
+    image_url: "/thrive.png",
+    image_alt: "thrive",
+    title: "Kết nối những người đam mê chế tạo với giáo viên và các công cụ cần thiết",
+    content:
+      "Câu lạc bộ VECTR tại Vinschool Central Park sẽ cung cấp tài liệu học tập và các hoạt động bổ ích với sự hỗ trợ của nhà trường, bao gồm phần cứng và các tài liệu học tập. Sự kết hợp này sẽ giúp học sinh phát triển kỹ năng và kiến thức trong lĩnh vực robotics và computer science.",
+  },
+];
 
 export const EMAIL_SUBJECT = "huhh";

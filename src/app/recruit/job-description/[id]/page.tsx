@@ -1,7 +1,7 @@
 import {
   CORE_IMAGE,
   DepartmentsAbbreviation,
-  FULL_CORE_TITLE,
+  FULL_DEPARTMENT_TITLE,
   JOB_DESCRIPTION_TITLES,
 } from "@/app/recruit/_constants/constants";
 import NavigationButton from "../../_components/NavigationButton";
@@ -26,13 +26,13 @@ const JobDescription = async ({ params }: PageProps) => {
 
   return (
     <>
-      <title>{FULL_CORE_TITLE(department)}</title>
+      <title>{FULL_DEPARTMENT_TITLE(department)}</title>
       <div className="flex flex-col items-center">
         <div className="flex bg-gray-100 w-[100vw]">
           <div className="container flex flex-col md:flex-row md:gap-2 pt-14 pb-8 items-center justify-center">
             <div className="flex flex-col items-center md:items-start gap-5 w-[90%] md:w-[50%] order-1 md:order-[0] ">
               <h1 className="text-3xl font-semibold mt-4 md:mt-0 text-center">
-                {FULL_CORE_TITLE(department)}
+                {FULL_DEPARTMENT_TITLE(department)}
               </h1>
               <p className="text-gray-500 w-[90%] font-semibold text-justify md:text-left">
                 {JOB_DESCRIPTION_TITLES[department]}

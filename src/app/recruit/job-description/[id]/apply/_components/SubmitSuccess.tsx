@@ -1,7 +1,7 @@
 import NavigationButton from "@/app/recruit/_components/NavigationButton";
 import {
   DepartmentsAbbreviation,
-  FULL_CORE_TITLE,
+  FULL_DEPARTMENT_TITLE,
 } from "@/app/recruit/_constants/constants";
 import { lowercaseFirstLetter } from "@/lib/utils";
 import { IoMdCheckmarkCircle } from "react-icons/io";
@@ -16,7 +16,7 @@ const SubmitSuccess = ({
       <IoMdCheckmarkCircle fill="green" size={69} />
       <h1 className="font-semibold text-xl text-green-700 text-center">
         Xin chúc mừng! Bạn đã gửi đơn thành công đến{" "}
-        {lowercaseFirstLetter(FULL_CORE_TITLE(department)!)}.
+        {lowercaseFirstLetter(FULL_DEPARTMENT_TITLE(department)!)}.
       </h1>
       <p className="text-green-700 text-center">
         Hãy kiểm tra email của bạn để biết thêm thông tin chi tiết!
