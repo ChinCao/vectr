@@ -102,7 +102,7 @@ a[x-apple-data-detectors],
                        </table></td>
                      </tr>
                      <tr>
-                      <td align="left" style="padding:0;Margin:0;font-size:0"><img src="https://frmatmg.stripocdn.email/content/guids/CABINET_45a47dfc818b4e2f63c26060ddb763471af1dcf798b9ce1ecd7d1edada48ef19/images/decode_poster.png" alt="" width="500" class="adapt-img" style="display:block;font-size:14px;border:0;outline:none;text-decoration:none;border-radius:0" height="500"></td>
+                      <td align="left" style="padding:0;Margin:0;font-size:0"><img src="https://www.vectr-vcp.com/decode%20poster.webp" alt="" width="500" class="adapt-img" style="display:block;font-size:14px;border:0;outline:none;text-decoration:none;border-radius:0" height="500"></td>
                      </tr>
                    </table></td>
                  </tr>
