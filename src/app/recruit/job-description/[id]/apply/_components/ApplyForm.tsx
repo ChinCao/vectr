@@ -179,9 +179,6 @@ const ApplyForm = ({
       }
     }
     if (hasInteracted && debouncedValues) {
-      if (!user?.id) {
-        router.refresh();
-      }
       save();
     }
   }, [isSubmitted, isSubmitting, formattedFormData, department, debouncedValues, hasInteracted, user?.id, router]);

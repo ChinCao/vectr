@@ -40,7 +40,7 @@ const Navbar = ({children}: {children: ReactNode}) => {
             ))}
           </div>
           <SignedIn>
-            <UserButton />
+            <UserButton afterSwitchSessionUrl="/" />
             <SignedOut>
               <Button>Signout</Button>
             </SignedOut>
