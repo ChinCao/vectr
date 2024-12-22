@@ -59,11 +59,7 @@ const ApplyForm = ({
   const [schoolEmail, setSchoolEmail] = useState("@stu.vinschool.edu.vn");
   const [manual, setManual] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
-  useEffect(() => {
-    if (!isSignedIn && !isFetching) {
-      router.push("/");
-    }
-  }, [isFetching, isSignedIn, router]);
+
   const questions_id = useMemo(() => [...department_questions[0], ...general_questions[0]], [department_questions, general_questions]);
 
   useEffect(() => {
@@ -183,27 +179,26 @@ const ApplyForm = ({
       }
     }
     if (hasInteracted && debouncedValues) {
-      if (!user?.id) {
-        router.refresh();
-      }
       save();
     }
   }, [isSubmitted, isSubmitting, formattedFormData, department, debouncedValues, hasInteracted, user?.id, router]);
 
   const navGuard = useNavigationGuard({
-    enabled: isSaving || isSubmitting,
+    enabled: (isSaving || isSubmitting) && isSignedIn,
   });
 
   useEffect(() => {
     async function check() {
-      if (navGuard.active) {
+      if (navGuard.active && isSignedIn) {
         const sanitized_data = formattedFormData(watchedValues, false);
         await SaveToDatabase(sanitized_data, false, department, setIsSubmitting, setIsSaving, setisSubmitted);
+        navGuard.accept();
+      } else {
         navGuard.accept();
       }
     }
     check();
-  }, [navGuard, isSaving, formattedFormData, watchedValues, department]);
+  }, [navGuard, isSaving, formattedFormData, watchedValues, department, isSignedIn]);
 
   useEffect(() => {
     const error_check = CheckError(formState.errors, department_questions, general_questions, setActiveTab, activeTab);
