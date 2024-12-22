@@ -234,22 +234,68 @@ export const CUSTOMIZED_DEPARTMENT_EMAIL: Record<DepartmentsAbbreviation, string
 export const BENEFITS_LOOKUP: {
   title: string;
   content: string;
+  image_src: string;
 }[] = [
-  {title: "Giấy chứng nhận tham gia", content: "Nhận giấy chứng nhận chính thức, khẳng định sự tham gia và nỗ lực của bạn trong CLB."},
-  {title: "Tài liệu học tập phong phú", content: "Tiếp cận các tài liệu về STEM từ những nguồn cốt lõi, giúp nâng cao kiến thức chuyên môn."},
-  {title: "Quỹ tài trợ cho dự án cá nhân", content: "Được cấp kinh phí từ quỹ CLB để hiện thực hóa các dự án cá nhân và ý tưởng sáng tạo."},
+  {
+    title: "Giấy chứng nhận tham gia",
+    content: "Nhận giấy chứng nhận chính thức, khẳng định sự tham gia và nỗ lực của bạn trong CLB.",
+    image_src: "/explaining-variation-LbNO6h.png",
+  },
+  {
+    title: "Tài liệu học tập phong phú",
+    content: "Tiếp cận các tài liệu về STEM từ những nguồn cốt lõi, giúp nâng cao kiến thức chuyên môn.",
+    image_src: "/VariablesCourseCard_960x960-75LzA9.png",
+  },
+  {
+    title: "Quỹ tài trợ cho dự án cá nhân",
+    content: "Được cấp kinh phí từ quỹ CLB để hiện thực hóa các dự án cá nhân và ý tưởng sáng tạo.",
+    image_src: "/pre-algebra-OzcAr4.png",
+  },
   {
     title: "Hỗ trợ từ các thành viên",
     content: "Nhận sự hỗ trợ nhiệt tình từ các thành viên khác trong việc triển khai các dự án cá nhân và cộng đồng.",
+    image_src: "/knowledge-and-uncertainty-LErS9z.png",
   },
-  {title: "Giá trị cho hồ sơ học bổng", content: "Tham gia CLB là một điểm cộng quý giá trong hồ sơ xin học bổng của bạn."},
-  {title: "Cải thiện kiến thức và kỹ năng STEM", content: "Nâng cao kiến thức và kỹ năng trong các lĩnh vực STEM thông qua các hoạt động và dự án."},
-  {title: "Phát triển kỹ năng mềm", content: "Cải thiện kỹ năng giao tiếp, làm việc nhóm và lãnh đạo thông qua các hoạt động nhóm."},
-  {title: "Xây dựng mạng lưới quan hệ", content: "Kết nối với những người có cùng đam mê, mở rộng mạng lưới quan hệ cho tương lai."},
-  {title: "Chia sẻ kiến thức qua workshops", content: "Cơ hội tổ chức và tham gia các buổi workshop, chia sẻ đam mê và kiến thức với cộng đồng."},
-  {title: "Tham gia cuộc thi và sự kiện", content: "Cơ hội tham gia các cuộc thi STEM trong và ngoài nước, nâng cao kỹ năng và tạo dựng danh tiếng."},
-  {title: "Đào tạo chuyên sâu", content: "Tham gia các khóa đào tạo và hội thảo chuyên sâu về các chủ đề mới nhất trong lĩnh vực STEM."},
-  {title: "Khuyến khích sáng tạo", content: "Môi trường khuyến khích sự sáng tạo và đổi mới trong các dự án và ý tưởng của thành viên."},
+  {
+    title: "Giá trị cho hồ sơ học bổng",
+    content: "Tham gia CLB là một điểm cộng quý giá trong hồ sơ xin học bổng của bạn.",
+    image_src: "/strategic-puzzles-long-set-0NgdQ0.png",
+  },
+  {
+    title: "Cải thiện kiến thức và kỹ năng STEM",
+    content: "Nâng cao kiến thức và kỹ năng trong các lĩnh vực STEM thông qua các hoạt động và dự án.",
+    image_src: "/vectors-Grpuo7.png",
+  },
+  {
+    title: "Phát triển kỹ năng mềm",
+    content: "Cải thiện kỹ năng giao tiếp, làm việc nhóm và lãnh đạo thông qua các hoạt động nhóm.",
+    image_src: "/logical-languages-gR02Vh.png",
+  },
+  {
+    title: "Xây dựng mạng lưới quan hệ",
+    content: "Kết nối với những người có cùng đam mê, mở rộng mạng lưới quan hệ cho tương lai.",
+    image_src: "/cryptocurrency-ksKqSq.png",
+  },
+  {
+    title: "Chia sẻ kiến thức qua workshops",
+    content: "Cơ hội tổ chức và tham gia các buổi workshop, chia sẻ đam mê và kiến thức với cộng đồng.",
+    image_src: "/geometry-fundamentals-R3GX1g.png",
+  },
+  {
+    title: "Tham gia cuộc thi và sự kiện",
+    content: "Cơ hội tham gia các cuộc thi STEM trong và ngoài nước, nâng cao kỹ năng và tạo dựng danh tiếng.",
+    image_src: "/math-competition-fundamentals-RwT0fZ.png",
+  },
+  {
+    title: "Đào tạo chuyên sâu",
+    content: "Tham gia các khóa đào tạo và hội thảo chuyên sâu về các chủ đề mới nhất trong lĩnh vực STEM.",
+    image_src: "/group-theory-FRXERp.png",
+  },
+  {
+    title: "Khuyến khích sáng tạo",
+    content: "Môi trường khuyến khích sự sáng tạo và đổi mới trong các dự án và ý tưởng của thành viên.",
+    image_src: "/intro-neural-networks-MS8bJL.png",
+  },
 ];
 
 export const EMAIL_SUBJECT = "01010100 01011001 00100001 - DECODE 01";

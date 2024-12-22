@@ -1,7 +1,11 @@
 import Image from "next/image";
 import {FaArrowDown} from "react-icons/fa6";
+import useSound from "use-sound";
+import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME} from "../../_constants/constants";
 
 const AboutUsSection = () => {
+  const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
+
   return (
     <section id="about">
       <div className="container flex items-center  justify-center flex-col lg:flex-row pt-24 gap-10 px-8">
@@ -35,6 +39,7 @@ const AboutUsSection = () => {
           <a
             href="#values"
             title="Xem giá trị của chúng mình"
+            onClick={() => playClick()}
             className="w-full sm:w-[80%] lg:w-[400px] bg-transparent self-start sm:self-center lg:self-start border-[#f7c325] border-2 p-4 rounded text-[#f7c325] text-center font-bold flex gap-4 items-center justify-center"
           >
             Xem các giá trị của VECTR

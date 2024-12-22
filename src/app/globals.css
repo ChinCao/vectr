@@ -99,5 +99,5 @@ button:hover,
 }
 
 .scrollbar-hide {
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
