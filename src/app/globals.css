@@ -20,12 +20,13 @@ body {
 html,
 body,
 label:hover {
-  cursor: url("/arrowhead-rounded-outline.svg"), default;
+  cursor: url("/arrowhead-rounded-outline.svg"), default !important;
 }
 
 a:hover,
-button:hover {
-  cursor: url("/hand-pointer.svg"), default;
+button:hover,
+#save-state:hover {
+  cursor: url("/hand-pointer.svg"), default !important;
 }
 
 @layer base {

@@ -54,7 +54,7 @@ const JobDescriptionPage = () => {
                 key={index}
               >
                 <AccordionTrigger onClick={() => playClick()}>{item.question}</AccordionTrigger>
-                <AccordionContent>{item.question}</AccordionContent>
+                <AccordionContent>{item.answer}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
