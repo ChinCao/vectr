@@ -61,7 +61,11 @@ const ApplyForm = ({
   const [hasInteracted, setHasInteracted] = useState(false);
 
   const questions_id = useMemo(() => [...department_questions[0], ...general_questions[0]], [department_questions, general_questions]);
-
+  useEffect(() => {
+    if (!isSignedIn && !isFetching) {
+      router.push("/");
+    }
+  }, [isFetching, isSignedIn, router]);
   useEffect(() => {
     if (calculateTimeLeft(FORM_CLOSE_DAY)) {
       const timer = setInterval(async () => {
@@ -179,6 +183,9 @@ const ApplyForm = ({
       }
     }
     if (hasInteracted && debouncedValues) {
+      if (!user?.id) {
+        router.refresh();
+      }
       save();
     }
   }, [isSubmitted, isSubmitting, formattedFormData, department, debouncedValues, hasInteracted, user?.id, router]);
