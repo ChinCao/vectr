@@ -47,7 +47,12 @@ const ApplyForm = ({
   const [activeTab, setActiveTab] = useState<FormTabs>("personal-info");
   const {toast} = useToast();
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
-  const {user} = useUser();
+  const {user, isSignedIn} = useUser();
+  useEffect(() => {
+    if (!isSignedIn) {
+      router.push("/");
+    }
+  }, [isSignedIn, router]);
 
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>({days: "99", hours: "99", minutes: "99", seconds: "99"});
   const [isFetching, setIsFetching] = useState(true);
