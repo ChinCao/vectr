@@ -300,4 +300,4 @@ export const BENEFITS_LOOKUP: {
 
 export const EMAIL_SUBJECT = "01010100 01011001 00100001 - DECODE 01";
 
-export const FORM_CLOSE_DAY = new Date(`2025-01-10T00:00:00+07:00`);
+export const FORM_CLOSE_DAY = new Date(`2025-01-11T00:00:00+07:00`);
