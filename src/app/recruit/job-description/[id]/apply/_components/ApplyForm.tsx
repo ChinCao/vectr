@@ -48,11 +48,6 @@ const ApplyForm = ({
   const {toast} = useToast();
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
   const {user, isSignedIn} = useUser();
-  useEffect(() => {
-    if (!isSignedIn) {
-      router.push("/");
-    }
-  }, [isSignedIn, router]);
 
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>({days: "99", hours: "99", minutes: "99", seconds: "99"});
   const [isFetching, setIsFetching] = useState(true);
@@ -64,7 +59,11 @@ const ApplyForm = ({
   const [schoolEmail, setSchoolEmail] = useState("@stu.vinschool.edu.vn");
   const [manual, setManual] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
-
+  useEffect(() => {
+    if (!isSignedIn && !isFetching) {
+      router.push("/");
+    }
+  }, [isFetching, isSignedIn, router]);
   const questions_id = useMemo(() => [...department_questions[0], ...general_questions[0]], [department_questions, general_questions]);
 
   useEffect(() => {
