@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <ClerkProvider
       telemetry={false}
-      afterSignOutUrl="/"
+      afterSignOutUrl="https://vectr-vcp.com/"
     >
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}>
