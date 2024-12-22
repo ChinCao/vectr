@@ -13,8 +13,8 @@ const AboutUsSection = () => {
           <h5 className="font-bold text-primary text-xl">Về chúng mình</h5>
           <h1 className="font-bold text-5xl w-full sm:w-[70%]">VECTR không chỉ là một câu lạc bộ</h1>
           <p className="text-gray-500 text-xl w-[90%]">
-            Chúng tôi là một cộng đồng đam mê công nghệ, sáng tạo và đổi mới. CLB STEM Robotics của chúng tôi tập trung vào việc khơi dậy niềm đam mê
-            robotics và coding trong mỗi học sinh tại Vinschool. <span className="text-primary font-semibold">Và chúng tôi là một gia đình!</span>
+            Chúng tôi là một cộng đồng đam mê công nghệ, sáng tạo và đổi mới. CLB STEM của chúng tôi tập trung vào việc khơi dậy niềm đam mê robotics
+            và coding trong mỗi học sinh tại Vinschool. <span className="text-primary font-semibold">Và chúng tôi là một gia đình!</span>
           </p>
           <div className="flex flex-col sm:flex-row gap-10 w-full ">
             <div className="flex flex-col gap-3 w-full sm:w-1/2">
