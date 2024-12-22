@@ -28,7 +28,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider telemetry={false}>
+    <ClerkProvider
+      telemetry={false}
+      afterSignOutUrl="/"
+    >
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}>
           <NavigationGuardProvider>{children}</NavigationGuardProvider>

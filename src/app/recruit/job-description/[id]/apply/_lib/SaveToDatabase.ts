@@ -16,13 +16,12 @@ export async function SaveToDatabase(
   if (submit) {
     setIsSubmitting(true);
   }
-  const res = await fetch("/api/recruit/save", {
-    method: "POST",
-    body: JSON.stringify({data: sanitized_data, department: department}),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+
+  if (!sanitized_data.user_id) {
+    setIsSaving(false);
+
+    return;
+  }
   if (submit && calculateTimeLeft(FORM_CLOSE_DAY)) {
     const parsedData = parseData(sanitized_data, department);
     const documentTitle = `${sanitized_data["personal_info"]["name"]}_${sanitized_data["personal_info"]["class"]}_${sanitized_data["personal_info"]["student_id"]}`;
@@ -39,6 +38,13 @@ export async function SaveToDatabase(
     setisSubmitted(true);
     setIsSubmitting(false);
   }
+  const res = await fetch("/api/recruit/save", {
+    method: "POST",
+    body: JSON.stringify({data: sanitized_data, department: department}),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   setIsSaving(false);
 
   if (!res.ok) {
