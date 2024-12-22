@@ -41,8 +41,8 @@ const Navbar = ({children}: {children: ReactNode}) => {
           </div>
           <SignedIn>
             <UserButton
-              afterSwitchSessionUrl="/"
-              afterSignOutUrl="/"
+              afterSwitchSessionUrl="https://vectr-vcp.com/"
+              afterSignOutUrl="https://vectr-vcp.com/"
             />
             <SignedOut>
               <Button>Signout</Button>
