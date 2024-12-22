@@ -193,7 +193,7 @@ const ApplyForm = ({
         const sanitized_data = formattedFormData(watchedValues, false);
         await SaveToDatabase(sanitized_data, false, department, setIsSubmitting, setIsSaving, setisSubmitted);
         navGuard.accept();
-      } else {
+      } else if (navGuard.active && !isSignedIn) {
         navGuard.accept();
       }
     }
