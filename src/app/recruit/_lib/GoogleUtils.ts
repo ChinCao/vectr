@@ -1,24 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DepartmentsAbbreviation } from "../_constants/constants";
-import { google } from "googleapis";
-import { NextResponse } from "next/server";
-import { getDriveId } from "./utils";
-import {
-  InsertText,
-  UpdateParagraphStyle,
-  UpdateTextStyle,
-} from "./_types/ParserTypes";
+import {DepartmentsAbbreviation} from "../_constants/constants";
+import {google} from "googleapis";
+import {getDriveId} from "./utils";
+import {InsertText, UpdateParagraphStyle, UpdateTextStyle} from "./_types/ParserTypes";
 
 const auth = new google.auth.GoogleAuth({
   credentials: {
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
     private_key: atob(process.env.GOOGLE_SERVICE_ACOUNT_PRIVATE_KEY!),
   },
-  scopes: [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/documents",
-    "https://www.googleapis.com/auth/drive",
-  ],
+  scopes: ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/documents", "https://www.googleapis.com/auth/drive"],
 });
 
 export const GetSheetData = async (department: string, sheet: "jd" | "qs") => {
@@ -31,16 +22,17 @@ export const GetSheetData = async (department: string, sheet: "jd" | "qs") => {
 
   try {
     const response = await sheets.spreadsheets.values.get({
-      spreadsheetId:
-        sheet == "jd"
-          ? process.env.GOOGLE_SHEET_ID_JD
-          : process.env.GOOGLE_SHEET_ID_QS,
+      spreadsheetId: sheet == "jd" ? process.env.GOOGLE_SHEET_ID_JD : process.env.GOOGLE_SHEET_ID_QS,
       range,
     });
 
     return response.data.values;
   } catch (error) {
-    return NextResponse.json({ message: "Error", error }, { status: 500 });
+    return {
+      message: "Error",
+      error: error instanceof Error ? error.message : "Unknown error",
+      status: 500,
+    };
   }
 };
 
@@ -91,14 +83,15 @@ export const createDocumentInDrive = async (
       fields: "id, parents",
     });
 
-    return NextResponse.json({
-      message: "Document created and moved to Drive",
-      documentId,
-    });
+    return {
+      message: "Success",
+      status: 200,
+    };
   } catch (error) {
-    return NextResponse.json(
-      { message: "Error creating document", error },
-      { status: 500 }
-    );
+    return {
+      message: "Error",
+      error: error instanceof Error ? error.message : "Unknown error",
+      status: 500,
+    };
   }
 };

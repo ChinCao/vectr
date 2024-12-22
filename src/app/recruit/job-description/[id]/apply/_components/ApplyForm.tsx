@@ -9,7 +9,7 @@ import {useToast} from "@/hooks/use-toast";
 import {ToastAction} from "@/components/ui/toast";
 import {Toaster} from "@/components/ui/toaster";
 import useSound from "use-sound";
-import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME, DepartmentsAbbreviation} from "@/app/recruit/_constants/constants";
+import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME, DepartmentsAbbreviation, FORM_CLOSE_DAY} from "@/app/recruit/_constants/constants";
 import {PersonalInfoSchema, PersonalInfoSchemaDefault} from "../_schema/PersonalInfoSchema";
 import {useUser} from "@clerk/clerk-react";
 import {NextResponse} from "next/server";
@@ -31,6 +31,7 @@ import DepartmentQuestionsTabContent from "./Tabs/Department/DepartmentQuestions
 import CreateFormatResponse from "../_lib/FormatFormData";
 import CheckError from "../_lib/CheckError";
 import Image from "next/image";
+import {calculateTimeLeft, TimeLeft} from "@/lib/utils";
 
 const ApplyForm = ({
   department_questions,
@@ -48,6 +49,7 @@ const ApplyForm = ({
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
   const {user} = useUser();
 
+  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>({days: "99", hours: "99", minutes: "99", seconds: "99"});
   const [isFetching, setIsFetching] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setisSubmitted] = useState(false);
@@ -58,9 +60,22 @@ const ApplyForm = ({
   const [manual, setManual] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
 
-  // const [error, setError] = useState(false);
-
   const questions_id = useMemo(() => [...department_questions[0], ...general_questions[0]], [department_questions, general_questions]);
+
+  useEffect(() => {
+    if (calculateTimeLeft(FORM_CLOSE_DAY)) {
+      const timer = setInterval(async () => {
+        const newTimeLeft = calculateTimeLeft(FORM_CLOSE_DAY);
+        setTimeLeft(newTimeLeft);
+        if (newTimeLeft === null) {
+          clearInterval(timer);
+        }
+      }, 1000);
+      return () => clearInterval(timer);
+    } else {
+      setTimeLeft(null);
+    }
+  }, []);
 
   const formattedFormData = useMemo(
     () => CreateFormatResponse(user?.id, department_questions, general_questions, department),
@@ -213,8 +228,13 @@ const ApplyForm = ({
   };
 
   return (
-    <>
-      {!isSubmitted ? (
+    <div className="flex flex-col gap-4 items-center justify-center">
+      <SubmittingDialog
+        isSubmitting={isSubmitting}
+        navGuard={navGuard.active}
+      />
+      {!timeLeft ? <h1 className="text-red-600 text-balance uppercase font-bold text-2xl mt-4">Vòng gửi đơn đã kết thúc</h1> : null}
+      {!isSubmitted && timeLeft ? (
         <Form {...form}>
           <ProgressBar activeTab={activeTab} />
           <form
@@ -280,10 +300,7 @@ const ApplyForm = ({
                 isFetching={isFetching}
                 department_questions={department_questions}
               />
-              <SubmittingDialog
-                isSubmitting={isSubmitting}
-                navGuard={navGuard.active}
-              />
+
               <SubmitComfirmDialog
                 onSubmit={onSubmit}
                 form={form}
@@ -293,10 +310,10 @@ const ApplyForm = ({
             <Toaster />
           </form>
         </Form>
-      ) : (
+      ) : isSubmitted ? (
         <SubmitSuccess department={department} />
-      )}
-    </>
+      ) : null}
+    </div>
   );
 };
 

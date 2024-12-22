@@ -48,18 +48,15 @@ export async function POST(req: Request) {
     try {
       await transporter.sendMail(mailOptionsPrivate);
     } catch (error) {
-      console.error("Error sending email:", error);
-      return NextResponse.json({message: "Email sent successfully!"}, {status: 200});
+      return NextResponse.json({message: error}, {status: 200});
     }
     try {
       await transporter.sendMail(mailOptionsSchool);
     } catch (error) {
-      console.error("Error sending email:", error);
-      return NextResponse.json({message: "Email sent successfully!"}, {status: 200});
+      return NextResponse.json({message: error}, {status: 200});
     }
     return NextResponse.json({message: "Email sent successfully!"}, {status: 200});
   } catch (error) {
-    console.error("Error sending email:", error);
-    return NextResponse.json({message: "Error sending email."}, {status: 500});
+    return NextResponse.json({message: error}, {status: 500});
   }
 }

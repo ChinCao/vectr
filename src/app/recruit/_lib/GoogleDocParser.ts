@@ -1,10 +1,5 @@
-import { DepartmentsAbbreviation } from "../_constants/constants";
-import {
-  Departmentquestions,
-  FormDataStructure,
-  GeneralQuestions,
-  PersonalInfo,
-} from "../_types/RecruitTypes";
+import {DepartmentsAbbreviation} from "../_constants/constants";
+import {Departmentquestions, FormDataStructure, GeneralQuestions, PersonalInfo} from "../_types/RecruitTypes";
 import {
   UpdateParagraphStyle,
   UpdateTextStyle,
@@ -25,10 +20,7 @@ import {
   TextAlignment,
 } from "./_types/ParserTypes";
 
-function formatQuestion(
-  startIndex: number,
-  endIndex: number
-): [UpdateParagraphStyle, UpdateTextStyle] {
+function formatQuestion(startIndex: number, endIndex: number): [UpdateParagraphStyle, UpdateTextStyle] {
   return [
     {
       updateParagraphStyle: {
@@ -74,10 +66,7 @@ function formatQuestion(
   ];
 }
 
-function formatTitle(
-  startIndex: number,
-  endIndex: number
-): [UpdateParagraphStyle, UpdateTextStyle] {
+function formatTitle(startIndex: number, endIndex: number): [UpdateParagraphStyle, UpdateTextStyle] {
   return [
     {
       updateParagraphStyle: {
@@ -122,12 +111,7 @@ function formatTitle(
   ];
 }
 
-function formatAnswer(
-  startIndex: number,
-  endIndex: number,
-  isLink?: boolean,
-  url?: string
-): [UpdateParagraphStyle, UpdateTextStyle] {
+function formatAnswer(startIndex: number, endIndex: number, isLink?: boolean, url?: string): [UpdateParagraphStyle, UpdateTextStyle] {
   const updateTextStyle: UpdateTextStyle = {
     updateTextStyle: {
       range: {
@@ -154,7 +138,7 @@ function formatAnswer(
   };
 
   if (isLink) {
-    updateTextStyle.updateTextStyle.textStyle.link = { url: url };
+    updateTextStyle.updateTextStyle.textStyle.link = {url: url};
   }
 
   return [
@@ -179,12 +163,8 @@ function formatAnswer(
   ];
 }
 
-function addText(
-  text: string,
-  textType: "title" | "answer" | "question"
-): [InsertText, number] {
-  const lineSeperator =
-    textType == "title" ? "\n" : textType == "answer" ? "\n\n" : "\n";
+function addText(text: string, textType: "title" | "answer" | "question"): [InsertText, number] {
+  const lineSeperator = textType == "title" ? "\n" : textType == "answer" ? "\n\n" : "\n";
   const additionalLength = lineSeperator.length;
   return [
     {
@@ -223,45 +203,29 @@ function GoogleDocParser(
 ): number {
   const field_title = addText(title, "title");
   text_request.push(field_title[0]);
-  style_request.push(
-    ...formatTitle(indexTracker, indexTracker + field_title[1])
-  );
+  style_request.push(...formatTitle(indexTracker, indexTracker + field_title[1]));
   indexTracker = indexTracker + field_title[1];
   Object.entries(questions).forEach(([key, value], index) => {
     const question = addText(
-      title == fieldsIndexTable["personal_info"]
-        ? `${index + 1}. ` + value
-        : `${index + 1}. ` + value["question"],
+      title == fieldsIndexTable["personal_info"] ? `${index + 1}. ` + value : `${index + 1}. ` + value["question"],
       "question"
     );
     text_request.push(question[0]);
-    style_request.push(
-      ...formatQuestion(indexTracker, indexTracker + question[1])
-    );
+    style_request.push(...formatQuestion(indexTracker, indexTracker + question[1]));
     indexTracker = indexTracker + question[1];
     let answerText: string | undefined;
     if (title == fieldsIndexTable["personal_info"]) {
       const personalInfo = answers as PersonalInfo;
       answerText = personalInfo[key as keyof PersonalInfo];
     } else {
-      const entry = (answers as Departmentquestions | GeneralQuestions)[
-        key as keyof (Departmentquestions | GeneralQuestions)
-      ];
+      const entry = (answers as Departmentquestions | GeneralQuestions)[key as keyof (Departmentquestions | GeneralQuestions)];
       answerText = "answer" in entry ? entry["answer"] : undefined;
     }
 
     const answer = addText(answerText!, "answer");
     text_request.push(answer[0]);
-    const isLink: boolean =
-      key == "facebook" || key == "instagram" ? true : false;
-    style_request.push(
-      ...formatAnswer(
-        indexTracker,
-        indexTracker + answer[1],
-        isLink,
-        answerText
-      )
-    );
+    const isLink: boolean = key == "facebook" || key == "instagram" ? true : false;
+    style_request.push(...formatAnswer(indexTracker, indexTracker + answer[1], isLink, answerText));
     indexTracker = indexTracker + answer[1];
   });
   return indexTracker;

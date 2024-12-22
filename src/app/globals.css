@@ -29,6 +29,10 @@ button:hover,
   cursor: url("/hand-pointer.svg"), default !important;
 }
 
+html body[data-scroll-locked] {
+  margin-right: 0px !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

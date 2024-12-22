@@ -1,12 +1,15 @@
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
-import { ReactNode } from "react";
+import {ReactNode} from "react";
 
-const AuthLayout = ({ children }: { children: ReactNode }) => {
+const AuthLayout = ({children}: {children: ReactNode}) => {
   return (
     <div className="min-h-screen flex flex-col justify-center items-center">
       <Navbar>
-        <Link href="/recruit" className="w-full block py-3 px-3">
+        <Link
+          href="/recruit"
+          className="w-full block py-3 px-3"
+        >
           Recruit
         </Link>
       </Navbar>

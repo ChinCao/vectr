@@ -10,7 +10,7 @@ const Home = () => {
           <h1 className="text-5xl font-bold text-center sm:text-left">
             Công việc tại <span className="text-primary">VECTR</span>
           </h1>
-          <p className="text-gray-500 text-xl w-full text-balance text-justify sm:text-left sm:w-[80%]">
+          <p className="text-gray-500 text-xl w-full text-balance text-justify sm:text-left sm:w-[95%]">
             Ở VECTR, chúng mình học tập và rèn luyện để trở thành những người tiên phong toàn cầu, chúng ta sẽ cùng thiết kế thế giới và công nghệ hóa
             tương lai
           </p>

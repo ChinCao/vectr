@@ -65,8 +65,8 @@ export const PersonalInfoSchema = z.object({
 
 export const PersonalInfoSchemaDefault: PersonalInfoType = {
   name: "",
-  school_email: "",
-  student_id: "",
+  school_email: "@stu.vinschool.edu.vn",
+  student_id: "VS",
   facebook: "",
   private_email: "",
   class: "",

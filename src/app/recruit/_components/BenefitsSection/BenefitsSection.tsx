@@ -20,7 +20,7 @@ const BenefitsSection = () => {
           <DrawerTrigger asChild>
             <Button
               onClick={() => playClick()}
-              className="bg-[#f7c325] w-[200px]  sm:w-[305px] border-2 border-black rounded-bl-none rounded-br-none"
+              className="bg-[#f7c325] w-[200px] sm:w-[305px] border-2 border-black rounded-bl-none rounded-br-none"
             >
               Xem quyền lợi
             </Button>
@@ -35,14 +35,14 @@ const BenefitsSection = () => {
                 </DrawerTitle>
                 <DrawerDescription>Còn chần chừ gì nữa!</DrawerDescription>
               </DrawerHeader>
-              <ScrollArea className="h-[500px]">
+              <ScrollArea className="h-[50vh] sm:h-[60vh]">
                 <div className="flex flex-wrap gap-8 px-4">
                   {BENEFITS_LOOKUP.map((item, index) => (
                     <Card
                       key={index}
-                      className="flex items-center flex-col sm:flex-row justify-center min-w-[90%] sm:min-w-[300px] flex-1"
+                      className="flex items-center flex-col sm:flex-row justify-center min-w-[90%] sm:min-w-[300px] flex-1 hover:bg-[#eeeeee]"
                     >
-                      <CardContent className="pb-0 pr-0">
+                      <CardContent className="pb-0 pr-0 pl-0 sm:pl-6">
                         <Image
                           src={item.image_src}
                           height={120}
