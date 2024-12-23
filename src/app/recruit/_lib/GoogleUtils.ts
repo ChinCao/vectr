@@ -3,6 +3,7 @@ import {DepartmentsAbbreviation} from "../_constants/constants";
 import {google} from "googleapis";
 import {getDriveId} from "./utils";
 import {InsertText, UpdateParagraphStyle, UpdateTextStyle} from "./_types/ParserTypes";
+import {GetSheetDataResponse} from "./_types/ResponseTypes";
 
 const auth = new google.auth.GoogleAuth({
   credentials: {
@@ -12,7 +13,7 @@ const auth = new google.auth.GoogleAuth({
   scopes: ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/documents", "https://www.googleapis.com/auth/drive"],
 });
 
-export const GetSheetData = async (department: string, sheet: "jd" | "qs") => {
+export const GetSheetData = async (department: string, sheet: "jd" | "qs"): Promise<GetSheetDataResponse> => {
   const sheets = google.sheets({
     version: "v4",
     auth: (await auth.getClient()) as any,
@@ -26,7 +27,11 @@ export const GetSheetData = async (department: string, sheet: "jd" | "qs") => {
       range,
     });
 
-    return response.data.values;
+    return {
+      message: "Success",
+      status: 200,
+      data: response.data.values!,
+    };
   } catch (error) {
     return {
       message: "Error",
