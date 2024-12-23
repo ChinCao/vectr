@@ -12,7 +12,6 @@ import useSound from "use-sound";
 import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME, DepartmentsAbbreviation, FORM_CLOSE_DAY} from "@/app/recruit/_constants/constants";
 import {PersonalInfoSchema, PersonalInfoSchemaDefault} from "../_schema/PersonalInfoSchema";
 import {useUser} from "@clerk/clerk-react";
-import {NextResponse} from "next/server";
 import {useDebounce} from "../_hook/useDebounce";
 import {useNavigationGuard} from "next-navigation-guard";
 import {useRouter} from "next/navigation";
@@ -32,6 +31,7 @@ import CreateFormatResponse from "../_lib/FormatFormData";
 import CheckError from "../_lib/CheckError";
 import Image from "next/image";
 import {calculateTimeLeft, TimeLeft} from "@/lib/utils";
+import ErrorMessage from "@/components/ErrorMessage";
 
 const ApplyForm = ({
   department_questions,
@@ -59,6 +59,7 @@ const ApplyForm = ({
   const [schoolEmail, setSchoolEmail] = useState("@stu.vinschool.edu.vn");
   const [manual, setManual] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
   const questions_id = useMemo(() => [...department_questions[0], ...general_questions[0]], [department_questions, general_questions]);
   useEffect(() => {
@@ -123,8 +124,7 @@ const ApplyForm = ({
 
       const data: Recruit = await res.json();
       if (!res.ok) {
-        const errorMessage = await res.text();
-        return NextResponse.json({error: errorMessage}, {status: 200});
+        setErrorMessage("Không thể lấy được câu trả lời từ cơ sở dữ liệu!");
       }
       if (data.recruit) {
         if (data["recruit"]["department_questions"]["response"][department]["hasSubmitted"]) {
@@ -171,13 +171,13 @@ const ApplyForm = ({
   }, [department, department_questions, general_questions, initialData, isFetching, questions_id, setValue]);
 
   const watchedValues = useMemo(() => form.watch(), [form]);
-  const debouncedValues = useDebounce(watchedValues, 2000, setIsSaving, hasInteracted);
+  const debouncedValues = useDebounce(watchedValues, 1000, setIsSaving, hasInteracted);
 
   useEffect(() => {
     async function save() {
       if (!isSubmitted && !isSubmitting) {
         const sanitized_data = formattedFormData(debouncedValues, false);
-        await SaveToDatabase(sanitized_data, false, department, setIsSubmitting, setIsSaving, setisSubmitted);
+        await SaveToDatabase(sanitized_data, false, department, setIsSubmitting, setIsSaving, setisSubmitted, setErrorMessage);
       } else if (isSubmitted) {
         setIsSaving(false);
       }
@@ -198,7 +198,7 @@ const ApplyForm = ({
     async function check() {
       if (navGuard.active && isSignedIn) {
         const sanitized_data = formattedFormData(watchedValues, false);
-        await SaveToDatabase(sanitized_data, false, department, setIsSubmitting, setIsSaving, setisSubmitted);
+        await SaveToDatabase(sanitized_data, false, department, setIsSubmitting, setIsSaving, setisSubmitted, setErrorMessage);
         navGuard.accept();
       } else if (navGuard.active && !isSignedIn) {
         navGuard.accept();
@@ -228,97 +228,107 @@ const ApplyForm = ({
   const onSubmit = async (values: FormType) => {
     if (!isSubmitting) {
       const sanitized_data = formattedFormData(values, true);
-      await SaveToDatabase(sanitized_data, true, department, setIsSubmitting, setIsSaving, setisSubmitted);
+      await SaveToDatabase(sanitized_data, true, department, setIsSubmitting, setIsSaving, setisSubmitted, setErrorMessage);
     }
   };
 
   return (
-    <div className="flex flex-col gap-4 items-center justify-center">
-      <SubmittingDialog
-        isSubmitting={isSubmitting}
-        navGuard={navGuard.active}
-      />
-      {!timeLeft ? <h1 className="text-red-600 text-balance uppercase font-bold text-2xl mt-4">Vòng gửi đơn đã kết thúc</h1> : null}
-      {!isSubmitted && timeLeft ? (
-        <Form {...form}>
-          <ProgressBar activeTab={activeTab} />
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 w-full flex items-center justify-center flex-col max-w-[950px]"
-          >
-            <Tabs
-              defaultValue="personal-info"
-              value={activeTab}
-              onValueChange={(value) => setActiveTab(value as FormTabs)}
-              className="p-0 lg:py-8 pb-0 mt-8 w-full lg:w-[80%]"
-            >
-              <DataState
-                isSaving={isSaving}
-                isFetching={isFetching}
-              />
-
-              <TabsList className="flex items-center h-[max-content] justify-center flex-wrap flex-row  mb-8">
-                <Image
-                  src="/banner.png"
-                  width={800}
-                  height={200}
-                  alt="banner"
-                  className="w-full mb-4"
-                />
-                <TabsTrigger
-                  value="personal-info"
-                  className="flex-1 py-2"
+    <>
+      {!errorMessage ? (
+        <div className="flex flex-col gap-4 items-center justify-center">
+          <SubmittingDialog
+            isSubmitting={isSubmitting}
+            navGuard={navGuard.active}
+          />
+          {!timeLeft ? <h1 className="text-red-600 text-balance uppercase font-bold text-2xl mt-4">Vòng gửi đơn đã kết thúc</h1> : null}
+          {!isSubmitted && timeLeft ? (
+            <Form {...form}>
+              <ProgressBar activeTab={activeTab} />
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8 w-full flex items-center justify-center flex-col max-w-[950px]"
+              >
+                <Tabs
+                  defaultValue="personal-info"
+                  value={activeTab}
+                  onValueChange={(value) => setActiveTab(value as FormTabs)}
+                  className="p-0 lg:py-8 pb-0 mt-8 w-full lg:w-[80%]"
                 >
-                  Thông tin cá nhân
-                </TabsTrigger>
-                <TabsTrigger
-                  value="general-questions"
-                  className="flex-1 py-2"
-                >
-                  Câu hỏi chung
-                </TabsTrigger>
-                <TabsTrigger
-                  value="department-questions"
-                  className="flex-1 py-2 text-primary"
-                >
-                  Câu hỏi chuyên môn
-                </TabsTrigger>
-              </TabsList>
+                  <DataState
+                    isSaving={isSaving}
+                    isFetching={isFetching}
+                  />
 
-              <PersonalInfoTabContent
-                form={form}
-                isFetching={isFetching}
-                studentID={studentID}
-                schoolEmail={schoolEmail}
-                setSchoolEmail={setSchoolEmail}
-                manual={manual}
-                setManual={setManual}
-                setStudentID={setStudentID}
-              />
-              <GeneralQuestionsTabContent
-                form={form}
-                general_questions={general_questions}
-                isFetching={isFetching}
-              />
-              <DepartmentQuestionsTabContent
-                form={form}
-                isFetching={isFetching}
-                department_questions={department_questions}
-              />
+                  <TabsList className="flex items-center h-[max-content] justify-center flex-wrap flex-row  mb-8">
+                    <Image
+                      src="/banner.png"
+                      width={800}
+                      height={200}
+                      alt="banner"
+                      className="w-full mb-4"
+                    />
+                    <TabsTrigger
+                      value="personal-info"
+                      className="flex-1 py-2"
+                    >
+                      Thông tin cá nhân
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="general-questions"
+                      className="flex-1 py-2"
+                    >
+                      Câu hỏi chung
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="department-questions"
+                      className="flex-1 py-2 text-primary"
+                    >
+                      Câu hỏi chuyên môn
+                    </TabsTrigger>
+                  </TabsList>
 
-              <SubmitComfirmDialog
-                onSubmit={onSubmit}
-                form={form}
-              />
-            </Tabs>
+                  <PersonalInfoTabContent
+                    form={form}
+                    isFetching={isFetching}
+                    studentID={studentID}
+                    schoolEmail={schoolEmail}
+                    setSchoolEmail={setSchoolEmail}
+                    manual={manual}
+                    setManual={setManual}
+                    setStudentID={setStudentID}
+                  />
+                  <GeneralQuestionsTabContent
+                    form={form}
+                    general_questions={general_questions}
+                    isFetching={isFetching}
+                  />
+                  <DepartmentQuestionsTabContent
+                    form={form}
+                    isFetching={isFetching}
+                    department_questions={department_questions}
+                  />
 
-            <Toaster />
-          </form>
-        </Form>
-      ) : isSubmitted ? (
-        <SubmitSuccess department={department} />
-      ) : null}
-    </div>
+                  <SubmitComfirmDialog
+                    onSubmit={onSubmit}
+                    form={form}
+                  />
+                </Tabs>
+
+                <Toaster />
+              </form>
+            </Form>
+          ) : isSubmitted ? (
+            <SubmitSuccess department={department} />
+          ) : null}
+        </div>
+      ) : (
+        <ErrorMessage
+          message={errorMessage}
+          href={`/recruit/job-description/${department}`}
+          link_message="Về lại trang job description"
+        />
+      )}
+    </>
   );
 };
 

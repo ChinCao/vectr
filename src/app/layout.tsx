@@ -5,6 +5,7 @@ import {ClerkProvider} from "@clerk/nextjs";
 import {FaFacebook} from "react-icons/fa";
 import {FaInstagram} from "react-icons/fa";
 import {NavigationGuardProvider} from "next-navigation-guard";
+import Script from "next/script";
 
 const CoFoSans = localFont({
   src: "./fonts/CoFoSans.otf",
@@ -15,7 +16,6 @@ const CoFoSans = localFont({
 export const metadata: Metadata = {
   title: "VECTR",
   description: "CLB STEM-Robotics Vinschool Central Park",
-  manifest: "https://www.vectr-vcp.com/manifest.json",
 };
 
 export default function RootLayout({
@@ -56,6 +56,7 @@ export default function RootLayout({
               </div>
             </div>
           </footer>
+          <Script src="//code.tidio.co/02pexdzvp7lhwvkmgdnusugfiofg9mtp.js" />
         </body>
       </html>
     </ClerkProvider>

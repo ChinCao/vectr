@@ -49,7 +49,7 @@ const DataState = ({isSaving, isFetching}: {isSaving: boolean; isFetching: boole
           <TooltipTrigger asChild>
             <div
               id="save-state"
-              className="w-[50px] h-[50px] border-2 bg-white right-[5%] bottom-[5%] fixed z-50 flex items-center justify-center hover:cursor-pointer"
+              className="w-[50px] h-[50px] border-2 bg-white left-[5%] bottom-[5%] fixed z-50 flex items-center justify-center hover:cursor-pointer"
               style={{borderColor: color!}}
               onClick={() => setClicked(!clicked)}
             >

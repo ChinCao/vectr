@@ -3,7 +3,7 @@ import ApplyForm from "./_components/ApplyForm";
 import {DepartmentsAbbreviation, FULL_DEPARTMENT_TITLE, JOB_DESCRIPTION_TITLES} from "@/app/recruit/_constants/constants";
 
 import type {Metadata} from "next";
-import {GetSheetDataResponse} from "@/app/recruit/_lib/_types/ResponseTypes";
+import {GetSheetDataResponse} from "@/app/recruit/_lib/_types/GoogleResponseTypes";
 import ErrorMessage from "@/components/ErrorMessage";
 
 type Params = Promise<{id: string}>;
@@ -30,7 +30,13 @@ const Applypage = async ({params}: PageProps) => {
   const general_questions: GetSheetDataResponse = await GetSheetData("chung", "qs");
 
   if (department_questions.status == 500 || general_questions.status == 500) {
-    return <ErrorMessage />;
+    return (
+      <ErrorMessage
+        message="Không thể lấy câu hỏi từ cơ sở dữ liệu."
+        href={`/recruit/job-description/${department}`}
+        link_message="Về lại trang job description"
+      />
+    );
   }
 
   if ("data" in department_questions && "data" in general_questions) {

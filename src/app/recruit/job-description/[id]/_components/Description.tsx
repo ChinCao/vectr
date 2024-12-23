@@ -1,12 +1,21 @@
-import {GetSheetDataResponse} from "@/app/recruit/_lib/_types/ResponseTypes";
+import {DepartmentsAbbreviation} from "@/app/recruit/_constants/constants";
+import {GetSheetDataResponse} from "@/app/recruit/_lib/_types/GoogleResponseTypes";
 import {GetSheetData} from "@/app/recruit/_lib/GoogleUtils";
 import ErrorMessage from "@/components/ErrorMessage";
 
-const Description = async ({id}: {id: string}) => {
+const Description = async ({id}: {id: DepartmentsAbbreviation}) => {
   const description_data: GetSheetDataResponse = await GetSheetData(id, "jd");
 
   if (description_data.status == 500) {
-    return <ErrorMessage />;
+    return (
+      <ErrorMessage
+        message="Không thể lấy job description từ cơ sở dữ liệu."
+        href="/recruit/job-description"
+        link_message="Chọn ban khác"
+        jdError={true}
+        department={id!}
+      />
+    );
   }
 
   if ("data" in description_data) {

@@ -3,7 +3,7 @@ import {DepartmentsAbbreviation} from "../_constants/constants";
 import {google} from "googleapis";
 import {getDriveId} from "./utils";
 import {InsertText, UpdateParagraphStyle, UpdateTextStyle} from "./_types/ParserTypes";
-import {GetSheetDataResponse} from "./_types/ResponseTypes";
+import {GetSheetDataResponse} from "./_types/GoogleResponseTypes";
 
 const auth = new google.auth.GoogleAuth({
   credentials: {
@@ -34,8 +34,7 @@ export const GetSheetData = async (department: string, sheet: "jd" | "qs"): Prom
     };
   } catch (error) {
     return {
-      message: "Error",
-      error: error instanceof Error ? error.message : "Unknown error",
+      message: error instanceof Error ? error.message : "Unknown error",
       status: 500,
     };
   }
@@ -66,7 +65,10 @@ export const createDocumentInDrive = async (
     const documentId = docResponse.data.documentId;
 
     if (!documentId) {
-      throw new Error("Document ID is not available or is invalid.");
+      return {
+        message: "Fail to create Document",
+        status: 500,
+      };
     }
 
     await docs.documents.batchUpdate({
@@ -94,7 +96,7 @@ export const createDocumentInDrive = async (
     };
   } catch (error) {
     return {
-      message: "Error",
+      message: "Drive error",
       error: error instanceof Error ? error.message : "Unknown error",
       status: 500,
     };
