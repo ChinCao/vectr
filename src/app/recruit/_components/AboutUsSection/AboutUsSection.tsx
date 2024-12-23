@@ -1,7 +1,8 @@
 import Image from "next/image";
 import {FaArrowDown} from "react-icons/fa6";
 import useSound from "use-sound";
-import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME} from "../../_constants/constants";
+import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME, DepartmentsAbbreviation, VECTR_FOUNDED_DAY} from "../../_constants/constants";
+import {calculateTimeSince} from "@/lib/utils";
 
 const AboutUsSection = () => {
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
@@ -19,7 +20,8 @@ const AboutUsSection = () => {
           <div className="flex flex-col sm:flex-row gap-10 w-full ">
             <div className="flex flex-col gap-3 w-full sm:w-1/2">
               <h1 className="text-primary text-4xl font-bold">
-                131<span className="text-xl">+</span>
+                {calculateTimeSince(VECTR_FOUNDED_DAY)?.days}
+                <span className="text-xl">+</span>
               </h1>
               <h2 className="text-xl font-bold relative flex-1 before:content-[''] before:block before:w-[250px] before:h-[1px] before:bg-gray-400 before:absolute before:left-0 before:bottom-[-20%] text-balance w-[80%]">
                 Ngày kể từ khi thành lập
@@ -28,7 +30,8 @@ const AboutUsSection = () => {
             </div>
             <div className="flex flex-col gap-3 w-full sm:w-1/2">
               <h1 className="text-primary text-4xl font-bold">
-                6<span className="text-xl">+</span>
+                {Object.keys(DepartmentsAbbreviation).length}
+                <span className="text-xl">+</span>
               </h1>
               <h2 className="text-xl font-bold relative flex-1 before:content-[''] before:block before:w-[250px] before:h-[1px] before:bg-gray-400 before:absolute before:left-0 before:bottom-[-20%]">
                 Ban khác nhau

@@ -20,8 +20,11 @@ export default function Home() {
   return (
     <>
       <title>Trang chủ</title>
-      <Navbar>
-        <RecruitButton />
+      <Navbar showRecruitBtn={true}>
+        <RecruitButton
+          className="block lg:hidden"
+          button_className="text-left !rounded-none"
+        />
       </Navbar>
       <div className="min-h-screen flex flex-col items-center justify-center gap-1">
         <Image

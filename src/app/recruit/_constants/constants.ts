@@ -130,7 +130,7 @@ export const FULL_DEPARTMENT_TITLE = (id: DepartmentsAbbreviation) => {
 export const CLICK_SOUND_URL = "/sounds/click.mp3";
 export const CLICK_SOUND_VOLUME = 0.05;
 
-export const RESPONSE_MAX_CHARACTER = 3000;
+export const RESPONSE_MAX_CHARACTER = 6942;
 export const INFO_MAX_CHARACTER = 111;
 
 export const BLANK_FORM_DATA: FormDataStructure = {
@@ -197,21 +197,21 @@ export const MISSION_SECTION_INFORMATION: {
     image_alt: "innovation",
     title: "Khơi dậy và nuôi dưỡng niềm đam mê robotics và coding",
     content:
-      "Khuyến khích niềm đam mê robotics (bất cứ dự án nào là sự giao thoa của cả 3 lĩnh vực coding-electronics-engineering) bên trong mỗi học sinh Vinschool. Và Tạo dựng một sân chơi - cộng đồng những người yêu thích robotics và coding để giao lưu và chia sẻ kiến thức.",
+      "Khuyến khích đam mê robotics cho học sinh Vinschool qua dự án giao thoa coding, electronics, và engineering. Tạo cộng đồng cho những người yêu thích robotics và coding để giao lưu, chia sẻ kiến thức.",
   },
   {
     image_url: "/grow.svg",
     image_alt: "grow",
     title: "Tạo ra những sản phẩm thiết thực để phục vụ cho cộng đồng",
     content:
-      "Mang lại cơ hội giúp mọi người nhận ra giá trị của tri thức qua việc áp dụng vào thực tiễn, tạo ra nhiều phát minh và chia sẻ ý tưởng độc đáo. Khuyến khích thảo luận cởi mở để thỏa mãn đam mê và đóng góp cho cộng đồng.",
+      "Mang lại cơ hội nhận ra giá trị tri thức qua việc áp dụng vào thực tiễn, tạo ra nhiều phát minh và chia sẻ ý tưởng độc đáo. Khuyến khích thảo luận cởi mở để thỏa mãn đam mê và đóng góp cho cộng đồng.",
   },
   {
     image_url: "/thrive.png",
     image_alt: "thrive",
     title: "Kết nối những người đam mê chế tạo với giáo viên và các công cụ cần thiết",
     content:
-      "Câu lạc bộ VECTR tại Vinschool Central Park sẽ cung cấp tài liệu học tập và các hoạt động bổ ích với sự hỗ trợ của nhà trường, bao gồm phần cứng và các tài liệu học tập. Sự kết hợp này sẽ giúp học sinh phát triển kỹ năng và kiến thức trong lĩnh vực robotics và computer science.",
+      "Câu lạc bộ VECTR tại Vinschool Central Park cung cấp tài liệu và hoạt động bổ ích, hỗ trợ học sinh phát triển kỹ năng trong robotics và computer science.",
   },
 ];
 
@@ -301,3 +301,5 @@ export const BENEFITS_LOOKUP: {
 export const EMAIL_SUBJECT = "01010100 01011001 00100001 - DECODE 01";
 
 export const FORM_CLOSE_DAY = new Date(`2025-01-11T00:00:00+07:00`);
+
+export const VECTR_FOUNDED_DAY = new Date(`2024-08-13T10:02:30+07:00`);

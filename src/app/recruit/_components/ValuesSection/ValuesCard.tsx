@@ -1,16 +1,6 @@
 import Image from "next/image";
 
-const ValuesCard = ({
-  title,
-  content,
-  image_url,
-  image_alt,
-}: {
-  title: string;
-  content: string;
-  image_url: string;
-  image_alt: string;
-}) => {
+const ValuesCard = ({title, content, image_url, image_alt}: {title: string; content: string; image_url: string; image_alt: string}) => {
   return (
     <div className="border rounded flex col-span-2 lg:col-span-1 flex-col lg:flex-row sm:flex-row items-center">
       <div className="flex flex-col items-start justify-center p-10 pt-0 sm:pt-10 gap-4 order-[1] sm:order-0">

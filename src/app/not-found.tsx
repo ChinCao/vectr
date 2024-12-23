@@ -12,8 +12,12 @@ const NotFound = () => {
 
   return (
     <>
-      <Navbar>
-        <RecruitButton />
+      <title>Oops</title>
+      <Navbar showRecruitBtn={true}>
+        <RecruitButton
+          className="block lg:hidden"
+          button_className="text-left !rounded-none"
+        />
       </Navbar>
       <div className="min-h-[100vh] flex flex-col gap-5 items-center justify-center">
         <h1 className="text-4xl text-primary uppercase font-bold">Trang này không tồn tại</h1>

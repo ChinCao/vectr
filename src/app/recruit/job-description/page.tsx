@@ -7,12 +7,29 @@ import {CLICK_SOUND_VOLUME, DEPARTMENT_INFO, FQA} from "@/app/recruit/_constants
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
 import {CLICK_SOUND_URL} from "@/app/recruit/_constants/constants";
 import useSound from "use-sound";
+import Navbar from "@/components/Navbar";
+import RecruitButton from "../_components/RecruitButton";
 
 const JobDescriptionPage = () => {
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
   const dimension = 225;
   return (
     <>
+      <Navbar showRecruitBtn={true}>
+        {DEPARTMENT_INFO.map((info, index) => (
+          <Link
+            key={index}
+            href={info["url"]}
+            className="w-full block py-3 px-3 font-normal"
+          >
+            {info["abbreviation"].toUpperCase()}
+          </Link>
+        ))}
+        <RecruitButton
+          className="block lg:hidden"
+          button_className="text-left !rounded-none"
+        />
+      </Navbar>
       <title>Chọn ban</title>
       <div className="py-24 container">
         <NavigationButton
@@ -38,7 +55,7 @@ const JobDescriptionPage = () => {
                       alt="Graphic"
                     />
                   </CardContent>
-                  <CardTitle className="text-center uppercase text-2xl">{info["abbreviation"]}</CardTitle>
+                  <CardTitle className="text-center uppercase text-2xl font-medium">{info["abbreviation"]}</CardTitle>
                 </Card>
               </Link>
             ))}

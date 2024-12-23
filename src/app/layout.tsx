@@ -6,20 +6,16 @@ import {FaFacebook} from "react-icons/fa";
 import {FaInstagram} from "react-icons/fa";
 import {NavigationGuardProvider} from "next-navigation-guard";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
+const CoFoSans = localFont({
+  src: "./fonts/CoFoSans.otf",
+  variable: "--font-cofo-sans",
   weight: "100 900",
 });
 
 export const metadata: Metadata = {
   title: "VECTR",
   description: "CLB STEM-Robotics Vinschool Central Park",
+  manifest: "https://www.vectr-vcp.com/manifest.json",
 };
 
 export default function RootLayout({
@@ -33,7 +29,7 @@ export default function RootLayout({
       afterSignOutUrl="https://vectr-vcp.com/"
     >
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}>
+        <body className={`${CoFoSans.variable} antialiased font-cofo`}>
           <NavigationGuardProvider>{children}</NavigationGuardProvider>
 
           <footer className="px-4 pb-5 pt-3 border-t-2 flex items-center justify-evenly flex-wrap gap-10 bg-[#000] text-white">

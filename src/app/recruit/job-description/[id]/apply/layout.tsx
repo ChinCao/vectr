@@ -11,7 +11,6 @@ const JobLayout = async ({children, params}: {children: ReactNode; params: Param
   const department: DepartmentsAbbreviation = decodedID as DepartmentsAbbreviation;
   return (
     <>
-      <title>{FULL_DEPARTMENT_TITLE(department)}</title>
       <div className="py-14 container !px-0">
         <NavigationButton
           href={`/recruit/job-description/${decodedID}`}

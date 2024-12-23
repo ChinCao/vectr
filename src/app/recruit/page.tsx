@@ -8,12 +8,13 @@ import ProcessSection from "./_components/ProcessSection/ProcessSection";
 import BenefitsSection from "./_components/BenefitsSection/BenefitsSection";
 import AboutUsSection from "./_components/AboutUsSection/AboutUsSection";
 import Anchor from "./_components/Anchor";
+import RecruitButton from "./_components/RecruitButton";
 
 const RecruitPage = () => {
   return (
     <>
       <title>Recruit Gen1</title>
-      <Navbar>
+      <Navbar showRecruitBtn={false}>
         <Anchor
           href="#"
           text="Gen1"
@@ -42,6 +43,10 @@ const RecruitPage = () => {
         <Anchor
           href="#process"
           text="Quy Trình"
+        />
+        <RecruitButton
+          className="block lg:hidden"
+          button_className="text-left !rounded-none"
         />
       </Navbar>
       <div className="flex flex-col items-center">

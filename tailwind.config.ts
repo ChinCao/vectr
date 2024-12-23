@@ -1,13 +1,8 @@
-import type { Config } from "tailwindcss";
-import { fontFamily } from "tailwindcss/defaultTheme";
+import type {Config} from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./src/pages/**/*.{js,ts,jsx,tsx,mdx}", "./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       container: {
@@ -32,8 +27,7 @@ export default {
           foreground: "hsl(var(--popover-foreground))",
         },
         fontFamily: {
-          sans: "var(--font-geist-sans), " + fontFamily.sans.join(", "),
-          mono: "var(--font-geist-mono), " + fontFamily.mono.join(", "),
+          cofo: "var(--font-cofo-sans)",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",

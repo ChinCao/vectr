@@ -1,9 +1,6 @@
 "use client";
-import {
-  AlertDialogHeader,
-  AlertDialogFooter,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+import {AlertDialogHeader, AlertDialogFooter} from "@/components/ui/alert-dialog";
+import {Button} from "@/components/ui/button";
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -13,12 +10,9 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
-import {
-  CLICK_SOUND_URL,
-  CLICK_SOUND_VOLUME,
-} from "@/app/recruit/_constants/constants";
+import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME} from "@/app/recruit/_constants/constants";
 import useSound from "use-sound";
-import { FormType, Tform } from "../_types/FormTypes";
+import {FormType, Tform} from "../_types/FormTypes";
 
 type OnSubmitFunction = (values: FormType) => Promise<void>;
 
@@ -27,14 +21,14 @@ interface DiaglogProps {
   form: Tform;
 }
 
-const SubmitComfirmDialog = ({ form, onSubmit }: DiaglogProps) => {
-  const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
+const SubmitComfirmDialog = ({form, onSubmit}: DiaglogProps) => {
+  const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
-          className="w-full mt-2"
+          className="w-full mt-2 px-0"
           type="button"
           onClick={() => playClick()}
         >
@@ -45,8 +39,7 @@ const SubmitComfirmDialog = ({ form, onSubmit }: DiaglogProps) => {
         <AlertDialogHeader>
           <AlertDialogTitle>Bạn có chắc chắn chưa?</AlertDialogTitle>
           <AlertDialogDescription>
-            Không thể hoàn tác hành động này và thông tin của bạn sẽ được ghi
-            nhận và bạn không thể chỉnh sửa.
+            Không thể hoàn tác hành động này và thông tin của bạn sẽ được ghi nhận và bạn không thể chỉnh sửa.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

@@ -7,11 +7,22 @@ import {Suspense} from "react";
 import DescriptionFallBack from "./_components/DescriptionFallBack";
 import ApplyButton from "./_components/ApplyButton";
 import CountdownSection from "./_components/Countdown";
+import {Metadata} from "next";
 
 type Params = Promise<{id: string}>;
 
 interface PageProps {
   params: Params;
+}
+
+export async function generateMetadata({params}: PageProps): Promise<Metadata> {
+  const id = (await params).id;
+  const decodedID = decodeURI(id);
+  const department: DepartmentsAbbreviation = decodedID as DepartmentsAbbreviation;
+  return {
+    title: FULL_DEPARTMENT_TITLE(department),
+    description: JOB_DESCRIPTION_TITLES[department],
+  };
 }
 
 const JobDescription = async ({params}: PageProps) => {
@@ -21,13 +32,12 @@ const JobDescription = async ({params}: PageProps) => {
 
   return (
     <>
-      <title>{FULL_DEPARTMENT_TITLE(department)}</title>
       <div className="flex flex-col items-center">
         <div className="flex bg-gray-100 w-[100vw]">
           <div className="container flex flex-col md:flex-row md:gap-2 pt-14 pb-8 items-center justify-center">
-            <div className="flex flex-col items-center md:items-start gap-5 w-[90%] md:w-[50%] order-1 md:order-[0] ">
+            <div className="flex flex-col items-center md:items-start gap-4 w-[90%] md:w-[50%] order-1 md:order-[0] ">
               <h1 className="text-3xl font-semibold mt-4 md:mt-0 text-center">{FULL_DEPARTMENT_TITLE(department)}</h1>
-              <p className="text-gray-500 w-[90%] font-semibold text-justify md:text-left">{JOB_DESCRIPTION_TITLES[department]}</p>
+              <p className="text-gray-500 w-[90%] text-justify md:text-left font-normal">{JOB_DESCRIPTION_TITLES[department]}</p>
               <div className="flex gap-5 flex-col md:flex-row w-full">
                 <NavigationButton
                   href="/recruit/job-description"

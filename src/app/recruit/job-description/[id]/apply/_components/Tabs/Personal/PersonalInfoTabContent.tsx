@@ -20,7 +20,7 @@ const PersonalInfoTabContent = ({form, studentID, isFetching, setStudentID, scho
         setStudentID={setStudentID}
       />
 
-      <TabsList className="w-full bg-[transparent] my-4">
+      <TabsList className="w-full bg-[transparent] my-4 px-0">
         <ApplyTabTrigger
           direction="right"
           value="general-questions"
