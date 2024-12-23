@@ -222,10 +222,6 @@ const ApplyForm = ({
           </ToastAction>
         ),
       });
-    } else {
-      window.scrollTo({
-        top: 0,
-      });
     }
   }, [activeTab, questions_id, formState.errors, playClick, toast, department_questions, general_questions]);
 
