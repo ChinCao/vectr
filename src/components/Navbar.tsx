@@ -30,7 +30,7 @@ const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn
           <div
             className={`flex flex-col ${
               toggle ? null : "hidden"
-            } w-max items-center lg:flex-row absolute lg:flex lg:static left-0 top-[100%] hover:cursor-pointer py-0 lg:py-1`}
+            } w-full lg:w-max items-center lg:flex-row absolute lg:flex lg:static left-0 top-[100%] hover:cursor-pointer py-0 lg:py-1`}
           >
             {React.Children.map(children, (child) => (
               <div
