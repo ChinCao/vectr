@@ -1,6 +1,7 @@
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import React, {useState} from "react";
 import {MdOutlineCloudDone, MdOutlineCloudDownload, MdOutlineCloudUpload} from "react-icons/md";
+import ScrollToTop from "./ScrollToTop";
 
 const DataState = ({isSaving, isFetching}: {isSaving: boolean; isFetching: boolean}) => {
   const [clicked, setClicked] = useState(false);
@@ -47,28 +48,31 @@ const DataState = ({isSaving, isFetching}: {isSaving: boolean; isFetching: boole
           delayDuration={500}
         >
           <TooltipTrigger asChild>
-            <div
-              id="save-state"
-              className="w-[50px] h-[50px] border-2 bg-white left-[5%] bottom-[5%] fixed z-50 flex items-center justify-center hover:cursor-pointer"
-              style={{borderColor: color!}}
-              onClick={() => setClicked(!clicked)}
-            >
-              {!isSaving && !isFetching ? (
-                <MdOutlineCloudDone
-                  fill={color!}
-                  size={30}
-                />
-              ) : isFetching ? (
-                <MdOutlineCloudDownload
-                  fill={color!}
-                  size={30}
-                />
-              ) : isSaving ? (
-                <MdOutlineCloudUpload
-                  fill={color!}
-                  size={30}
-                />
-              ) : null}
+            <div className="left-[5%] bottom-[5%] z-50 fixed flex flex-col gap-3">
+              <ScrollToTop />
+              <div
+                id="save-state"
+                className="w-[50px] h-[50px] border-2 bg-white flex items-center justify-center hover:cursor-pointer"
+                style={{borderColor: color!}}
+                onClick={() => setClicked(!clicked)}
+              >
+                {!isSaving && !isFetching ? (
+                  <MdOutlineCloudDone
+                    fill={color!}
+                    size={30}
+                  />
+                ) : isFetching ? (
+                  <MdOutlineCloudDownload
+                    fill={color!}
+                    size={30}
+                  />
+                ) : isSaving ? (
+                  <MdOutlineCloudUpload
+                    fill={color!}
+                    size={30}
+                  />
+                ) : null}
+              </div>
             </div>
           </TooltipTrigger>
           <TooltipContent style={{background: color!}}>

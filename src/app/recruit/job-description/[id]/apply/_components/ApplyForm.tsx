@@ -23,7 +23,6 @@ import SubmittingDialog from "./SubmittingDialog";
 import {SaveToDatabase} from "../_lib/SaveToDatabase";
 import {PersonalInfo, Recruit} from "@/app/recruit/_types/RecruitTypes";
 import DataState from "./DataState";
-import ProgressBar from "./ProgressBar";
 import PersonalInfoTabContent from "./Tabs/Personal/PersonalInfoTabContent";
 import GeneralQuestionsTabContent from "./Tabs/General/GeneralQuestionsTabContent";
 import DepartmentQuestionsTabContent from "./Tabs/Department/DepartmentQuestionsTabContent";
@@ -243,7 +242,6 @@ const ApplyForm = ({
           {!timeLeft ? <h1 className="text-red-600 text-balance uppercase font-bold text-2xl mt-4">Vòng gửi đơn đã kết thúc</h1> : null}
           {!isSubmitted && timeLeft ? (
             <Form {...form}>
-              <ProgressBar activeTab={activeTab} />
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-8 w-full flex items-center justify-center flex-col max-w-[950px]"
@@ -258,7 +256,6 @@ const ApplyForm = ({
                     isSaving={isSaving}
                     isFetching={isFetching}
                   />
-
                   <TabsList className="flex items-center h-[max-content] justify-center flex-wrap flex-row  mb-8">
                     <Image
                       src="/banner.png"

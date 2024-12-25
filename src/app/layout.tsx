@@ -5,7 +5,8 @@ import {ClerkProvider} from "@clerk/nextjs";
 import {FaFacebook} from "react-icons/fa";
 import {FaInstagram} from "react-icons/fa";
 import {NavigationGuardProvider} from "next-navigation-guard";
-import Script from "next/script";
+import NextTopLoader from "nextjs-toploader";
+import {InjectScriptElement} from "./recruit/_components/Drift";
 
 const CoFoSans = localFont({
   src: "./fonts/CoFoSans.otf",
@@ -30,6 +31,12 @@ export default function RootLayout({
     >
       <html lang="en">
         <body className={`${CoFoSans.variable} antialiased font-cofo`}>
+          <NextTopLoader
+            color="#e77f1e"
+            zIndex={100000}
+            showSpinner={false}
+          />
+
           <NavigationGuardProvider>{children}</NavigationGuardProvider>
 
           <footer className="px-4 pb-5 pt-3 border-t-2 flex items-center justify-evenly flex-wrap gap-10 bg-[#000] text-white">
@@ -56,7 +63,7 @@ export default function RootLayout({
               </div>
             </div>
           </footer>
-          <Script src="//code.tidio.co/02pexdzvp7lhwvkmgdnusugfiofg9mtp.js" />
+          <InjectScriptElement />
         </body>
       </html>
     </ClerkProvider>

@@ -19,8 +19,8 @@ const NotFound = () => {
           button_className="text-left !rounded-none"
         />
       </Navbar>
-      <div className="min-h-[100vh] flex flex-col gap-5 items-center justify-center">
-        <h1 className="text-4xl text-primary uppercase font-bold">Trang này không tồn tại</h1>
+      <div className="min-h-[100vh] flex flex-col gap-5 items-center justify-center px-6">
+        <h1 className="text-4xl text-primary uppercase font-bold text-center">Trang này không tồn tại</h1>
         <BiSolidError
           fill="#e77f1e"
           color="#e77f1e"
