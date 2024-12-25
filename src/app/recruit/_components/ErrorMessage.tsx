@@ -1,9 +1,9 @@
 "use client";
 import NavigationButton from "@/app/recruit/_components/NavigationButton";
-import {AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogTitle} from "./ui/alert-dialog";
-import {Button} from "./ui/button";
 import {BiSolidError} from "react-icons/bi";
 import {DepartmentsAbbreviation} from "@/app/recruit/_constants/constants";
+import {AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogTitle} from "@/components/ui/alert-dialog";
+import {Button} from "@/components/ui/button";
 
 const ErrorMessage = ({
   message,

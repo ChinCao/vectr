@@ -63,7 +63,7 @@ export const JOB_DESCRIPTION_TITLES: Record<DepartmentsAbbreviation, string> = {
     "Ban Đối Ngoại phụ trách đàm phán và tổ chức sự kiện. Chúng mình là cầu nối giữa VECTR, học sinh, và nhà tài trợ, với khả năng giao tiếp và làm việc nhóm hiệu quả.",
 };
 
-interface DepartmentSchema {
+export interface DepartmentSchema {
   abbreviation: DepartmentsAbbreviation;
   full: DepartmentsFull;
   images: string[];

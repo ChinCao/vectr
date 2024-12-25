@@ -1,7 +1,7 @@
+import ErrorMessage from "@/app/recruit/_components/ErrorMessage";
 import {DepartmentsAbbreviation} from "@/app/recruit/_constants/constants";
 import {GetSheetDataResponse} from "@/app/recruit/_lib/_types/GoogleResponseTypes";
 import {GetSheetData} from "@/app/recruit/_lib/GoogleUtils";
-import ErrorMessage from "@/components/ErrorMessage";
 
 const Description = async ({id}: {id: DepartmentsAbbreviation}) => {
   const description_data: GetSheetDataResponse = await GetSheetData(id, "jd");

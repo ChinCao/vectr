@@ -7,8 +7,9 @@ import {CLICK_SOUND_VOLUME, DEPARTMENT_INFO, FQA} from "@/app/recruit/_constants
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
 import {CLICK_SOUND_URL} from "@/app/recruit/_constants/constants";
 import useSound from "use-sound";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/app/recruit/_components/Navbar";
 import RecruitButton from "../_components/RecruitButton";
+import JDNavItems from "./_components/JDNavItems";
 
 const JobDescriptionPage = () => {
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
@@ -17,13 +18,11 @@ const JobDescriptionPage = () => {
     <>
       <Navbar showRecruitBtn={true}>
         {DEPARTMENT_INFO.map((info, index) => (
-          <Link
+          <JDNavItems
             key={index}
-            href={info["url"]}
-            className="w-full block py-3 px-3 font-normal"
-          >
-            {info["abbreviation"].toUpperCase()}
-          </Link>
+            info={info}
+            index={index}
+          />
         ))}
         <RecruitButton
           className="block lg:hidden"
@@ -70,7 +69,12 @@ const JobDescriptionPage = () => {
                 value={`item-${index + 1}`}
                 key={index}
               >
-                <AccordionTrigger onClick={() => playClick()}>{item.question}</AccordionTrigger>
+                <AccordionTrigger
+                  onClick={() => playClick()}
+                  className="font-semibold"
+                >
+                  {item.question}
+                </AccordionTrigger>
                 <AccordionContent>{item.answer}</AccordionContent>
               </AccordionItem>
             ))}

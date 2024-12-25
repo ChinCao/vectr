@@ -31,7 +31,7 @@ import CreateFormatResponse from "../_lib/FormatFormData";
 import CheckError from "../_lib/CheckError";
 import Image from "next/image";
 import {calculateTimeLeft, TimeLeft} from "@/lib/utils";
-import ErrorMessage from "@/components/ErrorMessage";
+import ErrorMessage from "@/app/recruit/_components/ErrorMessage";
 
 const ApplyForm = ({
   department_questions,

@@ -1,8 +1,8 @@
 import {DEPARTMENT_INFO, DepartmentsAbbreviation} from "@/app/recruit/_constants/constants";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/app/recruit/_components/Navbar";
 import {notFound} from "next/navigation";
 import {ReactNode} from "react";
-import Link from "next/link";
+import JDNavItems from "../_components/JDNavItems";
 import RecruitButton from "../../_components/RecruitButton";
 
 type Params = Promise<{id: string}>;
@@ -26,16 +26,12 @@ const JobLayout = async ({children, params}: PageProps) => {
     <>
       <Navbar showRecruitBtn={true}>
         {DEPARTMENT_INFO.map((info, index) => (
-          <Link
+          <JDNavItems
             key={index}
-            href={info["url"]}
-            className="w-full block py-3 px-3 font-normal"
-            style={{
-              borderBottom: info["abbreviation"] == department ? "1px solid #e77f1e" : "",
-            }}
-          >
-            <h1 style={{color: info["abbreviation"] == department ? "#e77f1e" : ""}}>{info["abbreviation"].toUpperCase()}</h1>
-          </Link>
+            info={info}
+            index={index}
+            department={department}
+          />
         ))}
         <RecruitButton
           className="block lg:hidden"

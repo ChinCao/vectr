@@ -1,6 +1,6 @@
 import RecruitResponse from "@/app/recruit/_schema/DBRecruitSchema";
 import ConnectDB from "@/db/db";
-import { NextResponse } from "next/server";
+import {NextResponse} from "next/server";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -14,12 +14,10 @@ export async function POST(req: Request) {
       general_questions: 1,
       personal_info: 1,
     };
-    const recruit = await RecruitResponse.findOne({ user_id: user_id }).select(
-      projection
-    );
+    const recruit = await RecruitResponse.findOne({user_id: user_id}).select(projection);
 
-    return NextResponse.json({ recruit }, { status: 200 });
+    return NextResponse.json({recruit}, {status: 200});
   } catch (error) {
-    return NextResponse.json({ message: "Error", error }, { status: 500 });
+    return NextResponse.json({message: "Error", error}, {status: 500});
   }
 }

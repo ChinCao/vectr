@@ -1,5 +1,5 @@
 "use client";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/app/recruit/_components/Navbar";
 import HomeSection from "./_components/HomeSection/HomeSection";
 import ValuesSection from "./_components/ValuesSection/ValuesSection";
 import DepartmentsSection from "./_components/DepartmentsSection/DepartmentsSection";

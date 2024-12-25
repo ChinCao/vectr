@@ -4,7 +4,7 @@ import {DepartmentsAbbreviation, FULL_DEPARTMENT_TITLE, JOB_DESCRIPTION_TITLES} 
 
 import type {Metadata} from "next";
 import {GetSheetDataResponse} from "@/app/recruit/_lib/_types/GoogleResponseTypes";
-import ErrorMessage from "@/components/ErrorMessage";
+import ErrorMessage from "@/app/recruit/_components/ErrorMessage";
 
 type Params = Promise<{id: string}>;
 

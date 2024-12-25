@@ -3,12 +3,12 @@ import {SignedIn, SignedOut, SignInButton, SignUpButton, UserButton} from "@cler
 import Image from "next/image";
 import Link from "next/link";
 import React, {ReactNode, useState} from "react";
-import {Button} from "./ui/button";
 import {FaBars} from "react-icons/fa";
 import {ImCross} from "react-icons/im";
 import useSound from "use-sound";
 import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME} from "@/app/recruit/_constants/constants";
 import RecruitButton from "@/app/recruit/_components/RecruitButton";
+import {Button} from "@/components/ui/button";
 
 const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn: boolean}) => {
   const [toggle, setToggle] = useState(false);
@@ -46,7 +46,10 @@ const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn
           {showRecruitBtn ? <RecruitButton className="hidden lg:block text-center mr-3" /> : null}
           <div className="flex flex-row gap-2 sm:gap-4 items-center justify-center font-semibold">
             <SignedIn>
-              <div className="flex items-center justify-center">
+              <div
+                className="flex items-center justify-center"
+                onClick={() => playClick()}
+              >
                 <UserButton
                   afterSwitchSessionUrl="https://vectr-vcp.com/"
                   afterSignOutUrl="https://vectr-vcp.com/"

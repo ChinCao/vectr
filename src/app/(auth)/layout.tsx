@@ -1,4 +1,4 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "@/app/recruit/_components/Navbar";
 import {ReactNode} from "react";
 import RecruitButton from "../recruit/_components/RecruitButton";
 
