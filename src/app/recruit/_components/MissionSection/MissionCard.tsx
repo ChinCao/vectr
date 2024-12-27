@@ -4,7 +4,7 @@ import Image from "next/image";
 const MissionCard = ({image_url, image_alt, title, content}: {image_url: string; image_alt: string; title: string; content: string}) => {
   return (
     <div className="flex flex-col items-start justify-start gap-2 w-full lg:w-[33%]">
-      <Card className="w-full">
+      <Card className="w-full rounded-lg">
         <CardContent className="px-0 pt-6 flex items-center justify-center">
           <Image
             src={image_url}

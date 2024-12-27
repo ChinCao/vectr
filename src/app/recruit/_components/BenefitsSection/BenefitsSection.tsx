@@ -20,7 +20,7 @@ const BenefitsSection = () => {
           <DrawerTrigger asChild>
             <Button
               onClick={() => playClick()}
-              className="bg-primary-yellow w-[200px] sm:w-[305px] border-2 border-black rounded-bl-none rounded-br-none"
+              className="bg-primary-yellow w-[200px] sm:w-[305px] border-2 border-black rounded-bl-none rounded-br-none active:scale-[0.99]"
             >
               Xem quyền lợi
             </Button>
@@ -62,7 +62,7 @@ const BenefitsSection = () => {
 
               <DrawerFooter>
                 <DrawerClose asChild>
-                  <Button onClick={() => playClick()}>Quá đã</Button>
+                  <Button onClick={() => playClick()}>Quá đã!</Button>
                 </DrawerClose>
               </DrawerFooter>
             </div>

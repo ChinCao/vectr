@@ -53,15 +53,21 @@ const CoreSection = () => {
           ]}
           className="w-full"
         >
-          <CarouselContent className=" w-full">
+          <CarouselContent className=" w-full ">
             {CORE_IMAGES.map((item, index) => (
               <CarouselItem
                 key={index}
-                className="relative max-w-[290px] mb-8 sm:basis-[100%] md:basis-1/3 lg:basis-1/4 hover:cursor-pointer core-section group "
+                className="pl-8 relative max-w-[290px] mb-8 sm:basis-[100%] md:basis-1/3 lg:basis-1/4 hover:cursor-pointer core-section group "
               >
                 <Sheet>
                   <SheetTrigger asChild>
-                    <div onClick={() => playClick()}>
+                    <div
+                      onClick={() => playClick()}
+                      className="transition-transform duration-300 ease-in-out"
+                      style={{
+                        transform: current == index + 1 ? "scale(1.12)" : "none",
+                      }}
+                    >
                       <div className="overflow-hidden">
                         <Image
                           src={item.image_url}
@@ -73,7 +79,12 @@ const CoreSection = () => {
                       </div>
                       <div className=" bg-white shadow-lg  border-primary border-2 rounded-tl-none rounded-tr-none rounded p-2">
                         <h3 className="font-bold text-center text-primary">{item.name}</h3>
-                        <p className="text-gray-700 text-center text-xs lg:text-md">{item.head_department}</p>
+                        <p
+                          className=" text-center text-xs lg:text-md "
+                          style={{color: current == index + 1 ? PRIMARY_ORANGE_HEX : "#374151 "}}
+                        >
+                          {item.head_department}
+                        </p>
                       </div>
                     </div>
                   </SheetTrigger>
@@ -119,7 +130,7 @@ const CoreSection = () => {
           </CarouselContent>
         </Carousel>
 
-        <div className="flex gap-4 items-center justify-center -mt-14">
+        <div className="flex gap-4 items-center justify-center -mt-10">
           <MdOutlineKeyboardDoubleArrowLeft
             size={40}
             className="text-primary hover:cursor-pointer  carousel-pointer"
