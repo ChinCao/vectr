@@ -6,6 +6,7 @@ import NavigationButton from "../NavigationButton";
 import Image from "next/image";
 import useSound from "use-sound";
 import Autoplay from "embla-carousel-autoplay";
+import {WheelGesturesPlugin} from "embla-carousel-wheel-gestures";
 
 const Departments = () => {
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
@@ -23,6 +24,7 @@ const Departments = () => {
             Autoplay({
               delay: 2000,
             }),
+            WheelGesturesPlugin(),
           ]}
         >
           <CarouselContent>

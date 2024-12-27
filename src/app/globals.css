@@ -26,7 +26,9 @@ label:hover {
 a:hover,
 button:hover,
 #save-state:hover,
-.core-section:hover {
+.core-section:hover,
+.core-navigate:hover,
+.carousel-pointer:hover {
   cursor: url("/hand-pointer.svg"), default !important;
 }
 

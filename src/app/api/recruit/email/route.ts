@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
   const htmlContent = EMAIL_TEMPLATE(
     body.data.personal_info.name.toUpperCase(),
-    lowercaseFirstLetter(FULL_DEPARTMENT_TITLE(department)),
+    lowercaseFirstLetter(FULL_DEPARTMENT_TITLE(department)!),
     CUSTOMIZED_DEPARTMENT_EMAIL[department]
   );
 
