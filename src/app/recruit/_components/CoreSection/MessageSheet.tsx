@@ -2,14 +2,14 @@ import Image from "next/image";
 import {FULL_DEPARTMENT_TITLE} from "../../_constants/constants";
 import NavigationButton from "../NavigationButton";
 
-const MessageSheet = ({message, department, image_url}: {message: string; department: string; image_url: string}) => {
+const MessageSheet = ({message, department, image_url, alt}: {message: string; department: string; image_url: string; alt: string}) => {
   return (
     <div className="flex gap-6 flex-col items-center justify-center">
       <Image
         src={image_url}
         height={250}
         width={250}
-        alt="Vicky"
+        alt={alt}
         className="w-max rounded shadow object-cover mt-4"
       />
       <div className="flex flex-col items-start gap-4">

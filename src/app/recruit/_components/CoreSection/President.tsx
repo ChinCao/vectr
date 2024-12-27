@@ -12,11 +12,11 @@ const President = () => {
       </div>
       <div className="flex gap-2 flex-1 flex-col md:flex-row ">
         <div
-          className="relative min-w-[0] md:min-w-[400px] min-h-[250] z-0 rounded md:rounded-none"
+          className="relative min-w-[0] md:min-w-[400px] min-h-[250px] z-0 rounded md:rounded-none"
           style={{background: `linear-gradient(100deg, ${PRIMARY_YELLOW_HEX} 30%, ${PRIMARY_ORANGE_HEX} 70%)`}}
         >
           <div
-            className="absolute hidden md:block min-w-[400px] min-h-[250] bg-white z-1 left-[-50%] top-[30%]"
+            className="absolute hidden md:block min-w-[400px] min-h-[250px] bg-white z-1 left-[-50%] top-[30%]"
             style={{transform: "rotate(234deg)"}}
           ></div>
           <Image
@@ -27,7 +27,7 @@ const President = () => {
             className="absolute bottom-0 right-0 rounded-br-sm md:rounded-br-none"
           />
         </div>
-        <div className="flex-1 min-h-[250] bg-white border-primary border rounded lg:rounded-tl-none lg:rounded-bl-none flex flex-col py-4 px-8 items-center justify-center gap-4 z-10">
+        <div className="flex-1 min-h-[250px] bg-white border-primary border rounded lg:rounded-tl-none lg:rounded-bl-none flex flex-col py-4 px-8 items-center justify-center gap-4 z-10">
           <h1 className="text-primary text-3xl font-bold uppercase text-center">Chủ tịch VECTR</h1>
           <div className="flex gap-2 flex-col lg:flex-row">
             <h5 className="text-primary text-2xl font-semiold uppercase text-center">Huỳnh Nguyễn Khôi Nguyên</h5>

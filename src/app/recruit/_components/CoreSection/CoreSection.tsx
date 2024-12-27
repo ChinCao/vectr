@@ -98,6 +98,7 @@ const CoreSection = () => {
                         message={item.message}
                         department={item.department}
                         image_url={item.image_url}
+                        alt={item.name}
                       />
                     </ScrollArea>
                     <SheetFooter className="mt-4">
