@@ -1,3 +1,6 @@
+export const PRIMARY_ORANGE_HEX = "#e77f1e";
+export const PRIMARY_YELLOW_HEX = "#f7c325";
+
 export type RGBValue =
   | 0
   | 1

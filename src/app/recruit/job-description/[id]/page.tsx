@@ -1,4 +1,4 @@
-import {CORE_IMAGE, DepartmentsAbbreviation, FULL_DEPARTMENT_TITLE, JOB_DESCRIPTION_TITLES} from "@/app/recruit/_constants/constants";
+import {DEPARTMENT_ICON, DepartmentsAbbreviation, FULL_DEPARTMENT_TITLE, JOB_DESCRIPTION_TITLES} from "@/app/recruit/_constants/constants";
 import NavigationButton from "../../_components/NavigationButton";
 import {Button} from "@/components/ui/button";
 import Image from "next/image";
@@ -47,13 +47,13 @@ const JobDescription = async ({params}: PageProps) => {
                   button_className="w-full md:w-[max-content]"
                 />
                 <ApplyButton id={department}>
-                  <Button className="bg-[#f7c325] text-black w-full md:w-[max-content] active:scale-[0.985]">Apply ban này</Button>
+                  <Button className="bg-primary-yellow text-black w-full md:w-[max-content] active:scale-[0.985]">Apply ban này</Button>
                 </ApplyButton>
               </div>
             </div>
             <Image
               className="order-[0] md:order-1"
-              src={CORE_IMAGE[department as keyof typeof CORE_IMAGE][1]}
+              src={DEPARTMENT_ICON[department as keyof typeof DEPARTMENT_ICON][1]}
               alt="Graphic"
               width={200}
               height={200}
@@ -66,7 +66,7 @@ const JobDescription = async ({params}: PageProps) => {
             <Description id={department} />
           </Suspense>
           <ApplyButton id={department}>
-            <Button className="bg-[#f7c325] text-black mt-8 sm:min-w-[500px] min-w-full active:scale-[0.985]">Apply ban này</Button>
+            <Button className="bg-primary-yellow text-black mt-8 sm:min-w-[500px] min-w-full active:scale-[0.985]">Apply ban này</Button>
           </ApplyButton>
         </div>
       </div>

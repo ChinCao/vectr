@@ -39,7 +39,7 @@ type DepartmentImageKeys =
   | typeof PR_CW_NAME_ABBREV
   | typeof PR_EXTERNAL_NAME_ABBREV;
 
-export const CORE_IMAGE: Record<DepartmentImageKeys, string[]> = {
+export const DEPARTMENT_ICON: Record<DepartmentImageKeys, string[]> = {
   [COMPUTER_SCIENCE_NAME_ABBREV]: ["/special-relativity-ZZpyj9.png", "/programming-python-dmduOj.png"],
   [ROBOTICS_NAME_ABBREV]: ["/electromagnetism-AzFMTl.png", "/quantum-computing-UHpCJ1.png"],
   [DESIGN_NAME_ABBREV]: ["/creative-coding-XgYZa1.png", "/calculus-nutshell-1DhUxj.png"],
@@ -74,43 +74,43 @@ export const DEPARTMENT_INFO: DepartmentSchema[] = [
   {
     abbreviation: COMPUTER_SCIENCE_NAME_ABBREV,
     full: COMPUTER_SCIENCE_NAME_FULL,
-    images: CORE_IMAGE[COMPUTER_SCIENCE_NAME_ABBREV],
+    images: DEPARTMENT_ICON[COMPUTER_SCIENCE_NAME_ABBREV],
     url: `/recruit/job-description/${COMPUTER_SCIENCE_NAME_ABBREV}`,
   },
   {
     abbreviation: ROBOTICS_NAME_ABBREV,
     full: ROBOTICS_NAME_FULL,
-    images: CORE_IMAGE[ROBOTICS_NAME_ABBREV],
+    images: DEPARTMENT_ICON[ROBOTICS_NAME_ABBREV],
     url: `/recruit/job-description/${ROBOTICS_NAME_ABBREV}`,
   },
   {
     abbreviation: DESIGN_NAME_ABBREV,
     full: DESIGN_NAME_FULL,
-    images: CORE_IMAGE[DESIGN_NAME_ABBREV],
+    images: DEPARTMENT_ICON[DESIGN_NAME_ABBREV],
     url: `/recruit/job-description/${DESIGN_NAME_ABBREV}`,
   },
 
   {
     abbreviation: PR_CW_NAME_ABBREV,
     full: PR_CW_NAME_FULL,
-    images: CORE_IMAGE[PR_CW_NAME_ABBREV],
+    images: DEPARTMENT_ICON[PR_CW_NAME_ABBREV],
     url: `/recruit/job-description/${PR_CW_NAME_ABBREV}`,
   },
   {
     abbreviation: PR_EXTERNAL_NAME_ABBREV,
     full: PR_EXTERNAL_NAME_FULL,
-    images: CORE_IMAGE[PR_EXTERNAL_NAME_ABBREV],
+    images: DEPARTMENT_ICON[PR_EXTERNAL_NAME_ABBREV],
     url: `/recruit/job-description/${PR_EXTERNAL_NAME_ABBREV}`,
   },
   {
     abbreviation: HC_NAME_ABBREV,
     full: HC_NAME_FULL,
-    images: CORE_IMAGE[HC_NAME_ABBREV],
+    images: DEPARTMENT_ICON[HC_NAME_ABBREV],
     url: `/recruit/job-description/${HC_NAME_ABBREV}`,
   },
 ];
 
-export const FULL_DEPARTMENT_TITLE = (id: DepartmentsAbbreviation) => {
+export const FULL_DEPARTMENT_TITLE = (id: DepartmentsAbbreviation | string) => {
   switch (id) {
     case COMPUTER_SCIENCE_NAME_ABBREV:
       return COMPUTER_SCIENCE_NAME_FULL;
@@ -295,6 +295,94 @@ export const BENEFITS_LOOKUP: {
     title: "Khuyến khích sáng tạo",
     content: "Môi trường khuyến khích sự sáng tạo và đổi mới trong các dự án và ý tưởng của thành viên.",
     image_src: "/intro-neural-networks-MS8bJL.png",
+  },
+];
+
+type ReplaceBanWithHead<T> = {
+  [K in keyof T]: T[K] extends string ? (T[K] extends `Ban ${infer Rest}` ? `Head ${Rest}` : T[K]) : T[K];
+};
+
+type DepartmentsHead = ReplaceBanWithHead<typeof DepartmentsFull>;
+
+interface CORE_SCHEMA {
+  head_department: DepartmentsHead[keyof DepartmentsHead] | "Phó Chủ Tịch";
+  department: DepartmentsAbbreviation | "Chọn ban";
+  image_url: string;
+  name: string;
+  message: string;
+  instagram: string;
+  facebook: string;
+}
+
+export const CORE_IMAGES: CORE_SCHEMA[] = [
+  {
+    head_department: "Phó Chủ Tịch",
+    department: "Chọn ban",
+    name: "Cự Chính",
+    image_url: "/chinh.jpg",
+    message:
+      "Tại VECTR, chúng mình suy nghĩ theo 1 cách khác biệt. Chúng mình nói được, phải làm được. VECTR sẽ là nơi ươm mầm cho các trí tưởng tượng điên rồ nhất của các bạn bay cao, và chúng ta sẽ cùng nhau thực hiện nó như là một gia đình. Khi đồng hành cùng chúng mình, hy vọng thanh xuân của các bạn được ví như một cuốn sách, và mỗi trang giấy sẽ ghi lại những kỷ niệm đẹp cùng với CLB VECTR.",
+    instagram: "https://www.instagram.com/cao.cchinh/",
+    facebook: "https://www.facebook.com/cao.cchinh",
+  },
+  {
+    head_department: "Head Computer Science",
+    department: DepartmentsAbbreviation.COMPUTER_SCIENCE,
+    name: "Thế Phong",
+    image_url: "/phong.jpg",
+    message:
+      "Hãy coi VECTR là một bài toán thú vị chuẩn bị được giải mã👩‍🔬🔦 Chúc các bạn có đủ tự tin, bình tĩnh và sự sáng tạo để chinh phục mọi thử thách phía trước nhé. Hẹn gặp các bạn trong team computer science của chúng mình nhé. 🧑‍💻✨",
+    instagram: "https://www.instagram.com/deezforsure/",
+    facebook: "https://www.facebook.com/phongunging",
+  },
+  {
+    head_department: "Head Design",
+    department: DepartmentsAbbreviation.DESIGN,
+    name: "Gia Bảo",
+    image_url: "/jabao.jpg",
+    message:
+      "Chào mọi người, mình là Gia Bảo. Đến với ban Design, mình tin rằng các bạn sẽ có được những cơ hội thể hiện và học hỏi từ các thành viên khác để phát triển kỹ năng sáng tạo của mình. Nếu bạn đam mê thiết kế và muốn thử thách bản thân, chúng ta hãy cùng nhau đưa những ý tưởng của chính mình thành hiện thực qua các bài thiết kế thật ấn tượng tại VECTR nhé!",
+    instagram: "https://www.instagram.com/ihave_a_iife/",
+    facebook: "https://www.facebook.com/giabao.huynhhoang.50",
+  },
+  {
+    head_department: "Head PR - Content Writer",
+    department: DepartmentsAbbreviation.PR_CW,
+    name: "Bạch Dương",
+    image_url: "/vicky.jpg",
+    message:
+      "Xin chào, mình là Bạch Dương, mọi người có thể gọi mình là Vic. Đến với ban PR, mình mong các bạn sẽ có thật nhiều trải nghiệm thú vị, không chỉ dừng lại ở việc lên ý tưởng và viết bài, bạn sẽ được tự mình khám phá ti tỉ những thứ khác nhau. Mình tin rằng mọi lĩnh vực đều có sự liên kết tương quan lẫn nhau (không chỉ nằm trong phạm trù của khoa học), vì thế các bạn sẽ được thoải sức thể hiện bản thân theo ý thích! Hãy chung vui cùng VECTR để trở thành 1 phần của những điều tuyệt vời tiếp theo nhé!",
+    instagram: "https://www.instagram.com/iloveu_substitution/",
+    facebook: "https://www.facebook.com/duong.ly.426010",
+  },
+  {
+    head_department: "Head Hậu Cần",
+    department: DepartmentsAbbreviation.HC,
+    name: "Xuân Bách",
+    image_url: "/sam.jpg",
+    message:
+      "Chào mọi người. mình là Xuân Bách mọi người có thể gọi mình là Sam.  Chúng mình là những người đứng sau hậu trường, đảm bảo mọi thứ từ khâu chuẩn bị, trang trí đến việc cung cấp vật dụng cần thiết đều được chuẩn bị chu đáo cho các buổi workshop hay booth tết fair sắp tới. Nhờ có ban hậu cần, các bạn thành viên nhóm mới có thể thoải mái tham gia các hoạt động mà không phải lo lắng về bất cứ điều gì. Vì thế chúng mình hãy cùng nhau trở thành một mảnh ghép quan trọng cho câu lạc VECTR và có thật nhiều trải nghiệm cùng nhau nhé!",
+    facebook: "https://www.facebook.com/sam.hoang.393139",
+    instagram: "https://www.instagram.com/samhoang682/",
+  },
+  {
+    head_department: "Head PR - External (Đối ngoại)",
+    department: DepartmentsAbbreviation.PR_EXTERNAL,
+    name: "Khuê Anh",
+    image_url: "/annie.jpg",
+    message: `Tớ là Khuê Anh, hay còn được mọi người biết đến nhiều hơn với tên Annie. Đến với VECTR, các bạn sẽ có cơ hội làm việc cùng các thành viên siu đam mê stem như chúng tớ, đặc biệt là sẽ có cơ hội làm việc với 1 trưởng ban hết sức nhiệt tình, sẵn sàng giúp đỡ bạn 24/7!!  PR- External chúng mình sẽ đóng vai trò "cầu nối" giữa các cá nhân và các bên chúng mình hợp tác, vì vậy đừng ngại mà hãy cùng nhau xây dựng một môi trường làm việc thật thoải mái và tạo một sân chơi lành mạnh cho các bạn Vinser nhaa!`,
+    instagram: "https://www.instagram.com/a.4nnie._/",
+    facebook: "https://www.facebook.com/khnh.2102",
+  },
+  {
+    head_department: "Head Robotics",
+    department: DepartmentsAbbreviation.ROBOTICS,
+    name: "Huy Hoàng",
+    image_url: "/hoang.jpg",
+    message:
+      "Hi mọi người, mình là Huy Hoàng, mọi người có thể gọi mình là Peter. Ban Robotics là nơi mọi người sẽ có nhiều trải nghiệm thú vị không chỉ về lĩnh vực Robotics, mà còn về những lĩnh vực liên quan đến khoa học khác. Ban Robotics luôn ưu tiên sự thoải mái của mọi thành viên trong ban. Vì vậy, mọi người hãy luôn tự tin chia sẻ những ý tưởng mới về lĩnh vực Robotics và luôn chinh phục được những thử thách đang chờ bạn trong tương lai. Hãy cùng mình xây dựng một ban Robotics thật hoành tráng nhé.",
+    facebook: "https://www.facebook.com/tony.phan.9022662",
+    instagram: "https://www.instagram.com/peter_hades09/",
   },
 ];
 

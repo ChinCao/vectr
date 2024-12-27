@@ -52,7 +52,7 @@ const ErrorMessage = ({
               href={`/recruit/job-description/${department}/apply`}
               text="Thôi kệ apply luôn!"
               className="flex-1"
-              button_className="bg-[#f7c325]"
+              button_className="bg-primary-yellow"
             />
           ) : null}
         </div>

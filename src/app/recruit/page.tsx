@@ -9,6 +9,7 @@ import BenefitsSection from "./_components/BenefitsSection/BenefitsSection";
 import AboutUsSection from "./_components/AboutUsSection/AboutUsSection";
 import Anchor from "./_components/Anchor";
 import RecruitButton from "./_components/RecruitButton";
+import CoreSection from "./_components/CoreSection/CoreSection";
 
 const RecruitPage = () => {
   return (
@@ -26,6 +27,10 @@ const RecruitPage = () => {
         <Anchor
           href="#about"
           text="Về VECTR"
+        />
+        <Anchor
+          href="#core"
+          text="Các CORE"
         />
         <Anchor
           href="#values"
@@ -49,10 +54,11 @@ const RecruitPage = () => {
           button_className="text-left !rounded-none"
         />
       </Navbar>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col md:items-center">
         <HomeSection />
         <BenefitsSection />
         <AboutUsSection />
+        <CoreSection />
         <ValuesSection />
         <DepartmentsSection />
         <MissionSection />

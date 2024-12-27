@@ -1,3 +1,5 @@
+import {PRIMARY_ORANGE_HEX} from "@/constants/constants";
+
 export default function EMAIL_TEMPLATE(name: string, department: string, content: string) {
   const EMAIL = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="vi">
@@ -94,10 +96,10 @@ a[x-apple-data-detectors],
                   <td valign="top" align="center" style="padding:0;Margin:0;width:500px">
                    <table cellspacing="0" cellpadding="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                      <tr>
-                      <td align="center" bgcolor="#e77f1e" style="padding:0;Margin:0;padding-top:2px;padding-bottom:2px;padding-left:202px;font-size:0">
+                      <td align="center" bgcolor="${PRIMARY_ORANGE_HEX}" style="padding:0;Margin:0;padding-top:2px;padding-bottom:2px;padding-left:202px;font-size:0">
                        <table border="0" width="5%" height="100%" cellpadding="0" cellspacing="0" class="es-spacer" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                          <tr>
-                          <td style="padding:0;Margin:0;border-bottom:1px solid #e77f1e;background:none;height:1px;width:100%;margin:0px"></td>
+                          <td style="padding:0;Margin:0;border-bottom:1px solid ${PRIMARY_ORANGE_HEX};background:none;height:1px;width:100%;margin:0px"></td>
                          </tr>
                        </table></td>
                      </tr>
@@ -128,7 +130,7 @@ a[x-apple-data-detectors],
                       <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-right:20px;padding-left:20px;font-size:0">
                        <table cellspacing="0" cellpadding="0" width="10%" height="100%" border="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                          <tr>
-                          <td style="padding:0;Margin:0;border-bottom:3px solid #E77F1E;background:none;height:1px;width:100%;margin:0px"></td>
+                          <td style="padding:0;Margin:0;border-bottom:3px solid ${PRIMARY_ORANGE_HEX};background:none;height:1px;width:100%;margin:0px"></td>
                          </tr>
                        </table></td>
                      </tr>
@@ -150,7 +152,7 @@ a[x-apple-data-detectors],
                   <td align="left" style="padding:0;Margin:0;width:460px">
                    <table cellspacing="0" cellpadding="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                      <tr>
-                      <td align="left" class="es-text-1682" style="padding:0;Margin:0;padding-right:25px;padding-top:15px"><h3 class="es-text-mobile-size-16" style="Margin:0;font-family:arial, 'helvetica neue', helvetica, sans-serif;mso-line-height-rule:exactly;letter-spacing:0;font-size:16px;font-style:normal;font-weight:normal;line-height:21.6px;color:#333333">Cảm ơn bạn vì đã apply vào <span style="color: #E77F1E;">${department},</span></h3></td>
+                      <td align="left" class="es-text-1682" style="padding:0;Margin:0;padding-right:25px;padding-top:15px"><h3 class="es-text-mobile-size-16" style="Margin:0;font-family:arial, 'helvetica neue', helvetica, sans-serif;mso-line-height-rule:exactly;letter-spacing:0;font-size:16px;font-style:normal;font-weight:normal;line-height:21.6px;color:#333333">Cảm ơn bạn vì đã apply vào <span style="color: ${PRIMARY_ORANGE_HEX};">${department},</span></h3></td>
                      </tr>
                      <tr>
                       <td align="justify" style="padding:0;Margin:0;padding-right:25px;padding-bottom:10px;padding-top:10px"><p style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;letter-spacing:0;color:#333333;font-size:14px">${content}</p></td>
@@ -166,7 +168,7 @@ a[x-apple-data-detectors],
                         
                      </tr>
                      <tr>
-                      <td align="justify" style="padding:0;Margin:0;padding-right:25px;padding-bottom:10px;padding-top:10px;color:#E77F1E !important;"><p style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;letter-spacing:0;color:#333333;font-size:14px" <span style="color: #E77F1E;">Toàn thể phi hành đoàn VECTR</span></p></td>
+                      <td align="justify" style="padding:0;Margin:0;padding-right:25px;padding-bottom:10px;padding-top:10px;color:${PRIMARY_ORANGE_HEX} !important;"><p style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;letter-spacing:0;color:#333333;font-size:14px" <span style="color: ${PRIMARY_ORANGE_HEX};">Toàn thể phi hành đoàn VECTR</span></p></td>
                         
                      </tr>
                    </table></td>

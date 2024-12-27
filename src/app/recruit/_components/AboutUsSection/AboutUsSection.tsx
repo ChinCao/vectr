@@ -3,6 +3,7 @@ import {FaArrowDown} from "react-icons/fa6";
 import useSound from "use-sound";
 import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME, DepartmentsAbbreviation, VECTR_FOUNDED_DAY} from "../../_constants/constants";
 import {calculateTimeSince} from "@/lib/utils";
+import {PRIMARY_YELLOW_HEX} from "@/constants/constants";
 
 const AboutUsSection = () => {
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
@@ -43,10 +44,10 @@ const AboutUsSection = () => {
             href="#values"
             title="Xem giá trị của chúng mình"
             onClick={() => playClick()}
-            className="w-full sm:w-[80%] lg:w-[400px] bg-transparent self-start sm:self-center lg:self-start border-[#f7c325] border-2 p-4 rounded text-[#f7c325] text-center font-bold flex gap-4 items-center justify-center"
+            className="w-full sm:w-[80%] lg:w-[400px] bg-transparent self-start sm:self-center lg:self-start border-primary-yellow border-2 p-4 rounded text-primary-yellow text-center font-bold flex gap-4 items-center justify-center z-50"
           >
             Xem các giá trị của VECTR
-            <FaArrowDown fill="#f7c325" />
+            <FaArrowDown fill={PRIMARY_YELLOW_HEX} />
           </a>
         </div>
         <Image

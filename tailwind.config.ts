@@ -30,7 +30,10 @@ export default {
           cofo: "var(--font-cofo-sans)",
         },
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "hsl(var(--primary-orange))",
+          yellow: "hsl(var(--primary-yellow))",
+          facebook_blue: "#0866ff",
+          instagram_pink: "#E1306C",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {

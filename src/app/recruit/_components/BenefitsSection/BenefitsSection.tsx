@@ -20,7 +20,7 @@ const BenefitsSection = () => {
           <DrawerTrigger asChild>
             <Button
               onClick={() => playClick()}
-              className="bg-[#f7c325] w-[200px] sm:w-[305px] border-2 border-black rounded-bl-none rounded-br-none"
+              className="bg-primary-yellow w-[200px] sm:w-[305px] border-2 border-black rounded-bl-none rounded-br-none"
             >
               Xem quyền lợi
             </Button>

@@ -1,11 +1,8 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import {Button} from "@/components/ui/button";
 import Link from "next/link";
-import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
-import {
-  CLICK_SOUND_URL,
-  CLICK_SOUND_VOLUME,
-} from "@/app/recruit/_constants/constants";
+import {FaLongArrowAltLeft, FaLongArrowAltRight} from "react-icons/fa";
+import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME} from "@/app/recruit/_constants/constants";
 import useSound from "use-sound";
 
 const NavigationButton = ({
@@ -23,7 +20,7 @@ const NavigationButton = ({
   button_className?: string;
   noArrow?: boolean;
 }) => {
-  const [playClick] = useSound(CLICK_SOUND_URL, { volume: CLICK_SOUND_VOLUME });
+  const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
 
   return (
     <Link
@@ -31,16 +28,18 @@ const NavigationButton = ({
       href={href}
       className={`w-[max-content] flex items-center justify-center gap-2 active:scale-[0.99] ${className}`}
     >
-      <Button
-        className={`flex flex-row items-center justify-center ${button_className}`}
-      >
-        <h3 className={`${direction == "right" ? "order-[0]" : "order-1"}`}>
-          {text}
-        </h3>
+      <Button className={`flex flex-row items-center justify-center ${button_className} h-max`}>
+        <h3 className={`${direction == "right" ? "order-[0]" : "order-1"} whitespace-pre-wrap text-white`}>{text}</h3>
         {direction == "right" && !noArrow ? (
-          <FaLongArrowAltRight color="white" className="order-1" />
+          <FaLongArrowAltRight
+            color="white"
+            className="order-1"
+          />
         ) : direction == "left" && !noArrow ? (
-          <FaLongArrowAltLeft color="white" className="order-[0]" />
+          <FaLongArrowAltLeft
+            color="white"
+            className="order-[0]"
+          />
         ) : null}
       </Button>
     </Link>

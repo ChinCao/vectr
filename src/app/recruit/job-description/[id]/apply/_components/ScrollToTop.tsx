@@ -1,5 +1,6 @@
 "use client";
 import {Button} from "@/components/ui/button";
+import {PRIMARY_ORANGE_HEX} from "@/constants/constants";
 import {useEffect, useState} from "react";
 import {FaArrowUpLong} from "react-icons/fa6";
 
@@ -36,7 +37,7 @@ const ScrollToTop = () => {
           type="button"
           className="w-[50px] h-[50px] border-2 border-primary bg-white flex items-center justify-center hover:cursor-pointer"
         >
-          <FaArrowUpLong fill="#e77f1e" />
+          <FaArrowUpLong fill={PRIMARY_ORANGE_HEX} />
         </Button>
       )}
     </>

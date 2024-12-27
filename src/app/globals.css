@@ -25,12 +25,37 @@ label:hover {
 
 a:hover,
 button:hover,
-#save-state:hover {
+#save-state:hover,
+.core-section:hover {
   cursor: url("/hand-pointer.svg"), default !important;
 }
 
 html body[data-scroll-locked] {
   margin-right: 0px !important;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.1);
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #e77f1e;
+  background-image: -webkit-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    transparent 75%,
+    transparent
+  );
 }
 
 @layer base {
@@ -41,7 +66,8 @@ html body[data-scroll-locked] {
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 29, 81%, 51%;
+    --primary-orange: 29, 81%, 51%;
+    --primary-yellow: 45, 93%, 56%;
     --primary-foreground: 0 0% 100%;
     --secondary: 0, 0%, 90%;
     --secondary-foreground: 0 100% 0%;

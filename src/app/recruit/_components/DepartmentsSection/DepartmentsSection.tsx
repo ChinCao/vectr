@@ -5,6 +5,7 @@ import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME, DEPARTMENT_INFO} from "../../_const
 import NavigationButton from "../NavigationButton";
 import Image from "next/image";
 import useSound from "use-sound";
+import Autoplay from "embla-carousel-autoplay";
 
 const Departments = () => {
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
@@ -12,7 +13,18 @@ const Departments = () => {
   return (
     <section id="departments">
       <div className="container flex flex-col sm:flex-row pt-20 justify-center items-center gap-5 ">
-        <Carousel className="w-[250px] order-[1] sm:order-0 sm:w-[300px]">
+        <Carousel
+          className="w-[250px] order-[1] sm:order-0 sm:w-[300px]"
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          plugins={[
+            Autoplay({
+              delay: 2000,
+            }),
+          ]}
+        >
           <CarouselContent>
             {DEPARTMENT_INFO.map((info, index) => (
               <CarouselItem

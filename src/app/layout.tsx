@@ -7,6 +7,7 @@ import {FaInstagram} from "react-icons/fa";
 import {NavigationGuardProvider} from "next-navigation-guard";
 import NextTopLoader from "nextjs-toploader";
 import {InjectScriptElement} from "./recruit/_components/Drift";
+import {PRIMARY_ORANGE_HEX} from "@/constants/constants";
 
 const CoFoSans = localFont({
   src: "./fonts/CoFoSans.otf",
@@ -32,7 +33,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${CoFoSans.variable} antialiased font-cofo`}>
           <NextTopLoader
-            color="#e77f1e"
+            color={PRIMARY_ORANGE_HEX}
             zIndex={100000}
             showSpinner={false}
           />

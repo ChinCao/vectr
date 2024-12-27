@@ -3,7 +3,10 @@ import ValuesCard from "./ValuesCard";
 
 const Values = () => {
   return (
-    <section id="values">
+    <section
+      id="values"
+      className="z-30"
+    >
       <div className="container flex flex-col pt-24 gap-7">
         <h1 className="text-5xl font-bold text-center sm:text-left">Giá trị của chúng mình</h1>
         <p className="text-gray-500 text-[15px] text-center sm:text-left">
