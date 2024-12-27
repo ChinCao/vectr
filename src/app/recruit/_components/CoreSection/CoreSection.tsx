@@ -79,12 +79,12 @@ const CoreSection = () => {
                   </SheetTrigger>
 
                   <SheetContent
-                    className="w-[90%] px-10 md:max-w-[400px] h-[100vh] flex flex-col rounded-sm pt-20"
+                    className="w-[90%] px-10 md:max-w-[400px] h-[100vh] flex flex-col rounded-sm pt-20 pb-6"
                     side="right"
                   >
                     <SheetHeader>
-                      <SheetTitle>{item.name}</SheetTitle>
-                      <SheetDescription className="flex items-center justify-center md:justify-start gap-2">
+                      <SheetTitle className="text-left">{item.name}</SheetTitle>
+                      <SheetDescription className="flex items-center justify-start gap-2">
                         {item.head_department}
                         <Social
                           facebook={item.facebook}

@@ -351,7 +351,7 @@ export const CORE_IMAGES: CORE_SCHEMA[] = [
     name: "Bạch Dương",
     image_url: "/vicky.jpg",
     message:
-      "Xin chào, mình là Bạch Dương, mọi người có thể gọi mình là Vic. Đến với ban PR, mình mong các bạn sẽ có thật nhiều trải nghiệm thú vị, không chỉ dừng lại ở việc lên ý tưởng và viết bài, bạn sẽ được tự mình khám phá ti tỉ những thứ khác nhau. Mình tin rằng mọi lĩnh vực đều có sự liên kết tương quan lẫn nhau (không chỉ nằm trong phạm trù của khoa học), vì thế các bạn sẽ được thoải sức thể hiện bản thân theo ý thích! Hãy chung vui cùng VECTR để trở thành 1 phần của những điều tuyệt vời tiếp theo nhé!",
+      "Xin chào, mình là Bạch Dương, mọi người có thể gọi mình là Vic. Đến với ban PR, mình mong các bạn sẽ có thật nhiều trải nghiệm thú vị, không chỉ dừng lại ở việc lên ý tưởng và viết bài, bạn sẽ được tự mình khám phá ti tỉ những thứ khác nhau. Mình tin rằng mọi lĩnh vực đều có sự liên kết tương quan lẫn nhau (không chỉ nằm trong phạm trù của khoa học), vì thế các bạn sẽ được thoả sức thể hiện bản thân theo ý thích! Hãy chung vui cùng VECTR để trở thành 1 phần của những điều tuyệt vời tiếp theo nhé!",
     instagram: "https://www.instagram.com/iloveu_substitution/",
     facebook: "https://www.facebook.com/duong.ly.426010",
   },
