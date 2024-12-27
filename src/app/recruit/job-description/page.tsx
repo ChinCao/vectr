@@ -30,7 +30,7 @@ const JobDescriptionPage = () => {
         />
       </Navbar>
       <title>Chọn ban</title>
-      <div className="py-24 container">
+      <div className="py-24 container relative">
         <NavigationButton
           href="/recruit/"
           text="Trở lại trang recruit"
@@ -80,6 +80,13 @@ const JobDescriptionPage = () => {
             ))}
           </Accordion>
         </div>
+        <Image
+          src="/rocket-launch-2x.png"
+          width={200}
+          height={800}
+          alt="rocket"
+          className="absolute top-[15.5%] left-[-5%] z-[-1] hidden lg:block pointer-events-none"
+        />
       </div>
     </>
   );
