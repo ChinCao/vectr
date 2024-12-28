@@ -6,7 +6,6 @@ import {Form} from "@/components/ui/form";
 import {useEffect, useMemo, useState} from "react";
 import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {useToast} from "@/hooks/use-toast";
-import {ToastAction} from "@/components/ui/toast";
 import {Toaster} from "@/components/ui/toaster";
 import useSound from "use-sound";
 import {BLANK_FORM_DATA, CLICK_SOUND_URL, CLICK_SOUND_VOLUME, DepartmentsAbbreviation, FORM_CLOSE_DAY} from "@/app/recruit/_constants/constants";
@@ -202,15 +201,6 @@ const ApplyForm = ({
           description: `Hãy tiếp tục trả lời nhé!`,
           style: {background: "#16a34a", color: "white"},
           duration: 2000,
-          action: (
-            <ToastAction
-              altText="close"
-              className="hover:bg-[white] hover:text-[#16a34a] hover:border-white"
-              onClick={() => playClick()}
-            >
-              Đóng
-            </ToastAction>
-          ),
         });
       }
       setIsFetching(false);
@@ -269,14 +259,6 @@ const ApplyForm = ({
         description: `Vui lòng kiểm tra lại ${error_check}.`,
         variant: "destructive",
         duration: 2000,
-        action: (
-          <ToastAction
-            altText="close"
-            onClick={() => playClick()}
-          >
-            Đóng
-          </ToastAction>
-        ),
       });
     }
   }, [activeTab, questions_id, formState.errors, playClick, toast, department_questions, general_questions]);
