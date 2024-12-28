@@ -1,5 +1,5 @@
 import {DEPARTMENT_INFO, DepartmentsAbbreviation} from "@/app/recruit/_constants/constants";
-import Navbar from "@/app/recruit/_components/Navbar";
+import Navbar from "@/app/recruit/_components/Navbar/Navbar";
 import {notFound} from "next/navigation";
 import {ReactNode} from "react";
 import JDNavItems from "../_components/JDNavItems";

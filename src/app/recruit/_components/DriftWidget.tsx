@@ -1,7 +1,7 @@
 import React from "react";
 import Script from "next/script";
 
-export function InjectScriptElement() {
+export function DriftWidget() {
   return (
     <Script
       strategy="beforeInteractive"

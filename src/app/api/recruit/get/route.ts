@@ -9,11 +9,19 @@ export async function POST(req: Request) {
 
   await ConnectDB();
   try {
-    const projection = {
-      [`department_questions.response.${department}`]: 1,
-      general_questions: 1,
-      personal_info: 1,
-    };
+    let projection = {};
+    if (department) {
+      projection = {
+        [`department_questions.response.${department}.hasSubmitted`]: 1,
+      };
+    } else {
+      projection = {
+        department_questions: 1,
+        general_questions: 1,
+        personal_info: 1,
+      };
+    }
+
     const recruit = await RecruitResponse.findOne({user_id: user_id}).select(projection);
 
     return NextResponse.json({recruit}, {status: 200});

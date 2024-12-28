@@ -9,7 +9,7 @@ import {useToast} from "@/hooks/use-toast";
 import {ToastAction} from "@/components/ui/toast";
 import {Toaster} from "@/components/ui/toaster";
 import useSound from "use-sound";
-import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME, DepartmentsAbbreviation, FORM_CLOSE_DAY} from "@/app/recruit/_constants/constants";
+import {BLANK_FORM_DATA, CLICK_SOUND_URL, CLICK_SOUND_VOLUME, DepartmentsAbbreviation, FORM_CLOSE_DAY} from "@/app/recruit/_constants/constants";
 import {PersonalInfoSchema, PersonalInfoSchemaDefault} from "../_schema/PersonalInfoSchema";
 import {useUser} from "@clerk/clerk-react";
 import {useDebounce} from "../_hook/useDebounce";
@@ -31,6 +31,7 @@ import CheckError from "../_lib/CheckError";
 import Image from "next/image";
 import {calculateTimeLeft, TimeLeft} from "@/lib/utils";
 import ErrorMessage from "@/app/recruit/_components/ErrorMessage";
+import {saveToLocalStorage} from "../_lib/SaveToLocalStorage";
 
 const ApplyForm = ({
   department_questions,
@@ -47,7 +48,6 @@ const ApplyForm = ({
   const {toast} = useToast();
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
   const {user, isSignedIn} = useUser();
-
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>({days: "99", hours: "99", minutes: "99", seconds: "99"});
   const [isFetching, setIsFetching] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -59,6 +59,7 @@ const ApplyForm = ({
   const [manual, setManual] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+  const [isNewuser, setIsNewUser] = useState(false);
 
   const questions_id = useMemo(() => [...department_questions[0], ...general_questions[0]], [department_questions, general_questions]);
   useEffect(() => {
@@ -113,27 +114,57 @@ const ApplyForm = ({
   useEffect(() => {
     async function fetchData() {
       setIsFetching(true);
-      const res = await fetch("/api/recruit/get", {
-        method: "POST",
-        body: JSON.stringify({user_id: user?.id, department: department}),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      if (typeof window !== "undefined") {
+        const cacheData = localStorage.getItem("recruit-cache");
+        if (!cacheData) {
+          const res = await fetch("/api/recruit/get", {
+            method: "POST",
+            body: JSON.stringify({user_id: user?.id, department: null}),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          if (!res.ok) {
+            setErrorMessage("Không thể lấy được câu trả lời từ cơ sở dữ liệu!");
+          }
+          const data: Recruit = await res.json();
+          if (data.recruit) {
+            if (data["recruit"]["department_questions"]["response"][department]!["hasSubmitted"]) {
+              localStorage.setItem("recruit-cache", JSON.stringify(data));
+              setisSubmitted(true);
+              setIsFetching(false);
+              return;
+            }
+            localStorage.setItem("recruit-cache", JSON.stringify(data));
+            setInitialData(data);
+          } else {
+            localStorage.setItem("recruit-cache", JSON.stringify({recruit: BLANK_FORM_DATA}));
+            setInitialData({recruit: BLANK_FORM_DATA});
+            setIsNewUser(true);
+          }
+        } else {
+          const data: Recruit = JSON.parse(cacheData);
+          const res = await fetch("/api/recruit/get", {
+            method: "POST",
+            body: JSON.stringify({user_id: user?.id, department: department}),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          if (!res.ok) {
+            setErrorMessage("Không thể lấy được câu trả lời từ cơ sở dữ liệu!");
+          }
+          const checkSubmit: Recruit = await res.json();
 
-      const data: Recruit = await res.json();
-      if (!res.ok) {
-        setErrorMessage("Không thể lấy được câu trả lời từ cơ sở dữ liệu!");
-      }
-      if (data.recruit) {
-        if (data["recruit"]["department_questions"]["response"][department]["hasSubmitted"]) {
-          setisSubmitted(true);
-          setIsFetching(false);
-          return;
+          if (checkSubmit.recruit) {
+            if (checkSubmit["recruit"]["department_questions"]["response"][department]!["hasSubmitted"]) {
+              setisSubmitted(true);
+              setIsFetching(false);
+              return;
+            }
+          }
+          setInitialData(data);
         }
-        setInitialData(data);
-      } else {
-        setIsFetching(false);
       }
     }
     if (isFetching && user?.id) {
@@ -156,8 +187,8 @@ const ApplyForm = ({
 
       for (const question of questions_id) {
         if (department_questions[0].includes(question)) {
-          if (initialData.recruit.department_questions.response[department]["questions"][question]) {
-            setValue(question, initialData.recruit.department_questions.response[department]["questions"][question]["answer"]);
+          if (initialData.recruit.department_questions.response[department]["questions"]![question]) {
+            setValue(question, initialData.recruit.department_questions.response[department]["questions"]![question]["answer"]);
           }
         } else if (general_questions[0].includes(question)) {
           if (initialData.recruit.general_questions.response[question]) {
@@ -165,9 +196,26 @@ const ApplyForm = ({
           }
         }
       }
+      if (!isNewuser) {
+        toast({
+          title: "Tiến trình của bạn đã được khôi phục",
+          description: `Hãy tiếp tục trả lời nhé!`,
+          style: {background: "#16a34a", color: "white"},
+          duration: 2000,
+          action: (
+            <ToastAction
+              altText="close"
+              className="hover:bg-[white] hover:text-[#16a34a] hover:border-white"
+              onClick={() => playClick()}
+            >
+              Đóng
+            </ToastAction>
+          ),
+        });
+      }
       setIsFetching(false);
     }
-  }, [department, department_questions, general_questions, initialData, isFetching, questions_id, setValue]);
+  }, [department, department_questions, general_questions, initialData, isFetching, isNewuser, playClick, questions_id, setValue, toast]);
 
   const watchedValues = useMemo(() => form.watch(), [form]);
   const debouncedValues = useDebounce(watchedValues, 1000, setIsSaving, hasInteracted);
@@ -176,6 +224,9 @@ const ApplyForm = ({
     async function save() {
       if (!isSubmitted && !isSubmitting) {
         const sanitized_data = formattedFormData(debouncedValues, false);
+        if (isSignedIn) {
+          saveToLocalStorage(sanitized_data, initialData!, department);
+        }
         await SaveToDatabase(sanitized_data, false, department, setIsSubmitting, setIsSaving, setisSubmitted, setErrorMessage);
       } else if (isSubmitted) {
         setIsSaving(false);
@@ -187,24 +238,28 @@ const ApplyForm = ({
       }
       save();
     }
-  }, [isSubmitted, isSubmitting, formattedFormData, department, debouncedValues, hasInteracted, user?.id, router]);
+  }, [isSubmitted, isSubmitting, formattedFormData, department, debouncedValues, hasInteracted, user?.id, router, initialData, isSignedIn]);
 
   const navGuard = useNavigationGuard({
-    enabled: (isSaving || isSubmitting) && isSignedIn,
+    enabled: isSaving || isSubmitting,
   });
 
   useEffect(() => {
     async function check() {
-      if (navGuard.active && isSignedIn) {
-        const sanitized_data = formattedFormData(watchedValues, false);
-        await SaveToDatabase(sanitized_data, false, department, setIsSubmitting, setIsSaving, setisSubmitted, setErrorMessage);
-        navGuard.accept();
-      } else if (navGuard.active && !isSignedIn) {
+      if (navGuard.active && isSignedIn && !isSubmitting) {
+        if (!isSubmitted) {
+          const sanitized_data = formattedFormData(watchedValues, false);
+          if (isSignedIn) {
+            saveToLocalStorage(sanitized_data, initialData!, department);
+          }
+          await SaveToDatabase(sanitized_data, false, department, setIsSubmitting, setIsSaving, setisSubmitted, setErrorMessage);
+        }
+
         navGuard.accept();
       }
     }
     check();
-  }, [navGuard, isSaving, formattedFormData, watchedValues, department, isSignedIn]);
+  }, [navGuard, isSaving, formattedFormData, watchedValues, department, isSignedIn, initialData, isSubmitting, isSubmitted]);
 
   useEffect(() => {
     const error_check = CheckError(formState.errors, department_questions, general_questions, setActiveTab, activeTab);
@@ -212,6 +267,8 @@ const ApplyForm = ({
       toast({
         title: "Lưu ý!",
         description: `Vui lòng kiểm tra lại ${error_check}.`,
+        variant: "destructive",
+        duration: 2000,
         action: (
           <ToastAction
             altText="close"
@@ -227,6 +284,9 @@ const ApplyForm = ({
   const onSubmit = async (values: FormType) => {
     if (!isSubmitting) {
       const sanitized_data = formattedFormData(values, true);
+      if (isSignedIn) {
+        saveToLocalStorage(sanitized_data, initialData!, department);
+      }
       await SaveToDatabase(sanitized_data, true, department, setIsSubmitting, setIsSaving, setisSubmitted, setErrorMessage);
     }
   };
@@ -234,7 +294,7 @@ const ApplyForm = ({
   return (
     <>
       {!errorMessage ? (
-        <div className="flex flex-col gap-4 items-center justify-center">
+        <div className="flex flex-col gap-4 items-center justify-center relative">
           <SubmittingDialog
             isSubmitting={isSubmitting}
             navGuard={navGuard.active}

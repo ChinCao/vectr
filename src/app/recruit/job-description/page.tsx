@@ -7,7 +7,7 @@ import {CLICK_SOUND_VOLUME, DEPARTMENT_INFO, FQA} from "@/app/recruit/_constants
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
 import {CLICK_SOUND_URL} from "@/app/recruit/_constants/constants";
 import useSound from "use-sound";
-import Navbar from "@/app/recruit/_components/Navbar";
+import Navbar from "@/app/recruit/_components/Navbar/Navbar";
 import RecruitButton from "../_components/RecruitButton";
 import JDNavItems from "./_components/JDNavItems";
 

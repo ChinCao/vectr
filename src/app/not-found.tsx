@@ -1,5 +1,5 @@
 "use client";
-import Navbar from "@/app/recruit/_components/Navbar";
+import Navbar from "@/app/recruit/_components/Navbar/Navbar";
 import RecruitButton from "./recruit/_components/RecruitButton";
 import Link from "next/link";
 import {Button} from "@/components/ui/button";

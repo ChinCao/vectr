@@ -19,7 +19,8 @@ body {
 
 html,
 body,
-label:hover {
+label:hover,
+div[role="menuitem"]:hover {
   cursor: url("/arrowhead-rounded-outline.svg"), default !important;
 }
 
@@ -28,7 +29,8 @@ button:hover,
 #save-state:hover,
 .core-section:hover,
 .core-navigate:hover,
-.carousel-pointer:hover {
+.carousel-pointer:hover,
+.user-avatar:hover {
   cursor: url("/hand-pointer.svg"), default !important;
 }
 

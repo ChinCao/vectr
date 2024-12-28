@@ -1,5 +1,5 @@
 "use client";
-import {SignedIn, SignedOut, SignInButton, SignUpButton, UserButton} from "@clerk/nextjs";
+import {SignedIn, SignedOut, SignInButton, SignUpButton} from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import React, {ReactNode, useState} from "react";
@@ -9,6 +9,7 @@ import useSound from "use-sound";
 import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME} from "@/app/recruit/_constants/constants";
 import RecruitButton from "@/app/recruit/_components/RecruitButton";
 import {Button} from "@/components/ui/button";
+import UserMenu from "./UserMenu";
 
 const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn: boolean}) => {
   const [toggle, setToggle] = useState(false);
@@ -50,18 +51,18 @@ const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn
                 className="flex items-center justify-center"
                 onClick={() => playClick()}
               >
-                <UserButton
-                  afterSwitchSessionUrl="https://vectr-vcp.com/"
-                  afterSignOutUrl="https://vectr-vcp.com/"
-                />
+                <UserMenu />
               </div>
-              <SignedOut>
-                <Button>Signout</Button>
-              </SignedOut>
             </SignedIn>
             <SignedOut>
               <SignInButton>
                 <Button
+                  onClick={() => {
+                    if (typeof window !== "undefined") {
+                      localStorage.removeItem("recruit-cache");
+                    }
+                    playClick();
+                  }}
                   variant={"secondary"}
                   className="w-[65px] sm:w-[80px] px-2"
                 >
@@ -69,7 +70,17 @@ const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn
                 </Button>
               </SignInButton>
               <SignUpButton>
-                <Button className="w-[65px] sm:w-[80px] px-2">Sign Up</Button>
+                <Button
+                  onClick={() => {
+                    if (typeof window !== "undefined") {
+                      localStorage.removeItem("recruit-cache");
+                    }
+                    playClick();
+                  }}
+                  className="w-[65px] sm:w-[80px] px-2"
+                >
+                  Sign Up
+                </Button>
               </SignUpButton>
             </SignedOut>
           </div>

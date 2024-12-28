@@ -6,7 +6,7 @@ import {FaFacebook} from "react-icons/fa";
 import {FaInstagram} from "react-icons/fa";
 import {NavigationGuardProvider} from "next-navigation-guard";
 import NextTopLoader from "nextjs-toploader";
-import {InjectScriptElement} from "./recruit/_components/Drift";
+import {DriftWidget} from "./recruit/_components/DriftWidget";
 import {PRIMARY_ORANGE_HEX} from "@/constants/constants";
 
 const CoFoSans = localFont({
@@ -64,7 +64,7 @@ export default function RootLayout({
               </div>
             </div>
           </footer>
-          <InjectScriptElement />
+          <DriftWidget />
         </body>
       </html>
     </ClerkProvider>

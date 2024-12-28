@@ -19,8 +19,8 @@ export interface PersonalInfo extends PersonalInfoType {
 
 export type Departmentquestions = {
   [key in DepartmentsAbbreviation]: {
-    hasSubmitted: boolean;
-    questions: Record<string, DepartmentQuestionEntry>;
+    hasSubmitted?: boolean;
+    questions?: Record<string, DepartmentQuestionEntry>;
   };
 };
 

@@ -15,7 +15,7 @@ export default function CreateFormatResponse(
     blank_form_data.department_questions.response[department].hasSubmitted = submit;
     Object.keys(raw_data).forEach((key) => {
       if (department_questions[0].includes(key)) {
-        blank_form_data.department_questions.response[department].questions[key] = {
+        blank_form_data.department_questions.response[department].questions![key] = {
           question: department_questions[1][department_questions[0].indexOf(key)],
           answer: raw_data[key as keyof DynamicQuestionsType],
         };
