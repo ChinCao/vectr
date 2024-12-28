@@ -261,8 +261,8 @@ export const parseData = (
     text_request,
     style_request,
     fieldsIndexTable["department_questions"],
-    data["department_questions"]["response"][department]["questions"],
-    data["department_questions"]["response"][department]["questions"]
+    data["department_questions"]["response"][department]["questions"]!,
+    data["department_questions"]["response"][department]["questions"]!
   );
   return [text_request, style_request];
 };
