@@ -1,14 +1,8 @@
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
-import { UseFormReturn } from "react-hook-form";
-import { useRef, useEffect } from "react";
-import { RESPONSE_MAX_CHARACTER } from "@/app/recruit/_constants/constants";
+import {FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {Textarea} from "@/components/ui/textarea";
+import {UseFormReturn} from "react-hook-form";
+import {useRef, useEffect} from "react";
+import {RESPONSE_MAX_CHARACTER} from "@/app/recruit/_constants/constants";
 import QuestionFallBack from "../../FallBacks/QuestionFallBack";
 
 const GeneralQuestions = ({
@@ -42,7 +36,7 @@ const GeneralQuestions = ({
           key={question}
           control={form.control}
           name={question}
-          render={({ field: { onChange, value } }) => (
+          render={({field: {onChange, value}}) => (
             <FormItem className="bg-white rounded p-4">
               <FormLabel className="text-md">
                 {index + 1}. {general_questions[1][index]}
@@ -62,9 +56,7 @@ const GeneralQuestions = ({
                       onChange(e.target.value);
                       refs.current[index]!.style.height = "inherit";
 
-                      refs.current[index]!.style.height = `${
-                        refs.current[index]!.scrollHeight
-                      }px`;
+                      refs.current[index]!.style.height = `${refs.current[index]!.scrollHeight}px`;
                     }}
                   />
                 )}

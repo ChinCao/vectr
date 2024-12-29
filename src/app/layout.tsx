@@ -31,7 +31,7 @@ export default function RootLayout({
       afterSignOutUrl="https://vectr-vcp.com/"
     >
       <html lang="en">
-        <body className={`${CoFoSans.variable} antialiased font-cofo`}>
+        <body className={`${CoFoSans.variable} antialiased font-cofo selection:bg-[#a8c4ec]`}>
           <NextTopLoader
             color={PRIMARY_ORANGE_HEX}
             zIndex={100000}

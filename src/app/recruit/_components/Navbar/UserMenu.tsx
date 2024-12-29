@@ -24,7 +24,7 @@ const UserMenu = () => {
           <AvatarFallback>{user?.firstName}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="z-[999999999999999999999] min-w-[320px] p-4 mr-4">
+      <DropdownMenuContent className="z-[99999999999] min-w-[320px] p-4 mr-4">
         <DropdownMenuItem className="p-2">
           <div className="flex  items-center justify-start gap-2">
             <Avatar>
