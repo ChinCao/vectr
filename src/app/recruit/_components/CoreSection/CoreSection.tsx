@@ -149,7 +149,7 @@ const CoreSection = () => {
             <div
               key={index}
               className="min-w-[12px] min-h-[12px] border-2 border-primary hover:cursor-pointer core-navigate"
-              style={{background: current == index + 1 ? PRIMARY_ORANGE_HEX : "white"}}
+              style={{background: current == index + 1 ? PRIMARY_ORANGE_HEX : resolvedTheme == "dark" ? "#181a20" : "white"}}
               onClick={() => {
                 playClick();
                 api?.scrollTo(index);
