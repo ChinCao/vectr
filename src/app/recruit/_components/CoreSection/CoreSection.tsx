@@ -15,12 +15,14 @@ import {MdOutlineKeyboardDoubleArrowRight} from "react-icons/md";
 import {MdOutlineKeyboardDoubleArrowLeft} from "react-icons/md";
 import {PRIMARY_ORANGE_HEX} from "@/constants/constants";
 import MessageSheet from "./MessageSheet";
+import {useTheme} from "next-themes";
 
 const CoreSection = () => {
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
+  const {resolvedTheme} = useTheme();
 
   useEffect(() => {
     if (!api) {
@@ -80,11 +82,11 @@ const CoreSection = () => {
                           className="w-max transition-transform duration-300 ease-in-out group-hover:scale-105 overflow-hidden rounded shadow rounded-br-none rounded-bl-none object-cover  "
                         />
                       </div>
-                      <div className=" bg-white shadow-lg  border-primary border-2 rounded-tl-none rounded-tr-none rounded p-2">
+                      <div className=" bg-background shadow-lg  border-primary border-2 rounded-tl-none rounded-tr-none rounded p-2">
                         <h3 className="font-bold text-center text-primary">{item.name}</h3>
                         <p
                           className=" text-center text-xs lg:text-md "
-                          style={{color: current == index + 1 ? PRIMARY_ORANGE_HEX : "#374151 "}}
+                          style={{color: current == index + 1 ? PRIMARY_ORANGE_HEX : resolvedTheme == "light" ? "#374151" : "#ebeef4"}}
                         >
                           {item.head_department}
                         </p>
@@ -98,14 +100,14 @@ const CoreSection = () => {
                   >
                     <SheetHeader>
                       <SheetTitle className="text-left">{item.name}</SheetTitle>
-                      <SheetDescription className="flex items-center justify-start gap-2">
-                        {item.head_department}
+                      <div className="flex items-center justify-start gap-2">
+                        <SheetDescription> {item.head_department}</SheetDescription>
                         <Social
                           facebook={item.facebook}
                           instagram={item.instagram}
                           size={17}
                         />
-                      </SheetDescription>
+                      </div>
                     </SheetHeader>
                     <ScrollArea className="px-4">
                       <MessageSheet

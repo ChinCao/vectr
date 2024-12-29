@@ -10,22 +10,32 @@ import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME} from "@/app/recruit/_constants/cons
 import RecruitButton from "@/app/recruit/_components/RecruitButton";
 import {Button} from "@/components/ui/button";
 import UserMenu from "./UserMenu";
+import {Moon, Sun} from "lucide-react";
+import {useTheme} from "next-themes";
 
 const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn: boolean}) => {
   const [toggle, setToggle] = useState(false);
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
+  const {setTheme, resolvedTheme} = useTheme();
 
   return (
-    <header className="fixed top-0 w-full z-[100] bg-background/95 shadow-lg">
+    <header className="fixed top-0 w-full z-[100] bg-background opacity-[98%] lg:opacity-95 shadow-lg">
       <nav className="flex flex-row items-center container justify-between py-2 gap-4 relative">
         <div className="flex items-center justify-center gap-3">
           <Link href="/">
             <Image
-              src="/logo.png"
+              src="/logo-light.png"
               height={44}
               width={100}
               alt="Logo Vectr"
-              className="pb-0 sm:pb-3 mr-3 flex-1"
+              className="pb-0 sm:pb-3 mr-3 flex-1 dark:hidden"
+            />
+            <Image
+              src="/logo-dark.png"
+              height={44}
+              width={100}
+              alt="Logo Vectr"
+              className="pb-0 sm:pb-3 mr-3 flex-1 dark:block hidden"
             />
           </Link>
           <div
@@ -35,7 +45,7 @@ const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn
           >
             {React.Children.map(children, (child) => (
               <div
-                className="hover:text-primary tracking-tight lg:w-max w-full hover:bg-secondary bg-white lg:bg-[transparent] lg:hover:bg-[transparent] border-b-2 lg:border-none"
+                className="hover:text-primary tracking-tight lg:w-max w-full hover:bg-secondary bg-background lg:bg-[transparent] lg:hover:bg-[transparent] border-b-2 lg:border-none"
                 onClick={() => setToggle(false)}
               >
                 {child}
@@ -77,12 +87,24 @@ const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn
                     }
                     playClick();
                   }}
-                  className="w-[65px] sm:w-[80px] px-2"
+                  className="w-[65px] sm:w-[80px] px-2 text-white"
                 >
                   Sign Up
                 </Button>
               </SignUpButton>
             </SignedOut>
+            <div
+              className="hover:cursor-pointer ml-2"
+              onClick={() => {
+                setTheme(resolvedTheme == "light" ? "dark" : "light");
+              }}
+            >
+              {resolvedTheme == "dark" ? (
+                <Moon className="h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              ) : (
+                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-100" />
+              )}
+            </div>
           </div>
           <div
             className="cursor-pointer hover:text-primary block lg:hidden"

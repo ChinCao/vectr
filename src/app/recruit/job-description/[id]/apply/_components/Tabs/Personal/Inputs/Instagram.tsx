@@ -11,7 +11,7 @@ const Instagram = ({form, isFetching}: PersonalInfoProps) => {
       control={form.control}
       name="instagram"
       render={({field: {onChange, value, ref}}) => (
-        <FormItem className="bg-white rounded p-4">
+        <FormItem className="bg-background rounded p-4">
           <FormLabel className="text-md">
             7. Link profile <span className="text-primary-instagram_pink">Instagram</span>
           </FormLabel>

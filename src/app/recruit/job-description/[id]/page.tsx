@@ -33,7 +33,7 @@ const JobDescription = async ({params}: PageProps) => {
   return (
     <>
       <div className="flex flex-col items-center">
-        <div className="flex bg-gray-100 w-[100vw]">
+        <div className="flex bg-gray-100 dark:bg-gray-800 w-[100vw]">
           <div className="container flex flex-col md:flex-row md:gap-2 pt-14 pb-8 items-center justify-center">
             <div className="flex flex-col items-center md:items-start gap-4 w-[90%] md:w-[50%] order-1 md:order-[0] ">
               <h1 className="text-3xl font-semibold mt-4 md:mt-0 text-center">{FULL_DEPARTMENT_TITLE(department)}</h1>
@@ -47,7 +47,7 @@ const JobDescription = async ({params}: PageProps) => {
                   button_className="w-full md:w-[max-content]"
                 />
                 <ApplyButton id={department}>
-                  <Button className="bg-primary-yellow text-black w-full md:w-[max-content] active:scale-[0.985]">Apply ban này</Button>
+                  <Button className="bg-primary-yellow text-foreground w-full md:w-[max-content] active:scale-[0.985]">Apply ban này</Button>
                 </ApplyButton>
               </div>
             </div>
@@ -66,7 +66,7 @@ const JobDescription = async ({params}: PageProps) => {
             <Description id={department} />
           </Suspense>
           <ApplyButton id={department}>
-            <Button className="bg-primary-yellow text-black mt-8 sm:min-w-[500px] min-w-full active:scale-[0.985]">Apply ban này</Button>
+            <Button className="bg-primary-yellow text-foreground mt-8 sm:min-w-[500px] min-w-full active:scale-[0.985]">Apply ban này</Button>
           </ApplyButton>
         </div>
       </div>

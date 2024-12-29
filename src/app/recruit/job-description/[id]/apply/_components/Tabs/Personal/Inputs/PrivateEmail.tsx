@@ -11,7 +11,7 @@ const PrivateEmail = ({form, isFetching}: PersonalInfoProps) => {
       control={form.control}
       name="private_email"
       render={({field: {onChange, value, ref}}) => (
-        <FormItem className="bg-white rounded p-4">
+        <FormItem className="bg-background rounded p-4">
           <FormLabel className="text-md">5. Email riêng {`(để làm việc)`}</FormLabel>
           <FormControl>
             {isFetching ? (

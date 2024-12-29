@@ -1,30 +1,17 @@
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form";
-import { INFO_MAX_CHARACTER } from "@/app/recruit/_constants/constants";
-import { FaRegIdCard } from "react-icons/fa";
-import { Input } from "@/components/ui/input";
+import {FormField, FormItem, FormLabel, FormControl, FormMessage} from "@/components/ui/form";
+import {INFO_MAX_CHARACTER} from "@/app/recruit/_constants/constants";
+import {FaRegIdCard} from "react-icons/fa";
+import {Input} from "@/components/ui/input";
 import QuestionFallBack from "../../../FallBacks/QuestionFallBack";
-import { PersonalInfoProps } from "./_types/PersonalProps";
+import {PersonalInfoProps} from "./_types/PersonalProps";
 
-const StundentID = ({
-  form,
-  isFetching,
-  manual,
-  studentID,
-  setSchoolEmail,
-  setStudentID,
-}: PersonalInfoProps) => {
+const StundentID = ({form, isFetching, manual, studentID, setSchoolEmail, setStudentID}: PersonalInfoProps) => {
   return (
     <FormField
       control={form.control}
       name="student_id"
-      render={({ field: { onChange, ref } }) => (
-        <FormItem className="bg-white rounded p-4">
+      render={({field: {onChange, ref}}) => (
+        <FormItem className="bg-background rounded p-4">
           <FormLabel className="text-md">2. Mã số học sinh</FormLabel>
           <FormControl>
             {isFetching ? (
@@ -39,11 +26,7 @@ const StundentID = ({
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     onChange(e);
                     if (!manual) {
-                      setSchoolEmail!(
-                        (e.target.value.match(/\d+/)
-                          ? e.target.value.match(/\d+/)
-                          : "") + "@stu.vinschool.edu.vn"
-                      );
+                      setSchoolEmail!((e.target.value.match(/\d+/) ? e.target.value.match(/\d+/) : "") + "@stu.vinschool.edu.vn");
                     }
                     setStudentID!(e.target.value);
                   }}

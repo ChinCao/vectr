@@ -15,7 +15,7 @@ const MessageSheet = ({message, department, image_url, alt}: {message: string; d
       <div className="flex flex-col items-start gap-4">
         <div>
           <h1 className="text-primary uppercase font-bold text-xl">Lời nhắn nhủ</h1>
-          <p className="text-justify text-md text-gray-700">{message}</p>
+          <p className="text-justify text-md text-foreground">{message}</p>
         </div>
         <NavigationButton
           direction="right"

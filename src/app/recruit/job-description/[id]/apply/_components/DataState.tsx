@@ -53,7 +53,7 @@ const DataState = ({isSaving, isFetching}: {isSaving: boolean; isFetching: boole
               <ScrollToTop />
               <div
                 id="save-state"
-                className="w-[50px] h-[50px] border-2 bg-white flex items-center justify-center hover:cursor-pointer"
+                className="w-[50px] h-[50px] border-2 bg-background flex items-center justify-center hover:cursor-pointer"
                 style={{borderColor: color!}}
                 onClick={() => setClicked(!clicked)}
               >

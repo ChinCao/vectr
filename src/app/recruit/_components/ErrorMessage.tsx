@@ -42,7 +42,7 @@ const ErrorMessage = ({
                 window.location.reload();
               }
             }}
-            className="bg-red-500 text-white flex-1"
+            className="bg-red-500 text-foreground flex-1"
           >
             Reload
           </Button>

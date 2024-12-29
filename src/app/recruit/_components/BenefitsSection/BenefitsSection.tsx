@@ -20,7 +20,7 @@ const BenefitsSection = () => {
           <DrawerTrigger asChild>
             <Button
               onClick={() => playClick()}
-              className="bg-primary-yellow w-[200px] sm:w-[305px] border-2 border-black rounded-bl-none rounded-br-none active:scale-[0.99]"
+              className="bg-primary-yellow w-[200px] sm:w-[305px] border-2 border-foreground rounded-bl-none rounded-br-none active:scale-[0.99]"
             >
               Xem quyền lợi
             </Button>
@@ -40,7 +40,7 @@ const BenefitsSection = () => {
                   {BENEFITS_LOOKUP.map((item, index) => (
                     <Card
                       key={index}
-                      className="flex items-center flex-col sm:flex-row justify-center min-w-[90%] sm:min-w-[300px] flex-1 hover:bg-[#eeeeee]"
+                      className="flex items-center flex-col sm:flex-row justify-center min-w-[90%] sm:min-w-[300px] flex-1 hover:bg-foreground group"
                     >
                       <CardContent className="pb-0 pr-0 pl-0 sm:pl-6">
                         <Image
@@ -52,7 +52,7 @@ const BenefitsSection = () => {
                         />
                       </CardContent>
                       <CardHeader>
-                        <CardTitle>{item.title}</CardTitle>
+                        <CardTitle className="group-hover:text-background">{item.title}</CardTitle>
                         <CardDescription className="text-justify">{item.content}</CardDescription>
                       </CardHeader>
                     </Card>
@@ -74,7 +74,7 @@ const BenefitsSection = () => {
         width={1216}
         height={190}
         alt="benefits"
-        className="absolute bottom-0 border-b-2 border-b-black border-t-none z-[-1]"
+        className="absolute bottom-0 border-b-2 border-b-foreground border-t-none z-[-1]"
       />
     </section>
   );

@@ -11,7 +11,7 @@ const Facebook = ({form, isFetching}: PersonalInfoProps) => {
       control={form.control}
       name="facebook"
       render={({field: {onChange, value, ref}}) => (
-        <FormItem className="bg-white rounded p-4">
+        <FormItem className="bg-background rounded p-4">
           <FormLabel className="text-md">
             6. Link profile <span className="text-primary-facebook_blue">Facebook</span>
           </FormLabel>

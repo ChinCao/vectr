@@ -298,17 +298,17 @@ const ApplyForm = ({
                     isSaving={isSaving}
                     isFetching={isFetching}
                   />
-                  <TabsList className="flex items-center h-[max-content] justify-center flex-wrap flex-row  mb-8">
+                  <TabsList className="flex items-center h-[max-content] justify-center flex-wrap flex-row mb-8 border-2 border-primary p-0">
                     <Image
                       src="/banner.png"
                       width={800}
                       height={200}
                       alt="banner"
-                      className="w-full mb-4"
+                      className="w-full mb-4 rounded-lg"
                     />
                     <TabsTrigger
                       value="personal-info"
-                      className="flex-1 py-2"
+                      className="flex-1 py-2 mb-2 ml-2"
                     >
                       Thông tin cá nhân
                     </TabsTrigger>
@@ -320,7 +320,7 @@ const ApplyForm = ({
                     </TabsTrigger>
                     <TabsTrigger
                       value="department-questions"
-                      className="flex-1 py-2 text-primary"
+                      className="flex-1 py-2 text-primary mr-2"
                     >
                       Câu hỏi chuyên môn
                     </TabsTrigger>

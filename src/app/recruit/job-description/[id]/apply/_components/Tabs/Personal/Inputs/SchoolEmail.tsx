@@ -11,7 +11,7 @@ const SchoolEmail = ({form, isFetching, manual, schoolEmail, setManual, setSchoo
       control={form.control}
       name="school_email"
       render={({field: {onChange, ref}}) => (
-        <FormItem className="bg-white rounded p-4">
+        <FormItem className="bg-background rounded p-4">
           <FormLabel className="text-md">4. Email trường</FormLabel>
           <FormControl>
             {isFetching ? (

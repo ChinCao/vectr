@@ -35,7 +35,7 @@ const ScrollToTop = () => {
         <Button
           onClick={scrollToTop}
           type="button"
-          className="w-[50px] h-[50px] border-2 border-primary bg-white flex items-center justify-center hover:cursor-pointer"
+          className="w-[50px] h-[50px] border-2 border-primary bg-background flex items-center justify-center hover:cursor-pointer"
         >
           <FaArrowUpLong fill={PRIMARY_ORANGE_HEX} />
         </Button>
