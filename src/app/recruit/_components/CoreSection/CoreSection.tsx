@@ -57,7 +57,10 @@ const CoreSection = () => {
             {CORE_IMAGES.map((item, index) => (
               <CarouselItem
                 key={index}
-                className="pl-8 relative max-w-[290px] mb-8 sm:basis-[100%] md:basis-1/3 lg:basis-1/4 hover:cursor-pointer core-section group "
+                className="pl-8 relative max-w-[290px] mb-8 sm:basis-[100%] md:basis-1/3 lg:basis-1/4 hover:cursor-pointer core-section group"
+                onClick={() => {
+                  api?.scrollTo(index);
+                }}
               >
                 <Sheet>
                   <SheetTrigger asChild>
