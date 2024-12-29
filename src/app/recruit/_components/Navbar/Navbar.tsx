@@ -97,6 +97,7 @@ const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn
               className="hover:cursor-pointer ml-2"
               onClick={() => {
                 setTheme(resolvedTheme == "light" ? "dark" : "light");
+                playClick();
               }}
             >
               {resolvedTheme == "dark" ? (

@@ -257,7 +257,7 @@ const ApplyForm = ({
       toast({
         title: "Lưu ý!",
         description: `Vui lòng kiểm tra lại ${error_check}.`,
-        variant: "destructive",
+        style: {background: "#ef4444", color: "white"},
         duration: 2000,
       });
     }
@@ -304,7 +304,7 @@ const ApplyForm = ({
                       width={800}
                       height={200}
                       alt="banner"
-                      className="w-full mb-4 rounded-lg"
+                      className="w-full mb-4 rounded-md"
                     />
                     <TabsTrigger
                       value="personal-info"

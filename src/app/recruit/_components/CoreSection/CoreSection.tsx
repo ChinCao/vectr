@@ -122,7 +122,7 @@ const CoreSection = () => {
                         <Button
                           type="button"
                           onClick={() => playClick()}
-                          className="w-full"
+                          className="w-full text-white"
                         >
                           Đóng
                         </Button>
