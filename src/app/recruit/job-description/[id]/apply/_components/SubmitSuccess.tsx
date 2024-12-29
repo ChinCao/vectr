@@ -9,44 +9,24 @@ import {FaWikipediaW} from "react-icons/fa";
 import {WiDirectionUpRight} from "react-icons/wi";
 import {HoverCard, HoverCardContent, HoverCardTrigger} from "@/components/ui/hover-card";
 import QuestionFallBack from "./FallBacks/QuestionFallBack";
-import {QuoteResponse, AuthorResponse, AuthorInfo, QUOTE_FALLBACK} from "../_constants/quote";
+import {AuthorInfo, QUOTE_FALLBACK} from "../_constants/quote";
 
 const SubmitSuccess = ({department}: {department: DepartmentsAbbreviation}) => {
   const [quote, setQuote] = useState<string | undefined>(undefined);
   const [authorInfo, setAuthorInfo] = useState<AuthorInfo | undefined>(undefined);
 
   useEffect(() => {
-    async function fetchQuote() {
-      const quoteRes = await fetch(
-        "https://api.quotable.io/quotes/random?tags=science|math|physics|chemistry|biology|programming|coding|astronomy|statistics|discipline|calculus|algebra|blockchain|geometry|data%20science|quantum%20mechanics|thermodynamics|environmental%20science|biochemistry|mathematical%20modeling|famous-quotes&minLength=100"
-      );
+    const setFallbackQuote = () => {
+      const random = Math.floor(Math.random() * QUOTE_FALLBACK.length);
+      setQuote(QUOTE_FALLBACK[random].content);
+      setAuthorInfo({
+        name: QUOTE_FALLBACK[random].name,
+        bio: QUOTE_FALLBACK[random].bio,
+        link: QUOTE_FALLBACK[random].link,
+      });
+    };
 
-      const setFallbackQuote = () => {
-        const random = Math.floor(Math.random() * QUOTE_FALLBACK.length);
-        setQuote(QUOTE_FALLBACK[random].content);
-        setAuthorInfo({
-          name: QUOTE_FALLBACK[random].name,
-          bio: QUOTE_FALLBACK[random].bio,
-          link: QUOTE_FALLBACK[random].link,
-        });
-      };
-
-      if (quoteRes.ok) {
-        const quoteData: QuoteResponse[] = await quoteRes.json();
-        const authorRes = await fetch(`https://api.quotable.io/authors/?slug=${quoteData[0].authorSlug}`);
-        const authorData: AuthorResponse = await authorRes.json();
-        if (authorRes.ok) {
-          setQuote(quoteData[0].content);
-          setAuthorInfo(await authorData.results[0]);
-        } else {
-          setFallbackQuote();
-        }
-      } else {
-        setFallbackQuote();
-      }
-    }
-
-    fetchQuote();
+    setFallbackQuote();
   }, []);
 
   return (

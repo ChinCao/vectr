@@ -62,4 +62,35 @@ export const QUOTE_FALLBACK = [
     bio: "Thích Nhất Hạnh is a Vietnamese Thiền Buddhist monk and peace activist, founder of the Plum Village Tradition. Thích Nhất Hạnh spent most of his later life residing in the Plum Village Monastery in southwest France, travelling internationally to give retreats and talks.",
     link: "https://en.wikipedia.org/wiki/Th%C3%ADch_Nh%E1%BA%A5t_H%E1%BA%A1nh",
   },
+  {
+    content: "Life is a gift, and it offers us the privilege, opportunity, and responsibility to give something back by becoming more.",
+    name: "Tony Robbins",
+    bio: "Anthony Jay Robbins February 29, 1960) is an American author, life coach, and philanthropist. Robbins is known for his infomercials, seminars, and self-help books including the books Unlimited Power (published in 1987) and Awaken the Giant Within (published in 1993).",
+    link: "https://en.wikipedia.org/wiki/Tony_Robbins",
+  },
+  {
+    content: "For every failure, there's an alternative course of action. You just have to find it. When you come to a roadblock, take a detour.",
+    name: "Mary Kay Ash",
+    bio: "Mary Kay Ash (May 12, 1918 – November 22, 2001) was an American businesswoman and founder of Mary Kay Cosmetics, Inc.",
+    link: "https://en.wikipedia.org/wiki/Mary_Kay_Ash",
+  },
+  {
+    content: "Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful.",
+    name: "Albert Schweitzer",
+    bio: "Albert Schweitzer (14 January 1875 – 4 September 1965) was an Alsatian polymath. He was a theologian, organist, writer, humanitarian, philosopher, and physician.",
+    link: "https://en.wikipedia.org/wiki/Albert_Schweitzer",
+  },
+  {
+    content:
+      "Meditation is the dissolution of thoughts in eternal awareness or Pure consciousness without objectification, knowing without thinking, merging finitude in infinity.",
+    name: "Voltaire",
+    bio: "François-Marie Arouet (21 November 1694 – 30 May 1778), known by his nom de plume Voltaire, was a French Enlightenment writer, historian, and philosopher famous for his wit, his criticism of Christianity, especially the Roman Catholic Church, as well as his advocacy of freedom of speech, freedom of religion, and separation of church and state.",
+    link: "https://en.wikipedia.org/wiki/Voltaire",
+  },
+  {
+    content: "All our talents increase in the using, and every faculty, both good and bad, strengthen by exercise.",
+    name: "Anne Brontë",
+    bio: "Anne Brontë (17 January 1820 – 28 May 1849) was an English novelist and poet, the youngest member of the Brontë literary family.",
+    link: "https://en.wikipedia.org/wiki/Anne_Bront%C3%AB",
+  },
 ];
