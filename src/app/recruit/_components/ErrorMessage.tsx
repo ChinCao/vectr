@@ -34,7 +34,8 @@ const ErrorMessage = ({
             direction="left"
             href={href}
             text={link_message}
-            className="flex-1"
+            className="flex-1 w-max"
+            button_className="w-max"
           />
           <Button
             onClick={() => {
@@ -42,7 +43,7 @@ const ErrorMessage = ({
                 window.location.reload();
               }
             }}
-            className="bg-red-500 text-foreground flex-1"
+            className="bg-red-500 text-foreground flex-1 text-white"
           >
             Reload
           </Button>
@@ -51,8 +52,8 @@ const ErrorMessage = ({
               direction="right"
               href={`/recruit/job-description/${department}/apply`}
               text="Thôi kệ apply luôn!"
-              className="flex-1"
-              button_className="bg-primary-yellow"
+              className="flex-1 w-max"
+              button_className="bg-primary-yellow w-max"
             />
           ) : null}
         </div>
