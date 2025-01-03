@@ -113,7 +113,7 @@ const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn
                     )}
                   </div>
                 </TooltipTrigger>
-                <TooltipContent className="z-[999999999999999999999999999999999999] bg-foreground text-background">
+                <TooltipContent className="z-[9999999999] relative bg-foreground text-background">
                   <p>Change to {resolvedTheme == "dark" ? "light" : "dark"} mode</p>
                 </TooltipContent>
               </Tooltip>
