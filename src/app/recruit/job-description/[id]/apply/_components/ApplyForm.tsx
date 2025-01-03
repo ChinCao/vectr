@@ -255,9 +255,9 @@ const ApplyForm = ({
     const error_check = CheckError(formState.errors, department_questions, general_questions, setActiveTab, activeTab);
     if (error_check) {
       toast({
+        variant: "destructive",
         title: "Lưu ý!",
         description: `Vui lòng kiểm tra lại ${error_check}.`,
-        style: {background: "#ef4444", color: "white"},
         duration: 2000,
       });
     }
