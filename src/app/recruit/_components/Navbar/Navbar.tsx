@@ -12,6 +12,7 @@ import {Button} from "@/components/ui/button";
 import UserMenu from "./UserMenu";
 import {Moon, Sun} from "lucide-react";
 import {useTheme} from "next-themes";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 
 const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn: boolean}) => {
   const [toggle, setToggle] = useState(false);
@@ -93,19 +94,30 @@ const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn
                 </Button>
               </SignUpButton>
             </SignedOut>
-            <div
-              className="hover:cursor-pointer ml-2"
-              onClick={() => {
-                setTheme(resolvedTheme == "light" ? "dark" : "light");
-                playClick();
-              }}
-            >
-              {resolvedTheme == "dark" ? (
-                <Moon className="h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-              ) : (
-                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-100" />
-              )}
-            </div>
+
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div
+                    className="hover:cursor-pointer ml-2"
+                    id="change-theme-btn"
+                    onClick={() => {
+                      setTheme(resolvedTheme == "light" ? "dark" : "light");
+                      playClick();
+                    }}
+                  >
+                    {resolvedTheme == "dark" ? (
+                      <Moon className="h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                    ) : (
+                      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-100" />
+                    )}
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent className="z-[999999999999999999999999999999999999] bg-foreground text-background">
+                  <p>Change to {resolvedTheme == "dark" ? "light" : "dark"} mode</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
           <div
             className="cursor-pointer hover:text-primary block lg:hidden"

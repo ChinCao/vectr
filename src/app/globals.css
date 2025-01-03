@@ -31,7 +31,8 @@ button:hover,
 .core-navigate:hover,
 .carousel-pointer:hover,
 .user-avatar:hover,
-#switch-theme {
+#switch-theme,
+#change-theme-btn:hover {
   cursor: url("/hand-pointer.svg"), default !important;
 }
 
