@@ -36,9 +36,14 @@ export default function Home() {
         <h1 className="font-semibold text-3xl text-center">Coming soon ...</h1>
         <Link
           href="/recruit"
-          className="mt-4"
+          className="mt-4 "
         >
-          <Button onClick={() => playClick()}>Quay trở lại trang recruit</Button>
+          <Button
+            onClick={() => playClick()}
+            className="text-white"
+          >
+            Quay trở lại trang recruit
+          </Button>
         </Link>
       </div>
     </>

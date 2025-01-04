@@ -20,7 +20,7 @@ const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn
   const {setTheme, resolvedTheme} = useTheme();
 
   return (
-    <header className="fixed top-0 w-full z-[100] bg-background opacity-[98%] lg:opacity-95 shadow-lg">
+    <header className="fixed top-0 w-full z-[100] bg-background opacity-[98%] lg:opacity-95 border-b-[1px] border-slate-200 dark:border-slate-700">
       <nav className="flex flex-row items-center container justify-between py-2 gap-4 relative">
         <div className="flex items-center justify-center gap-3">
           <Link href="/">

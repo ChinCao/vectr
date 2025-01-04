@@ -86,8 +86,8 @@ const ApplyForm = ({
     [department, department_questions, general_questions, user?.id]
   );
 
-  const DynamicSchema = DynamicQuestionsSchema(questions_id);
-  const DynamicQuestionsDefault = DynamicQuestionsDefaults(questions_id);
+  const DynamicSchema = useMemo(() => DynamicQuestionsSchema(department_questions), [department_questions]);
+  const DynamicQuestionsDefault = useMemo(() => DynamicQuestionsDefaults(department_questions), [department_questions]);
 
   const formSchema = z.object({
     ...PersonalInfoSchema.shape,

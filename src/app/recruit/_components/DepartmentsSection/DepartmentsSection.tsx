@@ -30,7 +30,7 @@ const Departments = () => {
           <CarouselContent>
             {DEPARTMENT_INFO.map((info, index) => (
               <CarouselItem
-                className="flex flex-col gap-3 items-center justify-center"
+                className="flex flex-col gap-3 items-center justify-start"
                 key={index}
               >
                 <Card>
