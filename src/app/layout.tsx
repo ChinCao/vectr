@@ -31,10 +31,7 @@ export default function RootLayout({
       telemetry={false}
       afterSignOutUrl="https://vectr-vcp.com/"
     >
-      <html
-        lang="en"
-        suppressHydrationWarning
-      >
+      <html lang="en">
         <body className={`${CoFoSans.variable} antialiased font-cofo selection:bg-[#a8c4ec]`}>
           <ThemeProvider
             attribute="class"
