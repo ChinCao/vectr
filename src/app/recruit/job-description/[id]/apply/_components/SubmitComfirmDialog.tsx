@@ -19,9 +19,10 @@ type OnSubmitFunction = (values: FormType) => Promise<void>;
 interface DiaglogProps {
   onSubmit: OnSubmitFunction;
   form: Tform;
+  isFetching: boolean;
 }
 
-const SubmitComfirmDialog = ({form, onSubmit}: DiaglogProps) => {
+const SubmitComfirmDialog = ({form, onSubmit, isFetching}: DiaglogProps) => {
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
 
   return (
@@ -30,6 +31,7 @@ const SubmitComfirmDialog = ({form, onSubmit}: DiaglogProps) => {
         <Button
           className="w-full mt-2 px-0 text-white"
           type="button"
+          disabled={isFetching}
           onClick={() => playClick()}
         >
           Gửi đơn

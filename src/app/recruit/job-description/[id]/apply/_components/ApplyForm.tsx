@@ -203,6 +203,7 @@ const ApplyForm = ({
           duration: 2000,
         });
       }
+
       setIsFetching(false);
     }
   }, [department, department_questions, general_questions, initialData, isFetching, isNewuser, playClick, questions_id, setValue, toast]);
@@ -350,6 +351,7 @@ const ApplyForm = ({
                   <SubmitComfirmDialog
                     onSubmit={onSubmit}
                     form={form}
+                    isFetching={isFetching}
                   />
                 </Tabs>
 
