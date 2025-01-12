@@ -44,4 +44,6 @@ const ScrollToTop = memo(() => {
   );
 });
 
+ScrollToTop.displayName = "ScrollToTop";
+
 export default ScrollToTop;

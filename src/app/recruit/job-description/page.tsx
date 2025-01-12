@@ -42,7 +42,7 @@ const JobDescriptionPage = () => {
           <Link
             href={info.url}
             key={index}
-            onClick={playClick}
+            onClick={() => playClick()}
           >
             <Card className="py-3 hover:scale-[1.01] hover:text-primary active:scale-[0.998]">
               <CardContent>
@@ -59,7 +59,7 @@ const JobDescriptionPage = () => {
         ))}
       </div>
     ),
-    [DEPARTMENT_INFO, playClick]
+    [playClick]
   );
 
   const memoizedAccordion = useMemo(
@@ -85,7 +85,7 @@ const JobDescriptionPage = () => {
         ))}
       </Accordion>
     ),
-    [FQA, playClick]
+    [playClick]
   );
 
   const memoizedRocketImage = useMemo(

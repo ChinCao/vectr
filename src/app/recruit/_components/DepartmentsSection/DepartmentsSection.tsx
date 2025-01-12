@@ -7,7 +7,7 @@ import Image from "next/image";
 import useSound from "use-sound";
 import Autoplay from "embla-carousel-autoplay";
 import {WheelGesturesPlugin} from "embla-carousel-wheel-gestures";
-import {memo, useMemo} from "react";
+import {memo} from "react";
 
 const Departments = () => {
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
@@ -30,16 +30,13 @@ const Departments = () => {
         >
           <CarouselContent>
             {DEPARTMENT_INFO.map((info, index) => {
-              const memoizedImage = useMemo(
-                () => (
-                  <Image
-                    src={info["images"][0]}
-                    width={300}
-                    height={300}
-                    alt="Graphic"
-                  />
-                ),
-                [info["images"][0]]
+              const memoizedImage = (
+                <Image
+                  src={info["images"][0]}
+                  width={300}
+                  height={300}
+                  alt="Graphic"
+                />
               );
 
               return (
