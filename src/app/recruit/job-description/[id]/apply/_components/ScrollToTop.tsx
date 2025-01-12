@@ -1,10 +1,10 @@
 "use client";
 import {Button} from "@/components/ui/button";
 import {PRIMARY_ORANGE_HEX} from "@/constants/constants";
-import {useEffect, useState} from "react";
+import {useEffect, useState, memo} from "react";
 import {FaArrowUpLong} from "react-icons/fa6";
 
-const ScrollToTop = () => {
+const ScrollToTop = memo(() => {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleScroll = () => {
@@ -42,6 +42,6 @@ const ScrollToTop = () => {
       )}
     </>
   );
-};
+});
 
 export default ScrollToTop;

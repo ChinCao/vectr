@@ -10,6 +10,7 @@ import AboutUsSection from "./_components/AboutUsSection/AboutUsSection";
 import Anchor from "./_components/Anchor";
 import RecruitButton from "./_components/RecruitButton";
 import CoreSection from "./_components/CoreSection/CoreSection";
+import {useMemo} from "react";
 
 const RecruitPage = () => {
   return (
@@ -55,14 +56,54 @@ const RecruitPage = () => {
         />
       </Navbar>
       <div className="flex flex-col md:items-center">
-        <HomeSection />
-        <BenefitsSection />
-        <AboutUsSection />
-        <CoreSection />
-        <ValuesSection />
-        <DepartmentsSection />
-        <MissionSection />
-        <ProcessSection />
+        {useMemo(
+          () => (
+            <HomeSection />
+          ),
+          []
+        )}
+        {useMemo(
+          () => (
+            <BenefitsSection />
+          ),
+          []
+        )}
+        {useMemo(
+          () => (
+            <AboutUsSection />
+          ),
+          []
+        )}
+        {useMemo(
+          () => (
+            <CoreSection />
+          ),
+          []
+        )}
+        {useMemo(
+          () => (
+            <ValuesSection />
+          ),
+          []
+        )}
+        {useMemo(
+          () => (
+            <DepartmentsSection />
+          ),
+          []
+        )}
+        {useMemo(
+          () => (
+            <MissionSection />
+          ),
+          []
+        )}
+        {useMemo(
+          () => (
+            <ProcessSection />
+          ),
+          []
+        )}
       </div>
     </>
   );

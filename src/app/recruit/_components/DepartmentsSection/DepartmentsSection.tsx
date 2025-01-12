@@ -7,6 +7,7 @@ import Image from "next/image";
 import useSound from "use-sound";
 import Autoplay from "embla-carousel-autoplay";
 import {WheelGesturesPlugin} from "embla-carousel-wheel-gestures";
+import {memo, useMemo} from "react";
 
 const Departments = () => {
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
@@ -28,24 +29,31 @@ const Departments = () => {
           ]}
         >
           <CarouselContent>
-            {DEPARTMENT_INFO.map((info, index) => (
-              <CarouselItem
-                className="flex flex-col gap-3 items-center justify-start"
-                key={index}
-              >
-                <Card>
-                  <CardContent className="pt-6">
-                    <Image
-                      src={info["images"][0]}
-                      width={300}
-                      height={300}
-                      alt="Graphic"
-                    />
-                  </CardContent>
-                </Card>
-                <h4 className="font-semibold text-3xl text-center">{info["full"]}</h4>
-              </CarouselItem>
-            ))}
+            {DEPARTMENT_INFO.map((info, index) => {
+              const memoizedImage = useMemo(
+                () => (
+                  <Image
+                    src={info["images"][0]}
+                    width={300}
+                    height={300}
+                    alt="Graphic"
+                  />
+                ),
+                [info["images"][0]]
+              );
+
+              return (
+                <CarouselItem
+                  className="flex flex-col gap-3 items-center justify-start"
+                  key={index}
+                >
+                  <Card>
+                    <CardContent className="pt-6">{memoizedImage}</CardContent>
+                  </Card>
+                  <h4 className="font-semibold text-3xl text-center">{info["full"]}</h4>
+                </CarouselItem>
+              );
+            })}
           </CarouselContent>
           <div onClick={() => playClick()}>
             <CarouselPrevious />
@@ -70,4 +78,4 @@ const Departments = () => {
   );
 };
 
-export default Departments;
+export default memo(Departments);

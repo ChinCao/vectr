@@ -10,12 +10,14 @@ import useSound from "use-sound";
 import Navbar from "@/app/recruit/_components/Navbar/Navbar";
 import RecruitButton from "../_components/RecruitButton";
 import JDNavItems from "./_components/JDNavItems";
+import {useMemo} from "react";
 
 const JobDescriptionPage = () => {
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
   const dimension = 225;
-  return (
-    <>
+
+  const memoizedNavbar = useMemo(
+    () => (
       <Navbar showRecruitBtn={true}>
         {DEPARTMENT_INFO.map((info, index) => (
           <JDNavItems
@@ -29,6 +31,79 @@ const JobDescriptionPage = () => {
           button_className="text-left !rounded-none"
         />
       </Navbar>
+    ),
+    []
+  );
+
+  const memoizedCards = useMemo(
+    () => (
+      <div className="flex flex-row gap-6 flex-wrap items-center justify-center">
+        {DEPARTMENT_INFO.map((info, index) => (
+          <Link
+            href={info.url}
+            key={index}
+            onClick={playClick}
+          >
+            <Card className="py-3 hover:scale-[1.01] hover:text-primary active:scale-[0.998]">
+              <CardContent>
+                <Image
+                  src={info.images[0]}
+                  width={dimension}
+                  height={dimension}
+                  alt="Graphic"
+                />
+              </CardContent>
+              <CardTitle className="text-center uppercase text-2xl font-medium">{info.abbreviation}</CardTitle>
+            </Card>
+          </Link>
+        ))}
+      </div>
+    ),
+    [DEPARTMENT_INFO, playClick]
+  );
+
+  const memoizedAccordion = useMemo(
+    () => (
+      <Accordion
+        type="single"
+        collapsible
+        className="w-[80%]"
+      >
+        {FQA.map((item, index) => (
+          <AccordionItem
+            value={`item-${index + 1}`}
+            key={index}
+          >
+            <AccordionTrigger
+              onClick={playClick}
+              className="font-semibold"
+            >
+              {item.question}
+            </AccordionTrigger>
+            <AccordionContent>{item.answer}</AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    ),
+    [FQA, playClick]
+  );
+
+  const memoizedRocketImage = useMemo(
+    () => (
+      <Image
+        src="/rocket-launch-2x.png"
+        width={200}
+        height={800}
+        alt="rocket"
+        className="absolute top-[15.5%] left-[-5%] z-[-1] hidden lg:block pointer-events-none"
+      />
+    ),
+    []
+  );
+
+  return (
+    <>
+      {memoizedNavbar}
       <title>Chọn ban</title>
       <div className="py-24 container relative">
         <NavigationButton
@@ -38,55 +113,10 @@ const JobDescriptionPage = () => {
         />
         <div className="flex flex-col mt-5 gap-8 items-center justify-center">
           <h1 className="capitalize text-center font-bold text-5xl">Chọn ban để apply</h1>
-          <div className="flex flex-row gap-6 flex-wrap items-center justify-center ">
-            {DEPARTMENT_INFO.map((info, index) => (
-              <Link
-                href={info["url"]}
-                key={index}
-                onClick={() => playClick()}
-              >
-                <Card className="py-3 hover:scale-[1.01] hover:text-primary active:scale-[0.998]">
-                  <CardContent>
-                    <Image
-                      src={info["images"][0]}
-                      width={dimension}
-                      height={dimension}
-                      alt="Graphic"
-                    />
-                  </CardContent>
-                  <CardTitle className="text-center uppercase text-2xl font-medium">{info["abbreviation"]}</CardTitle>
-                </Card>
-              </Link>
-            ))}
-          </div>
-          <Accordion
-            type="single"
-            collapsible
-            className="w-[80%]"
-          >
-            {FQA.map((item, index) => (
-              <AccordionItem
-                value={`item-${index + 1}`}
-                key={index}
-              >
-                <AccordionTrigger
-                  onClick={() => playClick()}
-                  className="font-semibold"
-                >
-                  {item.question}
-                </AccordionTrigger>
-                <AccordionContent>{item.answer}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          {memoizedCards}
+          {memoizedAccordion}
         </div>
-        <Image
-          src="/rocket-launch-2x.png"
-          width={200}
-          height={800}
-          alt="rocket"
-          className="absolute top-[15.5%] left-[-5%] z-[-1] hidden lg:block pointer-events-none"
-        />
+        {memoizedRocketImage}
       </div>
     </>
   );

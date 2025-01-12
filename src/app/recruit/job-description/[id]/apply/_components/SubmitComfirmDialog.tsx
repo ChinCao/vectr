@@ -13,6 +13,7 @@ import {
 import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME} from "@/app/recruit/_constants/constants";
 import useSound from "use-sound";
 import {FormType, Tform} from "../_types/FormTypes";
+import {memo} from "react";
 
 type OnSubmitFunction = (values: FormType) => Promise<void>;
 
@@ -22,7 +23,7 @@ interface DiaglogProps {
   isFetching: boolean;
 }
 
-const SubmitComfirmDialog = ({form, onSubmit, isFetching}: DiaglogProps) => {
+const SubmitComfirmDialog = memo(({form, onSubmit, isFetching}: DiaglogProps) => {
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
 
   return (
@@ -58,6 +59,8 @@ const SubmitComfirmDialog = ({form, onSubmit, isFetching}: DiaglogProps) => {
       </AlertDialogContent>
     </AlertDialog>
   );
-};
+});
+
+SubmitComfirmDialog.displayName = "SubmitComfirmDialog";
 
 export default SubmitComfirmDialog;

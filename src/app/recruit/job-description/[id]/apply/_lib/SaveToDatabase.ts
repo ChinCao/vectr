@@ -26,7 +26,7 @@ export async function SaveToDatabase(
   }
   if (submit && calculateTimeLeft(FORM_CLOSE_DAY)) {
     const parsedData = parseData(sanitized_data, department);
-    const documentTitle = `${sanitized_data["personal_info"]["name"]}_${sanitized_data["personal_info"]["class"]}_${sanitized_data["personal_info"]["student_id"]}`;
+    const documentTitle = `${sanitized_data["personal_info"]["name"]}_${sanitized_data["personal_info"]["class"]}_${sanitized_data["personal_info"]["student_id"]}_${department}`;
     const docRes: DocumentCreationFailure = await SaveToGoogleDoc(documentTitle, parsedData[0], parsedData[1], department);
     if (docRes.status == 500) {
       setErrorMessage("Gửi đơn thất bại, hãy giữ bình tĩnh, dữ liệu vẫn được lưu!");
