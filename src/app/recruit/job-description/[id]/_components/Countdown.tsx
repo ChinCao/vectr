@@ -63,7 +63,7 @@ const CountdownSection = () => {
           {memoizedCards}
         </div>
       ) : (
-        <h1 className="text-red-600 text-balance uppercase font-bold text-2xl mt-4">Vòng gửi đơn đã kết thúc</h1>
+        <h1 className="text-red-600 text-balance text-center uppercase font-bold text-2xl mt-4">Vòng gửi đơn đã kết thúc</h1>
       )}
     </>
   );
