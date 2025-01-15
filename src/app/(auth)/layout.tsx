@@ -1,14 +1,27 @@
-import Navbar from "@/app/recruit/_components/Navbar/Navbar";
 import {ReactNode} from "react";
-import RecruitButton from "../recruit/_components/RecruitButton";
+import NavSpotlighButton from "../../components/NavSpotlighButton";
+import Link from "next/link";
+import Navbar from "@/components/Navbar/Navbar";
 
 const AuthLayout = ({children}: {children: ReactNode}) => {
   return (
     <div className="min-h-screen flex flex-col justify-center items-center">
-      <Navbar showRecruitBtn={true}>
-        <RecruitButton
+      <Navbar
+        showSpotlightButton={true}
+        spotLightButtonHref="/workshop/wirebuzz/signup"
+        spotlightButtonButtonText="Wirebuzz"
+      >
+        <Link
+          href="/recruit"
+          className="w-full block py-3 px-3 font-normal hover:text-primary"
+        >
+          <h1>Recruit</h1>
+        </Link>
+        <NavSpotlighButton
           className="block lg:hidden"
           button_className="text-left !rounded-none"
+          text="Wirebuzz"
+          href="/workshop/wirebuzz/signup"
         />
       </Navbar>
       <div className="pt-28 pb-10">{children}</div>

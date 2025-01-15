@@ -1,5 +1,4 @@
 "use client";
-import Navbar from "@/app/recruit/_components/Navbar/Navbar";
 import HomeSection from "./_components/HomeSection/HomeSection";
 import ValuesSection from "./_components/ValuesSection/ValuesSection";
 import DepartmentsSection from "./_components/DepartmentsSection/DepartmentsSection";
@@ -8,15 +7,16 @@ import ProcessSection from "./_components/ProcessSection/ProcessSection";
 import BenefitsSection from "./_components/BenefitsSection/BenefitsSection";
 import AboutUsSection from "./_components/AboutUsSection/AboutUsSection";
 import Anchor from "./_components/Anchor";
-import RecruitButton from "./_components/RecruitButton";
 import CoreSection from "./_components/CoreSection/CoreSection";
 import {useMemo} from "react";
+import NavSpotlighButton from "../../components/NavSpotlighButton";
+import Navbar from "@/components/Navbar/Navbar";
 
 const RecruitPage = () => {
   return (
     <>
       <title>Recruit Gen1</title>
-      <Navbar showRecruitBtn={false}>
+      <Navbar showSpotlightButton={false}>
         <Anchor
           href="#"
           text="Gen1"
@@ -50,9 +50,11 @@ const RecruitPage = () => {
           href="#process"
           text="Quy Trình"
         />
-        <RecruitButton
+        <NavSpotlighButton
           className="block lg:hidden"
           button_className="text-left !rounded-none"
+          text="Recruit"
+          href="/recruit"
         />
       </Navbar>
       <div className="flex flex-col md:items-center">

@@ -1,12 +1,12 @@
 "use client";
-import Navbar from "@/app/recruit/_components/Navbar/Navbar";
-import RecruitButton from "./recruit/_components/RecruitButton";
+import NavSpotlighButton from "../components/NavSpotlighButton";
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import useSound from "use-sound";
 import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME} from "./recruit/_constants/constants";
 import {BiSolidError} from "react-icons/bi";
 import {PRIMARY_ORANGE_HEX} from "@/constants/constants";
+import Navbar from "@/components/Navbar/Navbar";
 
 const NotFound = () => {
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
@@ -14,10 +14,16 @@ const NotFound = () => {
   return (
     <>
       <title>Oops</title>
-      <Navbar showRecruitBtn={true}>
-        <RecruitButton
+      <Navbar
+        showSpotlightButton={true}
+        spotLightButtonHref="/workshop/wirebuzz/signup"
+        spotlightButtonButtonText="Wirebuzz"
+      >
+        <NavSpotlighButton
           className="block lg:hidden"
           button_className="text-left !rounded-none"
+          text="Wirebuzz"
+          href="/workshop/wirebuzz/signup"
         />
       </Navbar>
       <div className="min-h-[100vh] flex flex-col gap-5 items-center justify-center px-6">

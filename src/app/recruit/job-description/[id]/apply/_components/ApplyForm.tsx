@@ -11,14 +11,13 @@ import useSound from "use-sound";
 import {BLANK_FORM_DATA, CLICK_SOUND_URL, CLICK_SOUND_VOLUME, DepartmentsAbbreviation, FORM_CLOSE_DAY} from "@/app/recruit/_constants/constants";
 import {PersonalInfoSchema, PersonalInfoSchemaDefault} from "../_schema/PersonalInfoSchema";
 import {useUser} from "@clerk/clerk-react";
-import {useDebounce} from "../_hook/useDebounce";
+import {useDebounce} from "../../../../../../hooks/useDebounce";
 import {useNavigationGuard} from "next-navigation-guard";
 import {useRouter} from "next/navigation";
 import SubmitSuccess from "./SubmitSuccess";
 import {DynamicQuestionsDefaults, DynamicQuestionsSchema} from "../_schema/DynamicQuestionsSchema";
 import {FormTabs, FormType} from "../_types/FormTypes";
-import SubmitComfirmDialog from "./SubmitComfirmDialog";
-import SubmittingDialog from "./SubmittingDialog";
+import SubmittingDialog from "../../../../../../components/SubmittingDialog";
 import {SaveToDatabase} from "../_lib/SaveToDatabase";
 import {PersonalInfo, Recruit} from "@/app/recruit/_types/RecruitTypes";
 import DataState from "./DataState";
@@ -31,6 +30,7 @@ import Image from "next/image";
 import {calculateTimeLeft, TimeLeft} from "@/lib/utils";
 import ErrorMessage from "@/app/recruit/_components/ErrorMessage";
 import {saveToLocalStorage} from "../_lib/SaveToLocalStorage";
+import SubmitComfirmDialog from "@/components/SubmitComfirmDialog";
 
 const ApplyForm = ({
   department_questions,

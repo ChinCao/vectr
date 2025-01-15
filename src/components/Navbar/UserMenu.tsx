@@ -7,9 +7,9 @@ import {Button} from "@/components/ui/button";
 import {Moon, Sun} from "lucide-react";
 import {useTheme} from "next-themes";
 import useSound from "use-sound";
-import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME} from "../../_constants/constants";
 import {memo} from "react";
 import {useCallback, useMemo} from "react";
+import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME} from "@/app/recruit/_constants/constants";
 
 const UserMenu = () => {
   const {user} = useUser();

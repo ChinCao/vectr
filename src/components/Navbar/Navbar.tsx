@@ -7,14 +7,24 @@ import {FaBars} from "react-icons/fa";
 import {ImCross} from "react-icons/im";
 import useSound from "use-sound";
 import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME} from "@/app/recruit/_constants/constants";
-import RecruitButton from "@/app/recruit/_components/RecruitButton";
 import {Button} from "@/components/ui/button";
 import UserMenu from "./UserMenu";
 import {Moon, Sun} from "lucide-react";
 import {useTheme} from "next-themes";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
+import NavSpotlighButton from "@/components/NavSpotlighButton";
 
-const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn: boolean}) => {
+const Navbar = ({
+  children,
+  showSpotlightButton,
+  spotLightButtonHref,
+  spotlightButtonButtonText,
+}: {
+  children: ReactNode;
+  showSpotlightButton: boolean;
+  spotLightButtonHref?: string;
+  spotlightButtonButtonText?: string;
+}) => {
   const [toggle, setToggle] = useState(false);
   const [playClick] = useSound(CLICK_SOUND_URL, {volume: CLICK_SOUND_VOLUME});
   const {setTheme, resolvedTheme} = useTheme();
@@ -131,9 +141,16 @@ const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn
     [handleThemeToggle, resolvedTheme]
   );
 
-  const memoizedRecruitButton = useMemo(
-    () => (showRecruitBtn ? <RecruitButton className="hidden lg:block text-center mr-3" /> : null),
-    [showRecruitBtn]
+  const memoizedSpotlighButton = useMemo(
+    () =>
+      showSpotlightButton ? (
+        <NavSpotlighButton
+          className="hidden lg:block text-center mr-3"
+          text={spotlightButtonButtonText!}
+          href={spotLightButtonHref!}
+        />
+      ) : null,
+    [showSpotlightButton, spotLightButtonHref, spotlightButtonButtonText]
   );
 
   const memoizedChildren = useMemo(
@@ -165,7 +182,7 @@ const Navbar = ({children, showRecruitBtn}: {children: ReactNode; showRecruitBtn
           </div>
         </div>
         <div className="flex items-center justify-center gap-3 sm:gap-4">
-          {memoizedRecruitButton}
+          {memoizedSpotlighButton}
           <div className="flex flex-row gap-2 sm:gap-4 items-center justify-center font-semibold">
             {memoizedSignedIn}
             {memoizedSignedOut}

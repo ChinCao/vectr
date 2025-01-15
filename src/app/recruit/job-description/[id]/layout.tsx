@@ -1,9 +1,9 @@
 import {DEPARTMENT_INFO, DepartmentsAbbreviation} from "@/app/recruit/_constants/constants";
-import Navbar from "@/app/recruit/_components/Navbar/Navbar";
 import {notFound} from "next/navigation";
 import {ReactNode} from "react";
 import JDNavItems from "../_components/JDNavItems";
-import RecruitButton from "../../_components/RecruitButton";
+import NavSpotlighButton from "../../../../components/NavSpotlighButton";
+import Navbar from "@/components/Navbar/Navbar";
 
 type Params = Promise<{id: string}>;
 
@@ -24,7 +24,11 @@ const JobLayout = async ({children, params}: PageProps) => {
 
   return (
     <>
-      <Navbar showRecruitBtn={true}>
+      <Navbar
+        showSpotlightButton={true}
+        spotLightButtonHref="/recruit"
+        spotlightButtonButtonText="Recruit"
+      >
         {DEPARTMENT_INFO.map((info, index) => (
           <JDNavItems
             key={index}
@@ -33,9 +37,11 @@ const JobLayout = async ({children, params}: PageProps) => {
             department={department}
           />
         ))}
-        <RecruitButton
+        <NavSpotlighButton
           className="block lg:hidden"
           button_className="text-left !rounded-none"
+          text="Recruit"
+          href="/recruit"
         />
       </Navbar>
       <div className="py-14 container">{children}</div>

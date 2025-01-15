@@ -1,12 +1,12 @@
 "use client";
-import Navbar from "@/app/recruit/_components/Navbar/Navbar";
 import {Button} from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import useSound from "use-sound";
 import React, {useEffect, useMemo} from "react";
 import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME} from "@/app/recruit/_constants/constants";
-import RecruitButton from "./recruit/_components/RecruitButton";
+import NavSpotlighButton from "../components/NavSpotlighButton";
+import Navbar from "@/components/Navbar/Navbar";
 
 export default function Home() {
   useEffect(() => {
@@ -19,9 +19,11 @@ export default function Home() {
 
   const memoizedRecruitButton = useMemo(
     () => (
-      <RecruitButton
+      <NavSpotlighButton
         className="block lg:hidden"
         button_className="text-left !rounded-none"
+        text="Wirebuzz"
+        href="/workshop/wirebuzz/signup"
       />
     ),
     []
@@ -42,19 +44,32 @@ export default function Home() {
   return (
     <>
       <title>Trang chủ</title>
-      <Navbar showRecruitBtn={true}>{memoizedRecruitButton}</Navbar>
+      <Navbar
+        showSpotlightButton={true}
+        spotLightButtonHref="/workshop/wirebuzz/signup"
+        spotlightButtonButtonText="Wirebuzz"
+      >
+        <Link
+          onClick={() => playClick()}
+          href="/recruit"
+          className="w-full block py-3 px-3 font-normal hover:text-primary"
+        >
+          <h1>Recruit</h1>
+        </Link>
+        {memoizedRecruitButton}
+      </Navbar>
       <div className="min-h-screen flex flex-col items-center justify-center gap-1">
         {memoizedImage}
         <h1 className="font-semibold text-3xl text-center">Coming soon ...</h1>
         <Link
-          href="/recruit"
+          href="/workshop/wirebuzz/signup"
           className="mt-4 "
         >
           <Button
             onClick={() => playClick()}
             className="text-white"
           >
-            Quay trở lại trang recruit
+            Đăng ký workshop wirebuzz
           </Button>
         </Link>
       </div>

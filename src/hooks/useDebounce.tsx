@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
-import {FormType} from "../_types/FormTypes";
 
-export const useDebounce = (value: FormType, delay: number, setIsSaving: React.Dispatch<React.SetStateAction<boolean>>, hasInteracted: boolean) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const useDebounce = (value: any, delay: number, setIsSaving: React.Dispatch<React.SetStateAction<boolean>>, hasInteracted: boolean) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
   useEffect(() => {
     setIsSaving(hasInteracted ? true : false);

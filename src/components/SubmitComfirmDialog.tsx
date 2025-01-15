@@ -12,13 +12,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import {CLICK_SOUND_URL, CLICK_SOUND_VOLUME} from "@/app/recruit/_constants/constants";
 import useSound from "use-sound";
-import {FormType, Tform} from "../_types/FormTypes";
+import {Tform} from "../app/recruit/job-description/[id]/apply/_types/FormTypes";
 import {memo} from "react";
 
-type OnSubmitFunction = (values: FormType) => Promise<void>;
-
 interface DiaglogProps {
-  onSubmit: OnSubmitFunction;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSubmit: any;
   form: Tform;
   isFetching: boolean;
 }

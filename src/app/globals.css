@@ -108,7 +108,7 @@ html body[data-scroll-locked] {
     --muted-foreground: #a1a1aa;
     --accent: #27272a;
     --accent-foreground: #fafafa;
-    --destructive: #7f1d1d;
+    --destructive: #ef4444;
     --destructive-foreground: #fafafa;
     --border: #a1a1aa;
     --input: #a1a1aa;
