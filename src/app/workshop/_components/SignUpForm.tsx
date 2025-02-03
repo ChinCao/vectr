@@ -14,6 +14,7 @@ import SignUpInput from "./SignUpInput";
 import {Input} from "@/components/ui/input";
 import {useNavigationGuard} from "next-navigation-guard";
 import SubmittingDialog from "@/components/SubmittingDialog";
+import {submitForm} from "../_lib/SubmitForm";
 
 const SignUpForm = () => {
   const [isFetching, setIsFetching] = useState(true);
@@ -37,7 +38,38 @@ const SignUpForm = () => {
   const {formState, setValue} = form;
 
   async function onSubmit(values: z.infer<typeof PersonalInfoSchema>) {
-    console.log(values);
+    try {
+      setIsSubmitting(true);
+      const result = await submitForm(values);
+
+      if (result.success) {
+        toast({
+          title: "Đăng ký thành công!",
+          description: "Thông tin của bạn đã được ghi nhận.",
+          style: {background: "#16a34a", color: "white"},
+          duration: 3000,
+        });
+        setisSubmitted(true);
+        localStorage.setItem(
+          "workshop-cache",
+          JSON.stringify({
+            data: values,
+            isSubmitted: true,
+          })
+        );
+      } else {
+        throw new Error(result.error);
+      }
+    } catch {
+      toast({
+        variant: "destructive",
+        title: "Đã có lỗi xảy ra!",
+        description: "Vui lòng thử lại sau.",
+        duration: 3000,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   useEffect(() => {
@@ -75,11 +107,20 @@ const SignUpForm = () => {
     if (typeof window !== "undefined") {
       const cacheData = localStorage.getItem("workshop-cache");
       if (!cacheData) {
-        localStorage.setItem("workshop-cache", JSON.stringify({}));
+        localStorage.setItem(
+          "workshop-cache",
+          JSON.stringify({
+            data: PersonalInfoSchemaDefault,
+            isSubmitted: false,
+          })
+        );
         setInitialData(PersonalInfoSchemaDefault);
         setIsNewUser(true);
+      } else {
+        const parsedCache = JSON.parse(cacheData);
+        setInitialData(parsedCache.data);
+        setisSubmitted(parsedCache.isSubmitted);
       }
-      setInitialData(JSON.parse(cacheData!));
     }
   }, []);
 
@@ -105,13 +146,20 @@ const SignUpForm = () => {
   useEffect(() => {
     function save() {
       if (!isSubmitting) {
-        localStorage.setItem("workshop-cache", JSON.stringify(debouncedValues));
+        localStorage.setItem(
+          "workshop-cache",
+          JSON.stringify({
+            data: debouncedValues,
+            isSubmitted: isSubmitted,
+          })
+        );
       }
     }
     if (hasInteracted && debouncedValues) {
+      setIsSaving(false);
       save();
     }
-  }, [debouncedValues, hasInteracted, isSubmitting]);
+  }, [debouncedValues, hasInteracted, isSubmitting, isSubmitted]);
 
   const navGuard = useNavigationGuard({
     enabled: isSaving || isSubmitting,
@@ -121,7 +169,13 @@ const SignUpForm = () => {
     async function check() {
       if (navGuard.active && !isSubmitting) {
         if (!isSubmitted) {
-          localStorage.setItem("workshop-cache", JSON.stringify(debouncedValues));
+          localStorage.setItem(
+            "workshop-cache",
+            JSON.stringify({
+              data: debouncedValues,
+              isSubmitted: isSubmitted,
+            })
+          );
         }
         navGuard.accept();
       }
@@ -129,138 +183,185 @@ const SignUpForm = () => {
     check();
   }, [debouncedValues, isSubmitted, isSubmitting, navGuard]);
 
+  const resetForm = () => {
+    localStorage.setItem(
+      "workshop-cache",
+      JSON.stringify({
+        data: PersonalInfoSchemaDefault,
+        isSubmitted: false,
+      })
+    );
+    form.reset(PersonalInfoSchemaDefault);
+    setisSubmitted(false);
+    setInitialData(PersonalInfoSchemaDefault);
+    setIsFetching(true);
+    setStudentID("VS");
+    setSchoolEmail("@stu.vinschool.edu.vn");
+    setManual(false);
+    setIsSaving(false);
+    setHasInteracted(false);
+    setIsSubmitting(false);
+    setIsNewUser(true);
+  };
+
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-[650px] w-full p-10"
-      >
-        <Image
-          src="/banner.png"
-          height={120}
-          width={500}
-          alt="banner"
-          className="w-full rounded"
-        />
-        <FormField
-          control={form.control}
-          name="name"
-          render={({field}) => (
-            <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
-              <FormLabel className="text-md mb-4">Họ và tên</FormLabel>
-              <FormControl>
-                <SignUpInput field={field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="student_id"
-          render={({field: {onChange, ref}}) => (
-            <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
-              <FormLabel className="text-md mb-4">Mã số HS</FormLabel>
-              <FormControl>
-                <Input
-                  className="border-0 border-b-2 shadow-none text-sm  w-[50%] rounded-none focus:outline-none block focus:border-b-primary bg-transparent placeholder:text-[13px]"
-                  ref={ref}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    onChange(e);
-                    if (!manual) {
-                      setSchoolEmail!((e.target.value.match(/\d+/) ? e.target.value.match(/\d+/) : "") + "@stu.vinschool.edu.vn");
-                    }
-                    setStudentID!(e.target.value);
-                  }}
-                  value={studentID}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="class"
-          render={({field}) => (
-            <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
-              <FormLabel className="text-md mb-4">Lớp</FormLabel>
-              <FormControl>
-                <SignUpInput field={field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="school_email"
-          render={({field: {onChange, ref}}) => (
-            <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
-              <FormLabel className="text-md mb-4">Email trường</FormLabel>
-              <FormControl>
-                <Input
-                  className="border-0 border-b-2 shadow-none text-sm  w-[50%] rounded-none focus:outline-none block focus:border-b-primary bg-transparent placeholder:text-[13px]"
-                  ref={ref}
-                  value={schoolEmail}
-                  type="email"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    onChange(e);
-                    if (!manual) {
-                      setManual!(!manual);
-                    }
-                    setSchoolEmail!(e.target.value);
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="private_email"
-          render={({field}) => (
-            <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
-              <FormLabel className="text-md mb-4">Email riêng</FormLabel>
-              <FormControl>
-                <SignUpInput field={field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({field}) => (
-            <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
-              <FormLabel className="text-md mb-4">Số điện thoại</FormLabel>
-              <FormControl>
-                <SignUpInput field={field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="mt-4">
-          <SubmitComfirmDialog
-            form={form}
-            isFetching={isFetching}
-            onSubmit={onSubmit}
+    <>
+      {isSubmitted ? (
+        <div className="max-w-[650px] w-full p-10 text-center">
+          <Image
+            src="/banner.png"
+            height={120}
+            width={500}
+            alt="banner"
+            className="w-full rounded mb-6"
           />
-          <SubmittingDialog
-            isSubmitting={isSubmitting}
-            navGuard={navGuard.active}
-          />
+          <div className="bg-background rounded p-6 border border-slate-300">
+            <h2 className="text-xl font-semibold mb-4">Bạn đã đăng ký thành công!</h2>
+            <p className="mb-6">Thông tin của bạn đã được ghi nhận trong hệ thống.</p>
+            <button
+              onClick={resetForm}
+              className="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 transition-colors"
+            >
+              Đăng ký lại
+            </button>
+          </div>
         </div>
-      </form>
-      <Toaster />
-    </Form>
+      ) : (
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="max-w-[650px] w-full p-10"
+          >
+            <Image
+              src="/banner.png"
+              height={120}
+              width={500}
+              alt="banner"
+              className="w-full rounded"
+            />
+            <FormField
+              control={form.control}
+              name="name"
+              render={({field}) => (
+                <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
+                  <FormLabel className="text-md mb-4">Họ và tên</FormLabel>
+                  <FormControl>
+                    <SignUpInput field={field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="student_id"
+              render={({field: {onChange, ref}}) => (
+                <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
+                  <FormLabel className="text-md mb-4">Mã số HS</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border-0 border-b-2 shadow-none text-sm  w-[50%] rounded-none focus:outline-none block focus:border-b-primary bg-transparent placeholder:text-[13px]"
+                      ref={ref}
+                      placeholder="VS"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        onChange(e);
+                        if (!manual) {
+                          setSchoolEmail!((e.target.value.match(/\d+/) ? e.target.value.match(/\d+/) : "") + "@stu.vinschool.edu.vn");
+                        }
+                        setStudentID!(e.target.value);
+                      }}
+                      value={studentID}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="class"
+              render={({field}) => (
+                <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
+                  <FormLabel className="text-md mb-4">Lớp</FormLabel>
+                  <FormControl>
+                    <SignUpInput field={field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="school_email"
+              render={({field: {onChange, ref}}) => (
+                <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
+                  <FormLabel className="text-md mb-4">Email trường</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border-0 border-b-2 shadow-none text-sm  w-[50%] rounded-none focus:outline-none block focus:border-b-primary bg-transparent placeholder:text-[13px]"
+                      placeholder="@stu.vinschool.edu.vn"
+                      ref={ref}
+                      value={schoolEmail}
+                      type="email"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        onChange(e);
+                        if (!manual) {
+                          setManual!(!manual);
+                        }
+                        setSchoolEmail!(e.target.value);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="private_email"
+              render={({field}) => (
+                <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
+                  <FormLabel className="text-md mb-4">Email riêng</FormLabel>
+                  <FormControl>
+                    <SignUpInput field={field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({field}) => (
+                <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
+                  <FormLabel className="text-md mb-4">Số điện thoại</FormLabel>
+                  <FormControl>
+                    <SignUpInput field={field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="mt-4">
+              <SubmitComfirmDialog
+                form={form}
+                isFetching={isFetching}
+                onSubmit={onSubmit}
+              />
+              <SubmittingDialog
+                isSubmitting={isSubmitting}
+                navGuard={navGuard.active}
+              />
+            </div>
+          </form>
+          <Toaster />
+        </Form>
+      )}
+    </>
   );
 };
 

@@ -21,4 +21,4 @@ export const PersonalInfoSchema = BasePersonalInfoSchema.merge(
   })
 );
 
-export const PersonalInfoSchemaDefault = {class: "", private_email: "", school_email: "", name: "", phone: "", student_id: ""};
+export const PersonalInfoSchemaDefault = {class: "", private_email: "", school_email: "@stu.vinschool.edu.vn", name: "", phone: "", student_id: "VS"};
