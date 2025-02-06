@@ -261,6 +261,10 @@ const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType:
 
   return (
     <>
+      <FormState
+        isSaving={isSaving}
+        isFetching={isFetching}
+      />
       <Image
         src={bannerSrc}
         quality={100}
@@ -279,13 +283,8 @@ const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType:
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="max-w-[650px] w-full p-10"
+            className="max-w-[650px] w-full pt-2 p-8"
           >
-            <FormState
-              isSaving={isSaving}
-              isFetching={isFetching}
-            />
-
             <Countdown
               targetDate={WORKSHOP_SIGNUP_COUNTDOWN_DATE[workshopType]}
               countdownTitle={`Countdown đăng ký workshop ${workshopType}`}
