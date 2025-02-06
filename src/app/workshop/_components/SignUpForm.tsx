@@ -17,6 +17,7 @@ import SubmittingDialog from "@/components/SubmittingDialog";
 import {submitForm} from "../_lib/SubmitForm";
 import {FaCheckCircle} from "react-icons/fa";
 import FormState from "@/components/FormState";
+import Script from "next/script";
 
 const SignUpForm = () => {
   const [isFetching, setIsFetching] = useState(true);
@@ -41,7 +42,22 @@ const SignUpForm = () => {
 
   async function onSubmit(values: z.infer<typeof PersonalInfoSchema>) {
     setIsSubmitting(true);
-    const result = await submitForm(values);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const token = (window as any).turnstile?.getResponse();
+
+    if (!token) {
+      toast({
+        variant: "destructive",
+        title: "Lỗi xác thực!",
+        description: "Vui lòng xác nhận bạn không phải robot.",
+        duration: 3000,
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    const result = await submitForm(values, token);
 
     if (result.success) {
       toast({
@@ -207,7 +223,7 @@ const SignUpForm = () => {
       {isSubmitted ? (
         <div className="max-w-[650px] w-full p-10 text-center">
           <Image
-            src="/workshop/wirebuzz/7.jpg"
+            src="/workshop/wirebuzz/6.jpg"
             height={120}
             quality={100}
             width={500}
@@ -242,7 +258,7 @@ const SignUpForm = () => {
               isFetching={isFetching}
             />
             <Image
-              src="/workshop/wirebuzz/7.jpg"
+              src="/workshop/wirebuzz/6.jpg"
               quality={100}
               height={120}
               width={500}
@@ -356,7 +372,18 @@ const SignUpForm = () => {
                 </FormItem>
               )}
             />
-            <div className="mt-4">
+            <div className="mt-4 flex flex-col gap-4 items-center justify-center">
+              <Script
+                src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+                async
+                defer
+              ></Script>
+              <div
+                className="cf-turnstile"
+                data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                data-callback="javascriptCallback"
+              ></div>
+
               <SubmitComfirmDialog
                 form={form}
                 isFetching={isFetching}

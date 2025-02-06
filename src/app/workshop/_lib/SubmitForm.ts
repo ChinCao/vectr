@@ -15,8 +15,33 @@ const auth = new google.auth.GoogleAuth({
   scopes: ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/documents", "https://www.googleapis.com/auth/drive"],
 });
 
-export async function submitForm(values: z.infer<typeof PersonalInfoSchema>) {
+interface TurnstileVerifyResponse {
+  "error-codes": string[];
+  success: boolean;
+  challenge_ts: string;
+  hostname: string;
+  action: string;
+  cdata: string;
+}
+
+export async function submitForm(values: z.infer<typeof PersonalInfoSchema>, token: string) {
   try {
+    const formData = new FormData();
+    formData.append("secret", process.env.NEXT_PRIVATE_TURNSTILE_SECRET_KEY!);
+    formData.append("response", token);
+
+    const result = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      body: formData,
+    });
+
+    const outcome: TurnstileVerifyResponse = await result.json();
+
+    if (!outcome.success) {
+      console.error("Turnstile validation failed:", outcome["error-codes"]);
+      return {success: false, error: "Turnstile validation failed"};
+    }
+
     const sheets = google.sheets({
       version: "v4",
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
