@@ -15,6 +15,7 @@ import {Input} from "@/components/ui/input";
 import {useNavigationGuard} from "next-navigation-guard";
 import SubmittingDialog from "@/components/SubmittingDialog";
 import {submitForm} from "../_lib/SubmitForm";
+import {FaCheckCircle} from "react-icons/fa";
 
 const SignUpForm = () => {
   const [isFetching, setIsFetching] = useState(true);
@@ -38,38 +39,34 @@ const SignUpForm = () => {
   const {formState, setValue} = form;
 
   async function onSubmit(values: z.infer<typeof PersonalInfoSchema>) {
-    try {
-      setIsSubmitting(true);
-      const result = await submitForm(values);
+    setIsSubmitting(true);
+    const result = await submitForm(values);
 
-      if (result.success) {
-        toast({
-          title: "Đăng ký thành công!",
-          description: "Thông tin của bạn đã được ghi nhận.",
-          style: {background: "#16a34a", color: "white"},
-          duration: 3000,
-        });
-        setisSubmitted(true);
-        localStorage.setItem(
-          "workshop-cache",
-          JSON.stringify({
-            data: values,
-            isSubmitted: true,
-          })
-        );
-      } else {
-        throw new Error(result.error);
-      }
-    } catch {
+    if (result.success) {
+      toast({
+        title: "Đăng ký thành công!",
+        description: "Thông tin của bạn đã được ghi nhận.",
+        style: {background: "#16a34a", color: "white"},
+        duration: 3000,
+      });
+      setisSubmitted(true);
+      localStorage.setItem(
+        "workshop-cache",
+        JSON.stringify({
+          data: values,
+          isSubmitted: true,
+        })
+      );
+    } else {
       toast({
         variant: "destructive",
         title: "Đã có lỗi xảy ra!",
         description: "Vui lòng thử lại sau.",
         duration: 3000,
       });
-    } finally {
-      setIsSubmitting(false);
     }
+
+    setIsSubmitting(false);
   }
 
   useEffect(() => {
@@ -209,15 +206,21 @@ const SignUpForm = () => {
       {isSubmitted ? (
         <div className="max-w-[650px] w-full p-10 text-center">
           <Image
-            src="/banner.png"
+            src="/workshop/wirebuzz/7.jpg"
             height={120}
+            quality={100}
             width={500}
             alt="banner"
             className="w-full rounded mb-6"
           />
-          <div className="bg-background rounded p-6 border border-slate-300">
+          <div className="bg-background rounded p-6 border border-slate-300 flex flex-col items-center justify-center gap-6">
             <h2 className="text-xl font-semibold mb-4">Bạn đã đăng ký thành công!</h2>
-            <p className="mb-6">Thông tin của bạn đã được ghi nhận trong hệ thống.</p>
+
+            <p>Thông tin của bạn đã được ghi nhận trong hệ thống.</p>
+            <FaCheckCircle
+              className="text-green-700"
+              size={70}
+            />
             <button
               onClick={resetForm}
               className="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 transition-colors"
@@ -233,7 +236,8 @@ const SignUpForm = () => {
             className="max-w-[650px] w-full p-10"
           >
             <Image
-              src="/banner.png"
+              src="/workshop/wirebuzz/7.jpg"
+              quality={100}
               height={120}
               width={500}
               alt="banner"
@@ -358,9 +362,9 @@ const SignUpForm = () => {
               />
             </div>
           </form>
-          <Toaster />
         </Form>
       )}
+      <Toaster />
     </>
   );
 };
