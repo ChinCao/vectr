@@ -1,10 +1,10 @@
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import React, {useState} from "react";
 import {MdOutlineCloudDone, MdOutlineCloudDownload, MdOutlineCloudUpload} from "react-icons/md";
-import ScrollToTop from "./ScrollToTop";
 import {PRIMARY_ORANGE_HEX} from "@/constants/constants";
+import ScrollToTop from "@/components/ScrollToTop";
 
-const DataState = ({isSaving, isFetching}: {isSaving: boolean; isFetching: boolean}) => {
+const FormState = ({isSaving, isFetching}: {isSaving: boolean; isFetching: boolean}) => {
   const [clicked, setClicked] = useState(false);
   const color = !isSaving && !isFetching ? "#14532d" : isFetching ? PRIMARY_ORANGE_HEX : isSaving ? "#dc2626" : null;
   const text =
@@ -85,4 +85,4 @@ const DataState = ({isSaving, isFetching}: {isSaving: boolean; isFetching: boole
   );
 };
 
-export default DataState;
+export default FormState;

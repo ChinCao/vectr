@@ -16,6 +16,7 @@ import {useNavigationGuard} from "next-navigation-guard";
 import SubmittingDialog from "@/components/SubmittingDialog";
 import {submitForm} from "../_lib/SubmitForm";
 import {FaCheckCircle} from "react-icons/fa";
+import FormState from "@/components/FormState";
 
 const SignUpForm = () => {
   const [isFetching, setIsFetching] = useState(true);
@@ -222,6 +223,7 @@ const SignUpForm = () => {
               size={70}
             />
             <button
+              type="button"
               onClick={resetForm}
               className="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 transition-colors"
             >
@@ -235,6 +237,10 @@ const SignUpForm = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="max-w-[650px] w-full p-10"
           >
+            <FormState
+              isSaving={isSaving}
+              isFetching={isFetching}
+            />
             <Image
               src="/workshop/wirebuzz/7.jpg"
               quality={100}

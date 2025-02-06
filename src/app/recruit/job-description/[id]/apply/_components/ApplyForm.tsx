@@ -20,7 +20,6 @@ import {FormTabs, FormType} from "../_types/FormTypes";
 import SubmittingDialog from "../../../../../../components/SubmittingDialog";
 import {SaveToDatabase} from "../_lib/SaveToDatabase";
 import {PersonalInfo, Recruit} from "@/app/recruit/_types/RecruitTypes";
-import DataState from "./DataState";
 import PersonalInfoTabContent from "./Tabs/Personal/PersonalInfoTabContent";
 import GeneralQuestionsTabContent from "./Tabs/General/GeneralQuestionsTabContent";
 import DepartmentQuestionsTabContent from "./Tabs/Department/DepartmentQuestionsTabContent";
@@ -31,6 +30,7 @@ import {calculateTimeLeft, TimeLeft} from "@/lib/utils";
 import ErrorMessage from "@/app/recruit/_components/ErrorMessage";
 import {saveToLocalStorage} from "../_lib/SaveToLocalStorage";
 import SubmitComfirmDialog from "@/components/SubmitComfirmDialog";
+import FormState from "@/components/FormState";
 
 const ApplyForm = ({
   department_questions,
@@ -295,7 +295,7 @@ const ApplyForm = ({
                   onValueChange={(value) => setActiveTab(value as FormTabs)}
                   className="p-0 lg:py-8 pb-0 mt-8 w-full lg:w-[80%]"
                 >
-                  <DataState
+                  <FormState
                     isSaving={isSaving}
                     isFetching={isFetching}
                   />
