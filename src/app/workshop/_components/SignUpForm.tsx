@@ -234,7 +234,7 @@ const SignUpForm = () => {
         });
       }
     });
-  }, [pathname]);
+  }, [pathname, isSubmitted]);
 
   return (
     <>
