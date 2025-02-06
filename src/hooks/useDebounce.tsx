@@ -1,10 +1,18 @@
 import {useEffect, useState} from "react";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const useDebounce = (value: any, delay: number, setIsSaving: React.Dispatch<React.SetStateAction<boolean>>, hasInteracted: boolean) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
+interface UseDebounceProps<T> {
+  value: T;
+  delay: number;
+  setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
+  hasInteracted: boolean;
+}
+
+export function useDebounce<T>({value, delay, setIsSaving, hasInteracted}: UseDebounceProps<T>): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
   useEffect(() => {
-    setIsSaving(hasInteracted ? true : false);
+    setIsSaving(hasInteracted);
+
     const handler = setTimeout(() => {
       setDebouncedValue(value);
     }, delay);
@@ -15,4 +23,4 @@ export const useDebounce = (value: any, delay: number, setIsSaving: React.Dispat
   }, [value, delay, setIsSaving, hasInteracted]);
 
   return debouncedValue;
-};
+}

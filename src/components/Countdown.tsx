@@ -2,16 +2,21 @@
 
 import {calculateTimeLeft, TimeLeft} from "@/lib/utils";
 import {useEffect, useState, useMemo} from "react";
-import {FORM_CLOSE_DAY} from "../../../_constants/constants";
 import {Card} from "@/components/ui/card";
 
-const CountdownSection = () => {
+interface CountdownProps {
+  targetDate: Date;
+  countdownTitle: string;
+  expiredText: string;
+}
+
+const Countdown = ({targetDate, countdownTitle, expiredText}: CountdownProps) => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>({days: "99", hours: "99", minutes: "99", seconds: "99"});
 
   useEffect(() => {
-    if (calculateTimeLeft(FORM_CLOSE_DAY)) {
+    if (calculateTimeLeft(targetDate)) {
       const timer = setInterval(async () => {
-        const newTimeLeft = calculateTimeLeft(FORM_CLOSE_DAY);
+        const newTimeLeft = calculateTimeLeft(targetDate);
         setTimeLeft(newTimeLeft);
         if (newTimeLeft === null) {
           clearInterval(timer);
@@ -21,7 +26,7 @@ const CountdownSection = () => {
     } else {
       setTimeLeft(null);
     }
-  }, []);
+  }, [targetDate]);
 
   const memoizedCards = useMemo(
     () => (
@@ -59,14 +64,14 @@ const CountdownSection = () => {
     <>
       {timeLeft ? (
         <div className="container pt-4 flex flex-col items-center justify-center px-2">
-          <h1 className="text-primary uppercase font-bold text-2xl text-center text-balance">Countdown vòng gửi đơn kết thúc</h1>
+          <h1 className="text-primary uppercase font-bold text-2xl text-center text-balance">{countdownTitle}</h1>
           {memoizedCards}
         </div>
       ) : (
-        <h1 className="text-red-600 text-balance text-center uppercase font-bold text-2xl mt-4">Vòng gửi đơn đã kết thúc</h1>
+        <h1 className="text-red-600 text-balance text-center uppercase font-bold text-2xl mt-4">{expiredText}</h1>
       )}
     </>
   );
 };
 
-export default CountdownSection;
+export default Countdown;

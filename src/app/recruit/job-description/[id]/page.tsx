@@ -1,4 +1,10 @@
-import {DEPARTMENT_ICON, DepartmentsAbbreviation, FULL_DEPARTMENT_TITLE, JOB_DESCRIPTION_TITLES} from "@/app/recruit/_constants/constants";
+import {
+  DEPARTMENT_ICON,
+  DepartmentsAbbreviation,
+  FORM_CLOSE_DAY,
+  FULL_DEPARTMENT_TITLE,
+  JOB_DESCRIPTION_TITLES,
+} from "@/app/recruit/_constants/constants";
 import NavigationButton from "../../_components/NavigationButton";
 import {Button} from "@/components/ui/button";
 import Image from "next/image";
@@ -6,7 +12,7 @@ import Description from "./_components/Description";
 import {Suspense} from "react";
 import DescriptionFallBack from "./_components/DescriptionFallBack";
 import ApplyButton from "./_components/ApplyButton";
-import CountdownSection from "./_components/Countdown";
+import Countdown from "@/components/Countdown";
 import {Metadata} from "next";
 
 type Params = Promise<{id: string}>;
@@ -61,7 +67,11 @@ const JobDescription = async ({params}: PageProps) => {
           </div>
         </div>
         <div className="container flex flex-col items-center justify-center gap-2 w-[100%] sm:max-w-[800px]">
-          <CountdownSection />
+          <Countdown
+            targetDate={FORM_CLOSE_DAY}
+            countdownTitle="Countdown vòng gửi đơn kết thúc"
+            expiredText="Vòng gửi đơn đã kết thúc"
+          />
           <Suspense fallback={<DescriptionFallBack />}>
             <Description id={department} />
           </Suspense>

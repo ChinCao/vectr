@@ -3,8 +3,12 @@
 import {google} from "googleapis";
 import {PersonalInfoSchema} from "../_schema/PersonalInfoSchema";
 import {z} from "zod";
+import {WorkshopType} from "../constants/constants";
 
-const SPREADSHEET_ID = process.env.GOOGLE_SHEET_ID_WORKSHOP;
+const WORKSHOP_SPREADSHEET_IDS: Record<WorkshopType, string> = {
+  wirebuzz: process.env.GOOGLE_SHEET_ID_WIREBUZZ!,
+} as const;
+
 const RANGE = "Response!A:G";
 
 const auth = new google.auth.GoogleAuth({
@@ -24,8 +28,14 @@ interface TurnstileVerifyResponse {
   cdata: string;
 }
 
-export async function submitForm(values: z.infer<typeof PersonalInfoSchema>, token: string) {
+export async function submitForm(values: z.infer<typeof PersonalInfoSchema>, token: string, workshopType: WorkshopType) {
   try {
+    const spreadsheetId = WORKSHOP_SPREADSHEET_IDS[workshopType];
+
+    if (!spreadsheetId) {
+      throw new Error("Invalid workshop type or missing spreadsheet ID");
+    }
+
     const formData = new FormData();
     formData.append("secret", process.env.NEXT_PRIVATE_TURNSTILE_SECRET_KEY!);
     formData.append("response", token);
@@ -59,7 +69,7 @@ export async function submitForm(values: z.infer<typeof PersonalInfoSchema>, tok
     ];
 
     await sheets.spreadsheets.values.append({
-      spreadsheetId: SPREADSHEET_ID,
+      spreadsheetId,
       range: RANGE,
       valueInputOption: "USER_ENTERED",
       requestBody: {

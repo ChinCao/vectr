@@ -11,14 +11,11 @@ import useSound from "use-sound";
 import {BLANK_FORM_DATA, CLICK_SOUND_URL, CLICK_SOUND_VOLUME, DepartmentsAbbreviation, FORM_CLOSE_DAY} from "@/app/recruit/_constants/constants";
 import {PersonalInfoSchema, PersonalInfoSchemaDefault} from "../_schema/PersonalInfoSchema";
 import {useUser} from "@clerk/clerk-react";
-import {useDebounce} from "../../../../../../hooks/useDebounce";
 import {useNavigationGuard} from "next-navigation-guard";
 import {useRouter} from "next/navigation";
 import SubmitSuccess from "./SubmitSuccess";
 import {DynamicQuestionsDefaults, DynamicQuestionsSchema} from "../_schema/DynamicQuestionsSchema";
 import {FormTabs, FormType} from "../_types/FormTypes";
-import SubmittingDialog from "../../../../../../components/SubmittingDialog";
-import {SaveToDatabase} from "../_lib/SaveToDatabase";
 import {PersonalInfo, Recruit} from "@/app/recruit/_types/RecruitTypes";
 import PersonalInfoTabContent from "./Tabs/Personal/PersonalInfoTabContent";
 import GeneralQuestionsTabContent from "./Tabs/General/GeneralQuestionsTabContent";
@@ -31,6 +28,9 @@ import ErrorMessage from "@/app/recruit/_components/ErrorMessage";
 import {saveToLocalStorage} from "../_lib/SaveToLocalStorage";
 import SubmitComfirmDialog from "@/components/SubmitComfirmDialog";
 import FormState from "@/components/FormState";
+import SubmittingDialog from "@/components/SubmittingDialog";
+import {useDebounce} from "@/hooks/useDebounce";
+import {SaveToDatabase} from "../_lib/SaveToDatabase";
 
 const ApplyForm = ({
   department_questions,
@@ -209,7 +209,12 @@ const ApplyForm = ({
   }, [department, department_questions, general_questions, initialData, isFetching, isNewuser, playClick, questions_id, setValue, toast]);
 
   const watchedValues = useMemo(() => form.watch(), [form]);
-  const debouncedValues = useDebounce(watchedValues, 1000, setIsSaving, hasInteracted);
+  const debouncedValues = useDebounce({
+    value: watchedValues,
+    delay: 1000,
+    setIsSaving,
+    hasInteracted,
+  });
 
   useEffect(() => {
     async function save() {

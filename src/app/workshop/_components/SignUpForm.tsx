@@ -3,24 +3,26 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {PersonalInfoSchema, PersonalInfoSchemaDefault} from "../_schema/PersonalInfoSchema";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {Form} from "@/components/ui/form";
 import {useEffect, useMemo, useState} from "react";
 import SubmitComfirmDialog from "@/components/SubmitComfirmDialog";
 import Image from "next/image";
 import {useToast} from "@/hooks/use-toast";
 import {Toaster} from "@/components/ui/toaster";
 import {useDebounce} from "@/hooks/useDebounce";
-import SignUpInput from "./SignUpInput";
-import {Input} from "@/components/ui/input";
 import {useNavigationGuard} from "next-navigation-guard";
 import SubmittingDialog from "@/components/SubmittingDialog";
 import {submitForm} from "../_lib/SubmitForm";
-import {FaCheckCircle} from "react-icons/fa";
 import FormState from "@/components/FormState";
 import Script from "next/script";
 import {usePathname} from "next/navigation";
+import SuccessScreen from "./SuccessScreen";
+import FormFields from "./FormFields";
+import {WORKSHOP_SIGNUP_COUNTDOWN_DATE, WorkshopType} from "../constants/constants";
+import Countdown from "@/components/Countdown";
+import {calculateTimeLeft, TimeLeft} from "@/lib/utils";
 
-const SignUpForm = () => {
+const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType: WorkshopType}) => {
   const [isFetching, setIsFetching] = useState(true);
   const {toast} = useToast();
   const [studentID, setStudentID] = useState("VS");
@@ -32,11 +34,12 @@ const SignUpForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isNewuser, setIsNewUser] = useState(false);
   const [isSubmitted, setisSubmitted] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>({days: "99", hours: "99", minutes: "99", seconds: "99"});
 
   const form = useForm<z.infer<typeof PersonalInfoSchema>>({
     resolver: zodResolver(PersonalInfoSchema),
     mode: "onChange",
-    defaultValues: {class: "", private_email: "", school_email: "", name: "", phone: "", student_id: ""},
+    defaultValues: {class: "", private_email: "", school_email: "@stu.vinschool.edu.vn", name: "", phone: "", student_id: "VS"},
   });
 
   const {formState, setValue} = form;
@@ -58,7 +61,7 @@ const SignUpForm = () => {
       return;
     }
 
-    const result = await submitForm(values, token);
+    const result = await submitForm(values, token, workshopType);
 
     if (result.success) {
       toast({
@@ -156,7 +159,12 @@ const SignUpForm = () => {
   }, [formState.errors, toast]);
 
   const watchedValues = useMemo(() => form.watch(), [form]);
-  const debouncedValues = useDebounce(watchedValues, 1000, setIsSaving, hasInteracted);
+  const debouncedValues = useDebounce({
+    value: watchedValues,
+    delay: 1000,
+    setIsSaving,
+    hasInteracted,
+  });
 
   useEffect(() => {
     function save() {
@@ -236,34 +244,36 @@ const SignUpForm = () => {
     });
   }, [pathname, isSubmitted]);
 
+  useEffect(() => {
+    if (calculateTimeLeft(WORKSHOP_SIGNUP_COUNTDOWN_DATE[workshopType])) {
+      const timer = setInterval(() => {
+        const newTimeLeft = calculateTimeLeft(WORKSHOP_SIGNUP_COUNTDOWN_DATE[workshopType]);
+        setTimeLeft(newTimeLeft);
+        if (newTimeLeft === null) {
+          clearInterval(timer);
+        }
+      }, 1000);
+      return () => clearInterval(timer);
+    } else {
+      setTimeLeft(null);
+    }
+  }, [workshopType]);
+
   return (
     <>
+      <Image
+        src={bannerSrc}
+        quality={100}
+        height={120}
+        width={500}
+        alt="banner"
+        className="w-full rounded max-w-[650px]"
+      />
       {isSubmitted ? (
-        <div className="max-w-[650px] w-full p-10 text-center">
-          <Image
-            src="/workshop/wirebuzz/6.jpg"
-            height={120}
-            quality={100}
-            width={500}
-            alt="banner"
-            className="w-full rounded mb-6"
-          />
-          <div className="bg-background rounded p-6 border border-slate-300 flex flex-col items-center justify-center gap-6">
-            <h2 className="text-xl font-semibold mb-4">Bạn đã đăng ký thành công!</h2>
-
-            <p>Thông tin của bạn đã được ghi nhận trong hệ thống.</p>
-            <FaCheckCircle
-              className="text-green-700"
-              size={70}
-            />
-            <button
-              type="button"
-              onClick={resetForm}
-              className="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 transition-colors"
-            >
-              Đăng ký lại
-            </button>
-          </div>
+        <SuccessScreen resetForm={resetForm} />
+      ) : !timeLeft ? (
+        <div className="flex flex-col items-center justify-center p-10">
+          <h1 className="text-red-600 text-balance uppercase font-bold text-2xl mt-4">Đăng ký workshop đã kết thúc</h1>
         </div>
       ) : (
         <Form {...form}>
@@ -275,120 +285,20 @@ const SignUpForm = () => {
               isSaving={isSaving}
               isFetching={isFetching}
             />
-            <Image
-              src="/workshop/wirebuzz/6.jpg"
-              quality={100}
-              height={120}
-              width={500}
-              alt="banner"
-              className="w-full rounded"
-            />
-            <FormField
-              control={form.control}
-              name="name"
-              render={({field}) => (
-                <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
-                  <FormLabel className="text-md mb-4">Họ và tên</FormLabel>
-                  <FormControl>
-                    <SignUpInput field={field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
-            <FormField
-              control={form.control}
-              name="student_id"
-              render={({field: {onChange, ref}}) => (
-                <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
-                  <FormLabel className="text-md mb-4">Mã số HS</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-0 border-b-2 shadow-none text-sm  w-[50%] rounded-none focus:outline-none block focus:border-b-primary bg-transparent placeholder:text-[13px]"
-                      ref={ref}
-                      placeholder="VS"
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        onChange(e);
-                        if (!manual) {
-                          setSchoolEmail!((e.target.value.match(/\d+/) ? e.target.value.match(/\d+/) : "") + "@stu.vinschool.edu.vn");
-                        }
-                        setStudentID!(e.target.value);
-                      }}
-                      value={studentID}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+            <Countdown
+              targetDate={WORKSHOP_SIGNUP_COUNTDOWN_DATE[workshopType]}
+              countdownTitle={`Countdown đăng ký workshop ${workshopType}`}
+              expiredText="Hẹn gặp lại bạn ở buổi workshop"
             />
-
-            <FormField
-              control={form.control}
-              name="class"
-              render={({field}) => (
-                <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
-                  <FormLabel className="text-md mb-4">Lớp</FormLabel>
-                  <FormControl>
-                    <SignUpInput field={field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="school_email"
-              render={({field: {onChange, ref}}) => (
-                <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
-                  <FormLabel className="text-md mb-4">Email trường</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-0 border-b-2 shadow-none text-sm  w-[50%] rounded-none focus:outline-none block focus:border-b-primary bg-transparent placeholder:text-[13px]"
-                      placeholder="@stu.vinschool.edu.vn"
-                      ref={ref}
-                      value={schoolEmail}
-                      type="email"
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        onChange(e);
-                        if (!manual) {
-                          setManual!(!manual);
-                        }
-                        setSchoolEmail!(e.target.value);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="private_email"
-              render={({field}) => (
-                <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
-                  <FormLabel className="text-md mb-4">Email riêng</FormLabel>
-                  <FormControl>
-                    <SignUpInput field={field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({field}) => (
-                <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
-                  <FormLabel className="text-md mb-4">Số điện thoại</FormLabel>
-                  <FormControl>
-                    <SignUpInput field={field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+            <FormFields
+              form={form}
+              studentID={studentID}
+              setStudentID={setStudentID}
+              schoolEmail={schoolEmail}
+              setSchoolEmail={setSchoolEmail}
+              manual={manual}
+              setManual={setManual}
             />
             <div className="mt-4 flex flex-col gap-4 items-center justify-center">
               <Script
