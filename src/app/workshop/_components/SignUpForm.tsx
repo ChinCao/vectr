@@ -18,6 +18,7 @@ import {submitForm} from "../_lib/SubmitForm";
 import {FaCheckCircle} from "react-icons/fa";
 import FormState from "@/components/FormState";
 import Script from "next/script";
+import {usePathname} from "next/navigation";
 
 const SignUpForm = () => {
   const [isFetching, setIsFetching] = useState(true);
@@ -217,6 +218,23 @@ const SignUpForm = () => {
     setIsSubmitting(false);
     setIsNewUser(true);
   };
+
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const turnstileContainers = document.querySelectorAll(".cf-turnstile");
+    turnstileContainers.forEach((turnstileContainer) => {
+      turnstileContainer.innerHTML = "";
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (typeof window !== "undefined" && (window as any).turnstile) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (window as any).turnstile.render(turnstileContainer, {
+          sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+          callback: "javascriptCallback",
+        });
+      }
+    });
+  }, [pathname]);
 
   return (
     <>
