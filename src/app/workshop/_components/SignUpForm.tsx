@@ -294,7 +294,7 @@ const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType:
                 được tự tay tạo nên cho mình một phiên bản của trò chơi Wirebuzzing và khám phá thế giới của điện, những ứng dụng của chúng, và thắp
                 lên ngọn lửa đam mê trên hành trình trở thành một kỹ sư tài ba!
               </p>
-              <h3 className="text-primary-orange text-lg font-bold mt-5">🎯Đến với Workshop WebDev của VECTR, mọi người sẽ có cơ hội:</h3>
+              <h3 className="text-primary-orange text-lg font-bold mt-5">🎯Đến với Workshop Wirebuzzing của VECTR, mọi người sẽ có cơ hội:</h3>
               <ul className="list-decimal ml-12 mt-4 flex gap-1 flex-col">
                 <li className="text-lg">
                   <p>
