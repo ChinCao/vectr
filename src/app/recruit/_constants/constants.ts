@@ -388,6 +388,6 @@ export const CORE_IMAGES: CORE_SCHEMA[] = [
 
 export const EMAIL_SUBJECT = "01010100 01011001 00100001 - DECODE 01";
 
-export const FORM_CLOSE_DAY = new Date(`2028-01-10T21:55:00+07:00`);
+export const FORM_CLOSE_DAY = new Date(`2022-01-10T21:55:00+07:00`);
 
 export const VECTR_FOUNDED_DAY = new Date(`2024-08-13T10:02:30+07:00`);
