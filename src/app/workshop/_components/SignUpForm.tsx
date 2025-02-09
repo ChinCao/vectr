@@ -338,7 +338,7 @@ const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType:
                   <p>🔷 Một tinh thần mê tìm tòi, thích khám phá, sẵn sàng để điện não hoạt động hết công suất!</p>
                 </li>
               </ul>
-              <h3 className="text-primary-orange text-lg font-bold mt-5">
+              <h3 className="text-primary-orange text-lg font-bold mt-5 text-justify">
                 🤩🔥Số lượng có hạn - đừng bỏ lỡ cơ hội để bước chân vào thế giới kỳ diệu của vật lý và điện tử nhé!
               </h3>
             </div>
@@ -358,9 +358,12 @@ const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType:
               setManual={setManual}
             />
             <div className="w-full mt-6 bg-background rounded p-5 py-6 flex flex-col border border-slate-300">
-              <h3 className="text-md font-bold ">CẢM ƠN CÁC BẠN ĐÃ ĐĂNG KÝ THAM GIA WORKSHOP WEBDEV CỦA VECTR</h3>
-              <p>Chúng mình sẽ sớm gửi đơn xác nhận thông qua email sau. Các bạn hãy theo dõi inbox email của mình thường xuyên nhé!</p>
+              <h3 className="text-sm font-bold text-justify">CẢM ƠN CÁC BẠN ĐÃ ĐĂNG KÝ THAM GIA WORKSHOP WIREBUZZING CỦA VECTR</h3>
+              <p className="text-justify">
+                Chúng mình sẽ sớm gửi đơn xác nhận thông qua email sau. Các bạn hãy theo dõi inbox email của mình thường xuyên nhé!
+              </p>
             </div>
+
             <div className="mt-4 flex flex-col gap-4 items-center justify-center">
               <Script
                 src="https://challenges.cloudflare.com/turnstile/v0/api.js"
