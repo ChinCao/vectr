@@ -7,5 +7,5 @@ export const WORKSHOP_BANNER_SRC: Record<WorkshopType, string> = {
 } as const;
 
 export const WORKSHOP_SIGNUP_COUNTDOWN_DATE: Record<WorkshopType, Date> = {
-  wirebuzz: new Date(`2026-02-06T22:36:00+07:00`),
+  wirebuzz: new Date(`2025-02-20T22:05:00+07:00`),
 } as const;

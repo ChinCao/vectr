@@ -4,7 +4,7 @@ import {MdOutlineCloudDone, MdOutlineCloudDownload, MdOutlineCloudUpload} from "
 import {PRIMARY_ORANGE_HEX} from "@/constants/constants";
 import ScrollToTop from "@/components/ScrollToTop";
 
-const FormState = ({isSaving, isFetching}: {isSaving: boolean; isFetching: boolean}) => {
+const FormState = ({isSaving, isFetching, includeText = true}: {isSaving: boolean; isFetching: boolean; includeText?: boolean}) => {
   const [clicked, setClicked] = useState(false);
   const color = !isSaving && !isFetching ? "#14532d" : isFetching ? PRIMARY_ORANGE_HEX : isSaving ? "#dc2626" : null;
   const text =
@@ -18,7 +18,7 @@ const FormState = ({isSaving, isFetching}: {isSaving: boolean; isFetching: boole
 
   return (
     <>
-      {!isSaving && !isFetching ? (
+      {!isSaving && !isFetching && includeText ? (
         <div
           className="flex items-center justify-start gap-4 mb-4 flex-col sm:flex-row"
           style={{color: color!}}

@@ -3,7 +3,7 @@ import {WORKSHOP_BANNER_SRC} from "../../constants/constants";
 
 const page = () => {
   return (
-    <div className=" mt-28 w-full flex flex-col items-center justify-center">
+    <div className="mt-20 w-full flex flex-col items-center justify-center">
       <SignUpForm
         bannerSrc={WORKSHOP_BANNER_SRC.wirebuzz}
         workshopType="wirebuzz"

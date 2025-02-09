@@ -22,7 +22,7 @@ const FormFields = ({form, studentID, setStudentID, schoolEmail, setSchoolEmail,
         control={form.control}
         name="name"
         render={({field}) => (
-          <FormItem className="mt-6 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
+          <FormItem className="mt-2 bg-background rounded p-4 py-6 flex flex-col border border-slate-300">
             <FormLabel className="text-md mb-4">Họ và tên</FormLabel>
             <FormControl>
               <SignUpInput field={field} />

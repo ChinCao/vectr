@@ -262,17 +262,11 @@ const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType:
   return (
     <>
       <FormState
+        includeText={false}
         isSaving={isSaving}
         isFetching={isFetching}
       />
-      <Image
-        src={bannerSrc}
-        quality={100}
-        height={120}
-        width={500}
-        alt="banner"
-        className="w-full rounded max-w-[650px]"
-      />
+
       {isSubmitted ? (
         <SuccessScreen resetForm={resetForm} />
       ) : !timeLeft ? (
@@ -283,8 +277,72 @@ const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType:
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="max-w-[650px] w-full pt-2 p-8"
+            className="max-w-[750px] w-full pt-2 p-8"
           >
+            <Image
+              src={bannerSrc}
+              quality={100}
+              height={120}
+              width={500}
+              alt="banner"
+              className="w-full rounded max-w-[700px]"
+            />
+            <div className="w-full mt-6 bg-background rounded p-5 py-6 flex flex-col border border-t-8 border-primary">
+              <h1 className="text-primary-orange text-3xl font-bold text-center">ĐĂNG KÝ THAM GIA WORKSHOP WIREBUZZING</h1>
+              <p className="text-lg text-justify mt-4">
+                Thân chào bạn! VECTR đã quay trở lại với Workshop thứ 2 - <span className="text-primary">Wirebuzzing</span>, nơi các bạn sẽ có cơ hội
+                được tự tay tạo nên cho mình một phiên bản của trò chơi Wirebuzzing và khám phá thế giới của điện, những ứng dụng của chúng, và thắp
+                lên ngọn lửa đam mê trên hành trình trở thành một kỹ sư tài ba!
+              </p>
+              <h3 className="text-primary-orange text-lg font-bold mt-5">🎯Đến với Workshop WebDev của VECTR, mọi người sẽ có cơ hội:</h3>
+              <ul className="list-decimal ml-12 mt-4 flex gap-1 flex-col">
+                <li className="text-lg">
+                  <p>
+                    Giới thiệu và bước chân vào thế giới của vật lý - điện tử, thông qua những kiến thức nền tảng được truyền đạt một cách dễ nắm bắt
+                    từ thành viên đội ngũ VECTR
+                  </p>
+                </li>
+                <li className="text-lg">
+                  <p>Trang bị cho mình kỹ năng thực hành, tự tay tạo nên phiên bản Wirebuzzing cho chính bạn!</p>
+                </li>
+              </ul>
+              <h3 className="text-primary-orange text-lg font-bold mt-5">⏰Thông tin chi tiết:</h3>
+              <ul className="list-disc ml-12 mt-4 flex gap-1 flex-col">
+                <li className="text-lg">
+                  <p>
+                    Địa điểm: <span className="font-bold">phòng 229</span> - Innovation Center, khối Trung học, Vinschool Central Park
+                  </p>
+                </li>
+                <li className="text-lg">
+                  <p>
+                    Ngày diễn ra: <span className="font-bold">Thứ 6, ngày 21/02/2025</span>
+                  </p>
+                </li>
+                <li className="text-lg">
+                  <p>
+                    Thời gian: <span className="font-bold">16h00 - 18h00</span>
+                  </p>
+                </li>
+                <li className="text-lg">
+                  <p>
+                    Chi phí tham dự: <span className="font-bold">miễn phí</span>
+                  </p>
+                </li>
+              </ul>
+              <h3 className="text-primary-orange text-lg font-bold mt-5">❗Yêu cầu dành cho người tham dự:</h3>
+              <ul className="list-none ml-5 mt-4 flex gap-1 flex-col">
+                <li className="text-lg">
+                  <p>🔷 Dành cho học sinh từ lớp 6 - 12 đang học tại Vinschool Central Park.</p>
+                </li>
+                <li className="text-lg">
+                  <p>🔷 Một tinh thần mê tìm tòi, thích khám phá, sẵn sàng để điện não hoạt động hết công suất!</p>
+                </li>
+              </ul>
+              <h3 className="text-primary-orange text-lg font-bold mt-5">
+                🤩🔥Số lượng có hạn - đừng bỏ lỡ cơ hội để bước chân vào thế giới kỳ diệu của vật lý và điện tử nhé!
+              </h3>
+            </div>
+
             <Countdown
               targetDate={WORKSHOP_SIGNUP_COUNTDOWN_DATE[workshopType]}
               countdownTitle={`Countdown đăng ký workshop ${workshopType}`}
@@ -299,6 +357,10 @@ const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType:
               manual={manual}
               setManual={setManual}
             />
+            <div className="w-full mt-6 bg-background rounded p-5 py-6 flex flex-col border border-slate-300">
+              <h3 className="text-md font-bold ">CẢM ƠN CÁC BẠN ĐÃ ĐĂNG KÝ THAM GIA WORKSHOP WEBDEV CỦA VECTR</h3>
+              <p>Chúng mình sẽ sớm gửi đơn xác nhận thông qua email sau. Các bạn hãy theo dõi inbox email của mình thường xuyên nhé!</p>
+            </div>
             <div className="mt-4 flex flex-col gap-4 items-center justify-center">
               <Script
                 src="https://challenges.cloudflare.com/turnstile/v0/api.js"
