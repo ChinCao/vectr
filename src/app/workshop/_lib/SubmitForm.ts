@@ -65,7 +65,17 @@ export async function submitForm(values: z.infer<typeof PersonalInfoSchema>, tok
       values.school_email,
       values.private_email,
       values.phone,
-      new Date().toLocaleString("vi-VN"),
+      (() => {
+        const date = new Date();
+        const bangkokDate = new Date(date.toLocaleString("en-US", {timeZone: "Asia/Bangkok"}));
+        const day = String(bangkokDate.getDate()).padStart(2, "0");
+        const month = String(bangkokDate.getMonth() + 1).padStart(2, "0");
+        const year = bangkokDate.getFullYear();
+        const hours = String(bangkokDate.getHours()).padStart(2, "0");
+        const minutes = String(bangkokDate.getMinutes()).padStart(2, "0");
+        const seconds = String(bangkokDate.getSeconds()).padStart(2, "0");
+        return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+      })(),
     ];
 
     await sheets.spreadsheets.values.append({
