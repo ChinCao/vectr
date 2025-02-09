@@ -6,7 +6,7 @@ interface SuccessScreenProps {
 
 const SuccessScreen = ({resetForm}: SuccessScreenProps) => {
   return (
-    <div className="max-w-[650px] w-full p-10 text-center">
+    <div className="mt-10 text-center border border-t-8 border-primary">
       <div className="bg-background rounded p-6 border border-slate-300 flex flex-col items-center justify-center gap-6">
         <h2 className="text-xl font-semibold mb-4">Bạn đã đăng ký thành công!</h2>
         <p>Thông tin của bạn đã được ghi nhận trong hệ thống.</p>

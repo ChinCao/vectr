@@ -260,7 +260,15 @@ const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType:
   }, [workshopType]);
 
   return (
-    <>
+    <div className="max-w-[750px] w-full pt-2 p-8">
+      <Image
+        src={bannerSrc}
+        quality={100}
+        height={120}
+        width={500}
+        alt="banner"
+        className="w-full rounded max-w-[700px]"
+      />
       <FormState
         includeText={false}
         isSaving={isSaving}
@@ -275,18 +283,7 @@ const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType:
         </div>
       ) : (
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="max-w-[750px] w-full pt-2 p-8"
-          >
-            <Image
-              src={bannerSrc}
-              quality={100}
-              height={120}
-              width={500}
-              alt="banner"
-              className="w-full rounded max-w-[700px]"
-            />
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="w-full mt-6 bg-background rounded p-5 py-6 flex flex-col border border-t-8 border-primary">
               <h1 className="text-primary-orange text-3xl font-bold text-center">ĐĂNG KÝ THAM GIA WORKSHOP WIREBUZZING</h1>
               <p className="text-lg text-justify mt-4">
@@ -390,7 +387,7 @@ const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType:
         </Form>
       )}
       <Toaster />
-    </>
+    </div>
   );
 };
 
