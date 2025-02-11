@@ -53,7 +53,7 @@ export default function RootLayout({
                 <p>Theo dõi chúng mình trên</p>
                 <div className="flex gap-2 items-center">
                   <a
-                    href="https://www.facebook.com/vectr.vcp/"
+                    href="https://www.facebook.com/vectr.vcp"
                     title="Facebook"
                     target="_blank"
                     rel="noopener"
@@ -61,7 +61,7 @@ export default function RootLayout({
                     <FaFacebook className="hover:cursor-pointer hover:text-primary" />
                   </a>
                   <a
-                    href="https://www.instagram.com/vectr.stem.vcp"
+                    href="https://www.instagram.com/vectr.vcp/"
                     title="Instagram"
                     target="_blank"
                     rel="noopener"
