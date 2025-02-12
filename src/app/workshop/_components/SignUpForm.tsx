@@ -343,13 +343,13 @@ const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType:
               <a
                 href="https://www.facebook.com/vectr.vcp"
                 target="_blank"
-                className="border border-primary-facebook_blue flex items-center justify-center rounded p-2 mt-4 hover:cursor-pointer"
+                className="border border-primary-facebook_blue flex items-center justify-center rounded p-2 mt-4 hover:cursor-pointer  group hover:bg-primary-facebook_blue ease-in-out"
                 title="Facebook"
                 rel="noopener"
               >
                 <FaFacebookF
-                  color="#0866ff"
                   size={30}
+                  className="text-primary-facebook_blue group-hover:text-white  ease-in-out"
                 />
               </a>
               <a
@@ -357,11 +357,12 @@ const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType:
                 target="_blank"
                 title="Instagram"
                 rel="noopener"
-                className="flex items-center justify-center rounded p-2 mt-4 hover:cursor-pointer border-primary-instagram_pink border"
+                id="ws-insta-signup"
+                className="flex items-center justify-center rounded p-2 mt-4 hover:cursor-pointer border-primary-instagram_pink border group  hover:border-transparent"
               >
                 <FaInstagram
                   size={30}
-                  className="text-primary-instagram_pink"
+                  className="text-primary-instagram_pink group-hover:text-white "
                 />
               </a>
             </div>
