@@ -21,6 +21,8 @@ import FormFields from "./FormFields";
 import {WORKSHOP_SIGNUP_COUNTDOWN_DATE, WorkshopType} from "../constants/constants";
 import Countdown from "@/components/Countdown";
 import {calculateTimeLeft, TimeLeft} from "@/lib/utils";
+import {FaFacebookF} from "react-icons/fa";
+import {FaInstagram} from "react-icons/fa6";
 
 const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType: WorkshopType}) => {
   const [isFetching, setIsFetching] = useState(true);
@@ -338,6 +340,30 @@ const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType:
               <h3 className="text-primary-orange text-lg font-bold mt-5 text-justify">
                 🤩🔥Số lượng có hạn - đừng bỏ lỡ cơ hội để bước chân vào thế giới kỳ diệu của vật lý và điện tử nhé!
               </h3>
+              <a
+                href="https://www.facebook.com/vectr.vcp"
+                target="_blank"
+                className="border border-primary-facebook_blue flex items-center justify-center rounded p-2 mt-4 hover:cursor-pointer"
+                title="Facebook"
+                rel="noopener"
+              >
+                <FaFacebookF
+                  color="#0866ff"
+                  size={30}
+                />
+              </a>
+              <a
+                href="https://www.instagram.com/vectr.vcp/"
+                target="_blank"
+                title="Instagram"
+                rel="noopener"
+                className="flex items-center justify-center rounded p-2 mt-4 hover:cursor-pointer border-primary-instagram_pink border"
+              >
+                <FaInstagram
+                  size={30}
+                  className="text-primary-instagram_pink"
+                />
+              </a>
             </div>
 
             <Countdown
@@ -360,7 +386,6 @@ const SignUpForm = ({bannerSrc, workshopType}: {bannerSrc: string; workshopType:
                 Chúng mình sẽ sớm gửi đơn xác nhận thông qua email sau. Các bạn hãy theo dõi inbox email của mình thường xuyên nhé!
               </p>
             </div>
-
             <div className="mt-4 flex flex-col gap-4 items-center justify-center">
               <Script
                 src="https://challenges.cloudflare.com/turnstile/v0/api.js"
